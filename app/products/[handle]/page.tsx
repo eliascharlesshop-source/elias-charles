@@ -258,26 +258,33 @@ export default function ProductPage() {
       </div>
 
       {/* Product Features */}
-      <div className="bg-cream py-16 sm:py-24">
+      <div className="bg-gradient-to-b from-cream to-[#fdf4ec] py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
-            <div>
-              <SectionTitle>Features</SectionTitle>
-              <ul className="mt-8 space-y-4">
+            <div className="transform transition-all hover:scale-[1.01] duration-300">
+              <SectionTitle className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-[2px] after:bg-primary">
+                Features
+              </SectionTitle>
+              <ul className="mt-8 space-y-6">
                 {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="flex-shrink-0 h-6 w-6 flex items-center justify-center rounded-full bg-primary text-white text-sm">
+                  <li key={index} className="flex items-start group">
+                    <span className="flex-shrink-0 h-7 w-7 flex items-center justify-center rounded-full bg-primary text-white text-sm group-hover:bg-accent transition-colors duration-300">
                       {index + 1}
                     </span>
-                    <span className="ml-3 text-base">{feature}</span>
+                    <span className="ml-4 text-base leading-relaxed">{feature}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div>
-              <SectionTitle>Sustainability</SectionTitle>
+            <div className="relative transform transition-all hover:scale-[1.01] duration-300">
+              <SectionTitle className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-[2px] after:bg-primary">
+                Sustainability
+              </SectionTitle>
               <div className="mt-8 prose prose-sm">
                 <BodyText>{product.sustainabilityInfo}</BodyText>
+              </div>
+              <div className="mt-6 inline-block px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-300">
+                Learn More About Our Practices
               </div>
             </div>
           </div>

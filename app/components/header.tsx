@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Dialog } from "@headlessui/react"
-import { X, Menu, Search, ShoppingBag, User, ChevronDown, ArrowRight } from "lucide-react"
+import { X, Menu, Search, ShoppingBag, User, ChevronDown } from "lucide-react"
 import { useCart } from "./cart-provider"
 import { useAuth } from "./auth-provider"
 import { MiniCart } from "./mini-cart"
@@ -74,76 +74,21 @@ export function Header({ shop }) {
       {
         id: "women",
         name: "WOMEN",
-        featured: [
+        links: [
           { name: "New Arrivals", href: "/collections/women" },
           { name: "Clothing", href: "/collections/apparel" },
           { name: "Accessories", href: "/collections/apparel/sunglasses" },
           { name: "Self Care", href: "/collections/self-care" },
         ],
-        collections: [
-          { name: "Summer Collection", href: "/collections/women/summer" },
-          { name: "Sustainable Styles", href: "/collections/women/sustainable" },
-          { name: "Beach Essentials", href: "/collections/women/beach" },
-          { name: "Bestsellers", href: "/collections/women/bestsellers" },
-        ],
-        categories: [
-          { name: "Tops", href: "/collections/apparel/tops" },
-          { name: "Bottoms", href: "/collections/apparel/bottoms" },
-          { name: "Hats", href: "/collections/apparel/hats" },
-          { name: "Sunglasses", href: "/collections/apparel/sunglasses" },
-          { name: "Jewelry", href: "/collections/apparel/jewelry" },
-        ],
-        featured_products: [
-          {
-            name: "Linen Beach Dress",
-            href: "/products/linen-beach-dress",
-            price: "$120",
-            image: "/linen-dress-beach.png",
-          },
-          {
-            name: "Straw Beach Hat",
-            href: "/products/straw-beach-hat",
-            price: "$45",
-            image: "/straw-beach-hat.png",
-          },
-        ],
       },
       {
         id: "men",
         name: "MEN",
-        featured: [
+        links: [
           { name: "New Arrivals", href: "/collections/men" },
           { name: "Clothing", href: "/collections/apparel" },
           { name: "Boards", href: "/collections/boards" },
           { name: "Self Care", href: "/collections/self-care" },
-        ],
-        collections: [
-          { name: "Surf Collection", href: "/collections/men/surf" },
-          { name: "Urban Explorer", href: "/collections/men/urban" },
-          { name: "Beach Essentials", href: "/collections/men/beach" },
-          { name: "Bestsellers", href: "/collections/men/bestsellers" },
-        ],
-        categories: [
-          { name: "Tops", href: "/collections/apparel/tops" },
-          { name: "Bottoms", href: "/collections/apparel/bottoms" },
-          { name: "Hats", href: "/collections/apparel/hats" },
-          { name: "Sunglasses", href: "/collections/apparel/sunglasses" },
-          { name: "Surf Boards", href: "/collections/boards/surf" },
-          { name: "Skate Boards", href: "/collections/boards/skate" },
-        ],
-        featured_products: [
-          {
-            name: "Organic Cotton Hoodie",
-            href: "/products/organic-cotton-hoodie",
-            price: "$95",
-            image: "/men-casual-hoodie.png",
-          },
-          {
-            name: "Classic Surf Board",
-            href: "/products/classic-surf-board",
-            price: "$595",
-            image: "/single-surfboard.png",
-          },
         ],
       },
     ],
@@ -211,7 +156,7 @@ export function Header({ shop }) {
                     {category.name}
                   </span>
                   <div className="mt-4 pl-4 space-y-4">
-                    {category.featured.map((item) => (
+                    {category.links.map((item) => (
                       <Link
                         key={item.name}
                         href={item.href}
@@ -363,7 +308,7 @@ export function Header({ shop }) {
                 </Link>
               </div>
 
-              {/* Flyout menus */}
+              {/* Simple navigation menu */}
               <div className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-10 py-2 pl-6">
                   {navigation.pages.map((page) => (
@@ -394,114 +339,25 @@ export function Header({ shop }) {
                         />
                       </button>
 
-                      {/* Professional Megamenu */}
+                      {/* Simple dropdown menu */}
                       {activeMegaMenu === category.id && (
                         <div
-                          className="absolute top-full left-0 right-0 w-full bg-white shadow-lg z-10 transition-all duration-200 ease-in-out"
+                          className="absolute top-full left-0 w-48 bg-white shadow-lg z-10 transition-all duration-200 ease-in-out py-2 rounded-md"
                           onMouseLeave={() => setActiveMegaMenu(null)}
                         >
-                          <div className="max-w-7xl mx-auto">
-                            <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-12 px-8">
-                              {/* Featured Links */}
-                              <div className="col-span-1">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                                  Featured
-                                </h3>
-                                <ul className="space-y-3">
-                                  {category.featured.map((item) => (
-                                    <li key={item.name}>
-                                      <Link
-                                        href={item.href}
-                                        className="text-sm text-gray-600 hover:text-primary transition-colors duration-200"
-                                        onClick={(e) => handleNavigate(e, item.href)}
-                                      >
-                                        {item.name}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                                <div className="mt-6 pt-6 border-t border-gray-100">
-                                  <Link
-                                    href={`/collections/${category.id.toLowerCase()}`}
-                                    className="flex items-center text-sm font-medium text-primary hover:text-gray-700 transition-colors duration-200"
-                                    onClick={(e) => handleNavigate(e, `/collections/${category.id.toLowerCase()}`)}
-                                  >
-                                    <span>View All {category.name}</span>
-                                    <ArrowRight className="ml-2 h-4 w-4" />
-                                  </Link>
-                                </div>
-                              </div>
-
-                              {/* Collections */}
-                              <div className="col-span-1">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                                  Collections
-                                </h3>
-                                <ul className="space-y-3">
-                                  {category.collections.map((collection) => (
-                                    <li key={collection.name}>
-                                      <Link
-                                        href={collection.href}
-                                        className="text-sm text-gray-600 hover:text-primary transition-colors duration-200"
-                                        onClick={(e) => handleNavigate(e, collection.href)}
-                                      >
-                                        {collection.name}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              {/* Categories */}
-                              <div className="col-span-1">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                                  Categories
-                                </h3>
-                                <ul className="space-y-3">
-                                  {category.categories.map((cat) => (
-                                    <li key={cat.name}>
-                                      <Link
-                                        href={cat.href}
-                                        className="text-sm text-gray-600 hover:text-primary transition-colors duration-200"
-                                        onClick={(e) => handleNavigate(e, cat.href)}
-                                      >
-                                        {cat.name}
-                                      </Link>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-
-                              {/* Featured Products */}
-                              <div className="col-span-1">
-                                <h3 className="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4">
-                                  Featured Products
-                                </h3>
-                                <div className="space-y-4">
-                                  {category.featured_products.map((product) => (
-                                    <Link
-                                      key={product.name}
-                                      href={product.href}
-                                      className="group block"
-                                      onClick={(e) => handleNavigate(e, product.href)}
-                                    >
-                                      <div className="aspect-w-1 aspect-h-1 rounded-lg overflow-hidden bg-gray-100 mb-2">
-                                        <img
-                                          src={product.image || "/placeholder.svg"}
-                                          alt={product.name}
-                                          className="object-center object-cover group-hover:opacity-90 transition-opacity duration-300"
-                                        />
-                                      </div>
-                                      <h4 className="text-sm font-medium text-gray-900 group-hover:text-primary transition-colors duration-200">
-                                        {product.name}
-                                      </h4>
-                                      <p className="text-sm text-gray-500">{product.price}</p>
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          {category.links.map((link) => (
+                            <Link
+                              key={link.name}
+                              href={link.href}
+                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"
+                              onClick={(e) => {
+                                setActiveMegaMenu(null)
+                                handleNavigate(e, link.href)
+                              }}
+                            >
+                              {link.name}
+                            </Link>
+                          ))}
                         </div>
                       )}
                     </div>

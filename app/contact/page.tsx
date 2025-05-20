@@ -186,13 +186,16 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <form className="bg-white p-8 rounded-lg shadow-sm">
+                <form
+                  className="p-8 rounded-lg shadow-sm"
+                  style={{ background: "linear-gradient(to bottom, #64748b, #475569)" }}
+                >
                   <div className="space-y-6">
-                    <h3 className="text-xl font-light text-primary">Send us a message</h3>
+                    <h3 className="text-xl font-light text-white">Send us a message</h3>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                       <div>
-                        <label htmlFor="first-name" className="block text-sm font-medium text-primary">
+                        <label htmlFor="first-name" className="block text-sm font-medium text-white">
                           First name
                         </label>
                         <div className="mt-2.5">
@@ -206,7 +209,7 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div>
-                        <label htmlFor="last-name" className="block text-sm font-medium text-primary">
+                        <label htmlFor="last-name" className="block text-sm font-medium text-white">
                           Last name
                         </label>
                         <div className="mt-2.5">
@@ -220,7 +223,7 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="sm:col-span-2">
-                        <label htmlFor="email" className="block text-sm font-medium text-primary">
+                        <label htmlFor="email" className="block text-sm font-medium text-white">
                           Email
                         </label>
                         <div className="mt-2.5">
@@ -234,7 +237,7 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="sm:col-span-2">
-                        <label htmlFor="phone-number" className="block text-sm font-medium text-primary">
+                        <label htmlFor="phone-number" className="block text-sm font-medium text-white">
                           Phone number
                         </label>
                         <div className="mt-2.5">
@@ -248,7 +251,7 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="sm:col-span-2">
-                        <label htmlFor="subject" className="block text-sm font-medium text-primary">
+                        <label htmlFor="subject" className="block text-sm font-medium text-white">
                           Subject
                         </label>
                         <div className="mt-2.5">
@@ -266,7 +269,7 @@ export default function ContactPage() {
                         </div>
                       </div>
                       <div className="sm:col-span-2">
-                        <label htmlFor="message" className="block text-sm font-medium text-primary">
+                        <label htmlFor="message" className="block text-sm font-medium text-white">
                           Message
                         </label>
                         <div className="mt-2.5">
@@ -287,7 +290,7 @@ export default function ContactPage() {
                         type="checkbox"
                         className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
                       />
-                      <label htmlFor="newsletter" className="ml-3 block text-sm text-primary">
+                      <label htmlFor="newsletter" className="ml-3 block text-sm text-white">
                         Sign up for our newsletter for exclusive offers and updates
                       </label>
                     </div>

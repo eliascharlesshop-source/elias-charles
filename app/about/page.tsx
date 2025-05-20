@@ -58,7 +58,7 @@ export default function AboutPage() {
       </div>
 
       {/* Values Section */}
-      <div className="bg-white py-24">
+      <div className="py-24" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-3xl font-light tracking-tight text-primary sm:text-4xl">Our Values</h2>
@@ -171,7 +171,7 @@ export default function AboutPage() {
       </div>
 
       {/* Contact Section */}
-      <div className="bg-white py-24">
+      <div className="py-24" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-light tracking-tight text-primary sm:text-4xl">Get in Touch</h2>
