@@ -109,17 +109,13 @@ export default function SaleCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img
-              src="/placeholder.svg?height=600&width=1600"
-              alt="Sale Collection"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
+            <img src="/images/palm-trees-sky.jpeg" alt="Sale Collection" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
-          <div className="relative px-4 sm:px-6 py-24 sm:py-32 lg:px-8 lg:py-48">
+          <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">
             <div className="mx-auto max-w-2xl text-center">
-              <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-white sm:text-5xl">Sale</h1>
-              <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 text-white">
+              <h1 className="text-2xl sm:text-3xl font-light tracking-tight text-white sm:text-4xl">Sale</h1>
+              <p className="mt-2 sm:mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-white">
                 Special offers and discounted items across all categories.
               </p>
             </div>

@@ -1,278 +1,265 @@
-import { SectionTitle, BodyText } from "./components/typography"
-import { ProductCard } from "./components/product-card"
-import { WaveAnimation } from "./components/wave-animation"
+import { PullQuote } from "./components/pull-quote"
+import Link from "next/link"
 
 export default function Home() {
   return (
-    <>
-      {/* Hero section */}
-      <div className="relative">
-        <div className="mx-auto max-w-7xl">
-          <div className="relative z-10 pt-8 lg:w-full lg:max-w-2xl">
-            <div className="relative px-4 sm:px-6 py-16 sm:py-24 lg:px-8 lg:py-32 lg:pr-0">
-              <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
-                <div className="inline-block mb-4">
-                  <span className="inline-flex items-center rounded-full bg-beach px-3 py-0.5 text-sm font-medium text-white">
-                    New Collection
-                  </span>
-                </div>
-                <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-normal tracking-widest uppercase text-primary leading-tight">
-                  Spring Collection <span className="text-beach-darker">2023</span>
-                </h1>
-                <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-relaxed text-primary max-w-[90%] lg:max-w-full">
-                  If life gives you a break, ride it. Discover our latest collection of surf and skate apparel, designed
-                  for those who live for the waves and streets.
-                </p>
-                <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-x-6">
-                  <a href="/collections" className="beach-btn w-full sm:w-auto text-center text-sm font-medium">
-                    <span className="relative z-10">Explore Collections</span>
-                  </a>
-                  <a
-                    href="#"
-                    className="cta-link text-primary hover:text-beach-darker hover:border-beach-darker mt-2 sm:mt-0"
-                  >
-                    Shop Now <span aria-hidden="true">→</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-gray-50 h-64 sm:h-72 md:h-96 lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-1/2">
+    <div className="magazine-layout">
+      {/* Magazine Cover Hero */}
+      <section className="relative h-screen">
+        <div className="absolute inset-0">
           <img
-            className="h-full w-full object-cover object-center"
-            src="/placeholder.svg?height=800&width=1200"
-            alt="Model wearing latest collection"
-          />
-        </div>
-      </div>
-
-      {/* Wave animation */}
-      <div className="relative h-24 overflow-hidden bg-cream">
-        <WaveAnimation height={100} color="#d0e1f2" />
-      </div>
-
-      {/* Featured categories */}
-      <div className="bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:max-w-none">
-            <div className="text-center">
-              <SectionTitle>
-                Shop by <span className="text-beach-darker">Category</span>
-              </SectionTitle>
-            </div>
-            <div className="mt-10 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-6 lg:gap-x-8">
-              {[
-                {
-                  name: "Clothing",
-                  href: "/collections/apparel",
-                  imageSrc: "/placeholder.svg?height=600&width=400",
-                },
-                {
-                  name: "Surf",
-                  href: "/collections/boards/surf",
-                  imageSrc: "/placeholder.svg?height=600&width=400",
-                },
-                {
-                  name: "Skate",
-                  href: "/collections/boards/skate",
-                  imageSrc: "/placeholder.svg?height=600&width=400",
-                },
-              ].map((category) => (
-                <div key={category.name} className="beach-card group relative">
-                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-200 rounded-sm">
-                    <img
-                      src={category.imageSrc || "/placeholder.svg"}
-                      alt={category.name}
-                      className="h-full w-full object-cover object-center group-hover:opacity-75"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-beach-darker/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                  <h3 className="mt-4 sm:mt-6 text-base sm:text-lg text-primary text-center sm:text-left">
-                    <a href={category.href} className="beach-link">
-                      <span className="absolute inset-0" />
-                      {category.name}
-                    </a>
-                  </h3>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 sm:mt-12 text-center">
-              <a href="/collections" className="beach-btn inline-block text-sm font-normal tracking-wider uppercase">
-                <span className="relative z-10">View All Collections</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Wave animation */}
-      <div className="relative h-24 overflow-hidden bg-white">
-        <WaveAnimation height={100} color="#d0e1f2" />
-      </div>
-
-      {/* Featured products */}
-      <div className="bg-white py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:max-w-none">
-            <div className="flex items-center justify-between">
-              <SectionTitle>
-                Featured <span className="text-beach-darker">Products</span>
-              </SectionTitle>
-              <a
-                href="/collections"
-                className="hidden text-sm font-semibold leading-6 text-beach-darker sm:block beach-link"
-              >
-                View all <span aria-hidden="true">→</span>
-              </a>
-            </div>
-            <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-y-8 gap-x-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 sm:gap-x-6 lg:gap-x-8">
-              {[
-                {
-                  id: 1,
-                  name: "Relaxed Fit T-Shirt",
-                  href: "/products/1",
-                  price: "$35",
-                  imageSrc: "/placeholder.svg?height=400&width=300",
-                  imageAlt: "Relaxed Fit T-Shirt",
-                },
-                {
-                  id: 2,
-                  name: "Surf Board Shorts",
-                  href: "/products/2",
-                  price: "$65",
-                  imageSrc: "/placeholder.svg?height=400&width=300",
-                  imageAlt: "Surf Board Shorts",
-                },
-                {
-                  id: 3,
-                  name: "Classic Skate Deck",
-                  href: "/products/3",
-                  price: "$120",
-                  imageSrc: "/placeholder.svg?height=400&width=300",
-                  imageAlt: "Classic Skate Deck",
-                },
-                {
-                  id: 4,
-                  name: "Lightweight Hoodie",
-                  href: "/products/4",
-                  price: "$85",
-                  imageSrc: "/placeholder.svg?height=400&width=300",
-                  imageAlt: "Lightweight Hoodie",
-                },
-              ].map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-            <div className="mt-8 text-center sm:hidden">
-              <a href="/collections" className="text-sm font-semibold leading-6 text-beach-darker beach-link">
-                View all <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Lifestyle section */}
-      <div className="relative bg-beach/10">
-        <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
-          <img
+            src="/images/ocean-waves-bw.jpeg"
+            alt="Ocean waves in black and white"
             className="h-full w-full object-cover"
-            src="/placeholder.svg?height=600&width=800"
-            alt="Lifestyle image"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-beach-darker/30 to-transparent"></div>
+          <div className="absolute inset-0 bg-black/30"></div>
         </div>
-        <div className="relative mx-auto max-w-7xl py-16 sm:py-24 lg:px-8 lg:py-32">
-          <div className="pl-4 pr-4 md:ml-auto md:w-2/3 md:pl-16 lg:w-1/2 lg:pl-24 lg:pr-0 xl:pl-32">
-            <SectionTitle>
-              The EC <span className="text-beach-darker">Lifestyle</span>
-            </SectionTitle>
-            <BodyText className="mt-4 sm:mt-6">
-              More than just clothing and gear, EC represents a lifestyle. Our products are designed for those who
-              embrace the ocean, the streets, and everything in between.
-            </BodyText>
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-4 sm:gap-x-6">
-              <a
-                href="/collections"
-                className="cta-link text-primary hover:text-beach-darker hover:border-beach-darker"
-              >
-                Shop Collections <span aria-hidden="true">→</span>
-              </a>
-              <a
-                href="/in-life"
-                className="cta-link text-primary hover:text-beach-darker hover:border-beach-darker mt-4 sm:mt-0"
-              >
-                Explore our story <span aria-hidden="true">→</span>
-              </a>
-            </div>
+        <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
+          <div className="max-w-md">
+            <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
+              Summer 2023 Issue
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
+              The Ocean <br /> Edition
+            </h1>
+            <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
+              Exploring the intersection of surf culture, sustainable fashion, and coastal living
+            </p>
+            <Link
+              href="/collections"
+              className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors"
+            >
+              Explore Collections
+            </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Newsletter section */}
-      <div className="bg-cream py-12 sm:py-16 lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden bg-beach px-6 py-12 sm:py-16 sm:rounded-3xl sm:px-12 md:px-16 lg:flex lg:gap-x-20 lg:px-24 lg:py-20">
-            <div className="absolute inset-0 -z-10 opacity-30">
-              <svg
-                className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-white/10 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]"
-                aria-hidden="true"
-              >
-                <defs>
-                  <pattern
-                    id="e813992c-7d03-4cc4-a2bd-151760b470a0"
-                    width={200}
-                    height={200}
-                    x="50%"
-                    y={-1}
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <path d="M100 200V.5M.5 .5H200" fill="none" />
-                  </pattern>
-                </defs>
-                <svg x="50%" y={-1} className="overflow-visible fill-white/5">
-                  <path
-                    d="M-100.5 0h201v201h-201Z M699.5 0h201v201h-201Z M499.5 400h201v201h-201Z M-300.5 600h201v201h-201Z"
-                    strokeWidth={0}
-                  />
-                </svg>
-                <rect width="100%" height="100%" strokeWidth={0} fill="url(#e813992c-7d03-4cc4-a2bd-151760b470a0)" />
-              </svg>
+      {/* Table of Contents / Issue Navigation */}
+      <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-6">
+            <div>
+              <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
+              <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
             </div>
-            <div className="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-16 lg:text-left">
-              <SectionTitle className="text-white">
-                Join our <span className="text-white">community</span>
-              </SectionTitle>
-              <BodyText className="mt-4 sm:mt-6 text-white">
-                Sign up for our newsletter to receive updates on new products, exclusive offers, and community events.
-              </BodyText>
-              <div className="mt-8 sm:mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                <form className="flex w-full max-w-md flex-col sm:flex-row gap-4">
-                  <label htmlFor="email-address" className="sr-only">
-                    Email address
-                  </label>
-                  <input
-                    id="email-address"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    className="min-w-0 flex-auto rounded-md border-0 bg-white px-3.5 py-2 text-primary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-accent sm:text-sm sm:leading-6"
-                    placeholder="Enter your email"
+            <div className="mt-4 md:mt-0">
+              <Link href="/in-life" className="text-xs uppercase tracking-widest steel-text hover:underline">
+                Subscribe to EC Magazine
+              </Link>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
+            {[
+              { title: "Surf Culture", link: "/collections/boards/surf" },
+              { title: "Summer Apparel", link: "/collections/apparel" },
+              { title: "Coastal Living", link: "/collections/life" },
+              { title: "Self Care", link: "/collections/self-care" },
+            ].map((item, index) => (
+              <Link key={index} href={item.link} className="group">
+                <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
+                <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
+                  {item.title}
+                </h3>
+                <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pull Quote */}
+      <PullQuote
+        quote="If life gives you a break, ride it. Our designs are for those who live for the waves and streets."
+        author="EC Design Team"
+      />
+
+      {/* Editorial Grid */}
+      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-12">Trending Now</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "The Rise of Sustainable Surf Gear",
+                excerpt: "How eco-conscious brands are changing the industry standard.",
+                image: "/images/ocean-wave-1.jpeg",
+              },
+              {
+                title: "Summer Essentials",
+                excerpt: "The must-have pieces for your beach days and beyond.",
+                image: "/images/ocean-wave-2.jpeg",
+              },
+              {
+                title: "Skate Culture Meets High Fashion",
+                excerpt: "The unexpected influence of skate aesthetics on runway trends.",
+                image: "/images/ocean-wave-3.jpeg",
+              },
+            ].map((article, index) => (
+              <div key={index} className="group">
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={article.image || "/placeholder.svg"}
+                    alt={article.title}
+                    className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <button
-                    type="submit"
-                    className="flex-none rounded-md bg-white text-beach-darker px-3.5 py-2.5 text-sm font-semibold shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-colors duration-300"
+                </div>
+                <div className="mt-6">
+                  <span className="text-xs uppercase tracking-widest text-beach-darker mb-3">Trending</span>
+                  <h3 className="text-lg uppercase tracking-wider steel-gradient mt-2 group-hover:opacity-70 transition-opacity">
+                    {article.title}
+                  </h3>
+                  <p className="steel-text mt-3">{article.excerpt}</p>
+                  <Link
+                    href="/in-life"
+                    className="inline-block mt-4 text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
                   >
-                    Subscribe
-                  </button>
-                </form>
+                    Read more
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Category Feature */}
+      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div>
+              <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Collection</span>
+              <h2 className="text-2xl sm:text-3xl uppercase tracking-wider steel-gradient mb-6">
+                The Skate <br />
+                Collection
+              </h2>
+              <p className="steel-text mb-6">
+                From street to beach, our skate collection combines performance, style, and sustainability. Designed for
+                those who see the world as their playground.
+              </p>
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <div>
+                  <span className="block w-8 h-0.5 bg-beach-darker mb-4"></span>
+                  <p className="text-sm steel-text">Sustainable materials that don't compromise on performance</p>
+                </div>
+                <div>
+                  <span className="block w-8 h-0.5 bg-beach-darker mb-4"></span>
+                  <p className="text-sm steel-text">Designed by skaters for skaters with coastal influences</p>
+                </div>
+              </div>
+              <Link
+                href="/collections/boards/skate"
+                className="inline-block bg-white border border-gray-300 text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-50 transition-colors"
+              >
+                Explore Collection
+              </Link>
+            </div>
+            <div>
+              <div className="aspect-[4/5] overflow-hidden">
+                <img src="/images/night-highway-2.jpeg" alt="Skate collection" className="h-full w-full object-cover" />
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>
+      </section>
+
+      {/* Square Grid - Nature/Product Alternating Pattern */}
+      <section className="bg-cream">
+        <div className="grid grid-cols-2 md:grid-cols-2">
+          {/* Row 1: Nature Product */}
+          <div className="aspect-square">
+            <img src="/images/ocean-wave-1.jpeg" alt="Ocean waves" className="h-full w-full object-cover" />
+          </div>
+          <div className="aspect-square bg-cream flex items-center justify-center p-8">
+            <div className="text-center">
+              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Summer Essentials</h3>
+              <p className="steel-text mb-6">
+                Discover our curated collection of beach-ready items for the perfect summer.
+              </p>
+              <Link
+                href="/collections"
+                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+              >
+                Shop Now
+              </Link>
+            </div>
+          </div>
+
+          {/* Row 2: Product Nature */}
+          <div className="aspect-square bg-cream flex items-center justify-center p-8">
+            <div className="text-center">
+              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Surf Collection</h3>
+              <p className="steel-text mb-6">Performance gear designed for those who live for the waves.</p>
+              <Link
+                href="/collections/boards/surf"
+                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+              >
+                Explore
+              </Link>
+            </div>
+          </div>
+          <div className="aspect-square">
+            <img src="/images/ocean-wave-2.jpeg" alt="Ocean landscape" className="h-full w-full object-cover" />
+          </div>
+
+          {/* Row 3: Nature Product */}
+          <div className="aspect-square">
+            <img src="/images/ocean-wave-3.jpeg" alt="Beach sunset" className="h-full w-full object-cover" />
+          </div>
+          <div className="aspect-square bg-cream flex items-center justify-center p-8">
+            <div className="text-center">
+              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Coastal Living</h3>
+              <p className="steel-text mb-6">Bring the beach home with our curated home and lifestyle products.</p>
+              <Link
+                href="/collections/life"
+                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+              >
+                Discover
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Article / Editorial */}
+      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-7">
+              <div className="aspect-[4/5] overflow-hidden">
+                <img
+                  src="/images/night-highway-1.jpeg"
+                  alt="Night highway with streaking lights"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="lg:col-span-5 flex flex-col justify-center">
+              <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Article</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider steel-gradient mb-6">
+                The Art of Sustainable Surfwear
+              </h2>
+              <p className="steel-text mb-6">
+                Our latest collection represents our commitment to sustainable fashion that doesn't compromise on style
+                or performance. Each piece is crafted with attention to environmental impact, using organic cotton and
+                eco-friendly dyes.
+              </p>
+              <p className="steel-text mb-8">
+                We spoke with our designers about the inspiration behind the collection and the challenges of creating
+                high-performance gear that respects our oceans.
+              </p>
+              <Link
+                href="/in-life"
+                className="inline-block text-sm uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
+              >
+                Read the full story
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   )
 }

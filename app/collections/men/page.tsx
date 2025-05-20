@@ -112,19 +112,15 @@ export default function MensCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img
-              src="/placeholder.svg?height=600&width=1600"
-              alt="Men's Collection"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
+            <img src="/images/palm-trees-street-1.jpeg" alt="Men's Collection" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
-          <div className="relative px-4 sm:px-6 py-24 sm:py-32 lg:px-8 lg:py-48">
+          <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">
             <div className="mx-auto max-w-2xl text-center">
-              <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-white sm:text-5xl">
+              <h1 className="text-2xl sm:text-3xl font-light tracking-tight text-white sm:text-4xl">
                 Men's Collection
               </h1>
-              <p className="mt-4 sm:mt-6 text-base sm:text-lg leading-7 sm:leading-8 text-white">
+              <p className="mt-2 sm:mt-3 text-base sm:text-lg leading-7 sm:leading-8 text-white">
                 Discover our latest men's apparel, surf gear, and accessories.
               </p>
             </div>

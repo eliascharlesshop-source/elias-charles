@@ -3,10 +3,11 @@
 /* Base text styles */
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #4a4e52;
 }
 
 /* Headings */
@@ -16,9 +17,13 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 400;
+  font-weight: 800;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  background: linear-gradient(135deg, #71767b 0%, #414549 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* Large headings like page titles */
@@ -48,18 +53,21 @@ button,
 .button {
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-weight: 400;
+  font-weight: 700;
+  color: #4a4e52;
 }
 
 /* Product titles */
 .product-title {
-  font-weight: 400;
+  font-weight: 700;
   letter-spacing: 0.03em;
+  color: #4a4e52;
 }
 
 /* Product prices */
 .product-price {
-  font-weight: 400;
+  font-weight: 500;
+  color: #4a4e52;
 }
 
 /* Footer links */
@@ -67,6 +75,8 @@ button,
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.875rem;
+  font-weight: 500;
+  color: #4a4e52;
 }
 
 /* Call to action links */
@@ -74,5 +84,6 @@ button,
   text-transform: uppercase;
   letter-spacing: 0.08em;
   text-decoration: underline;
-  font-weight: 400;
+  font-weight: 700;
+  color: #4a4e52;
 }

@@ -29,7 +29,9 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Header shop={{ name: "EC" }} />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow" style={{ backgroundColor: "#fdf4ec" }}>
+              {children}
+            </main>
             <Footer />
           </CartProvider>
         </AuthProvider>

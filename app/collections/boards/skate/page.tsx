@@ -2,8 +2,9 @@
 
 import Layout from "../../../components/layout"
 import { useState } from "react"
-import { ChevronDown, Filter, X } from "lucide-react"
+import { Filter, X } from "lucide-react"
 import Link from "next/link"
+import { ResponsiveProductGrid } from "../../../components/responsive-product-grid"
 
 export default function SkateBoardsCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
@@ -15,49 +16,49 @@ export default function SkateBoardsCollection() {
       id: 1,
       title: "Classic Skateboard",
       price: "$135",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/skateboard.png",
     },
     {
       id: 2,
       title: "Longboard Skateboard",
       price: "$185",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/longboard.png",
     },
     {
       id: 3,
       title: "Cruiser Skateboard",
       price: "$155",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/cruiser-skateboard.png",
     },
     {
       id: 4,
       title: "Kids Skateboard",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/placeholder-5uk16.png",
     },
     {
       id: 5,
       title: "Pro Model Skateboard",
       price: "$165",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300&query=pro skateboard",
     },
     {
       id: 6,
       title: "Penny Board",
       price: "$110",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300&query=penny board",
     },
     {
       id: 7,
       title: "Electric Skateboard",
       price: "$495",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300&query=electric skateboard",
     },
     {
       id: 8,
       title: "Skateboard Deck",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/placeholder.svg?height=400&width=300&query=skateboard deck",
     },
   ]
 
@@ -111,7 +112,7 @@ export default function SkateBoardsCollection() {
         <div className="relative">
           <div className="absolute inset-0">
             <img
-              src="/placeholder.svg?height=600&width=1600"
+              src="/images/night-highway-2.jpeg"
               alt="Skate Boards Collection"
               className="h-full w-full object-cover"
             />
@@ -195,19 +196,19 @@ export default function SkateBoardsCollection() {
             <div className="flex items-center">
               <div className="relative inline-block text-left">
                 <div>
-                  <button
-                    type="button"
-                    className="group inline-flex justify-center text-sm font-medium text-primary hover:text-gray-500"
-                    id="menu-button"
-                    aria-expanded="false"
-                    aria-haspopup="true"
+                  <select
+                    id="sort-select"
+                    name="sort"
+                    className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-sm focus:border-primary focus:outline-none focus:ring-primary"
+                    value={selectedSort}
+                    onChange={(e) => setSelectedSort(e.target.value)}
                   >
-                    Sort
-                    <ChevronDown
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-primary group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                  </button>
+                    {sortOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -227,9 +228,11 @@ export default function SkateBoardsCollection() {
               Products
             </h2>
 
-            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
+                <h3 className="sr-only">Categories</h3>
+
                 {filters.map((section) => (
                   <div key={section.id} className="border-b border-gray-200 py-6">
                     <h3 className="text-sm font-medium text-primary">{section.name}</h3>
@@ -256,30 +259,7 @@ export default function SkateBoardsCollection() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                  {mockProducts.map((product) => (
-                    <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
-                        <img
-                          src={product.image || "/placeholder.svg"}
-                          alt={product.title}
-                          className="h-full w-full object-cover object-center group-hover:opacity-75"
-                        />
-                      </div>
-                      <div className="mt-3 sm:mt-4 flex justify-between">
-                        <div>
-                          <h3 className="text-xs sm:text-sm text-primary">
-                            <Link href={`/products/${product.id}`}>
-                              <span aria-hidden="true" className="absolute inset-0" />
-                              {product.title}
-                            </Link>
-                          </h3>
-                        </div>
-                        <p className="text-xs sm:text-sm font-medium text-primary">{product.price}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <ResponsiveProductGrid products={mockProducts} />
               </div>
             </div>
           </section>

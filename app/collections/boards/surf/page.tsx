@@ -110,11 +110,7 @@ export default function SurfBoardsCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img
-              src="/placeholder.svg?height=600&width=1600"
-              alt="Surf Boards Collection"
-              className="h-full w-full object-cover"
-            />
+            <img src="/images/ocean-wave-2.jpeg" alt="Surf Boards Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
           </div>
           <div className="relative px-4 sm:px-6 py-24 sm:py-32 lg:px-8 lg:py-48">

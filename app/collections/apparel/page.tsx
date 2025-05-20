@@ -114,21 +114,18 @@ export default function ApparelCollection() {
 
   return (
     <Layout>
-      <div className="bg-cream">
+      <div className="bg-[#fdf4ec]">
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img
-              src="/placeholder.svg?height=600&width=1600"
-              alt="Apparel Collection"
-              className="h-full w-full object-cover"
-            />
+            <img src="/images/ocean-wave-2.jpeg" alt="Apparel Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
           </div>
-          <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56">
+          <div className="relative px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
             <div className="mx-auto max-w-2xl text-center">
-              <h1 className="text-4xl font-light tracking-tight text-white sm:text-5xl">Apparel</h1>
-              <p className="mt-6 text-lg leading-8 text-white">
+              <div className="mb-6 text-xs uppercase tracking-widest text-white opacity-80">Summer 2023 • Issue 03</div>
+              <h1 className="text-3xl font-light tracking-tight text-white sm:text-4xl md:text-5xl">Apparel</h1>
+              <p className="mt-4 text-base leading-7 text-white">
                 Clothing and accessories for your active lifestyle. Designed for comfort and style.
               </p>
             </div>
@@ -136,14 +133,17 @@ export default function ApparelCollection() {
         </div>
 
         {/* Subcategories */}
-        <div className="bg-white py-6">
+        <div className="bg-[#fdf4ec] py-8 border-b border-gray-200">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-6">
+              <div className="text-sm uppercase tracking-widest text-gray-500 mb-2">Featured Categories</div>
+            </div>
             <div className="flex justify-center flex-wrap gap-2">
               {subcategories.map((subcategory) => (
                 <Link
                   key={subcategory.id}
                   href={`/collections/apparel/${subcategory.id}`}
-                  className="inline-flex items-center rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-white"
+                  className="inline-flex items-center rounded-md border border-gray-400 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 transition duration-200"
                 >
                   {subcategory.name}
                 </Link>
@@ -157,12 +157,12 @@ export default function ApparelCollection() {
           <div className="fixed inset-0 bg-black bg-opacity-25"></div>
 
           <div className="fixed inset-0 z-40 flex">
-            <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-cream py-4 pb-12 shadow-xl">
+            <div className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-[#fdf4ec] py-4 pb-12 shadow-xl">
               <div className="flex items-center justify-between px-4">
-                <h2 className="text-lg font-medium text-primary">Filters</h2>
+                <h2 className="text-lg font-medium text-gray-600">Filters</h2>
                 <button
                   type="button"
-                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-cream p-2 text-primary"
+                  className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-[#fdf4ec] p-2 text-gray-600"
                   onClick={() => setMobileFiltersOpen(false)}
                 >
                   <span className="sr-only">Close menu</span>
@@ -174,7 +174,7 @@ export default function ApparelCollection() {
               <form className="mt-4 border-t border-gray-200">
                 {filters.map((section) => (
                   <div key={section.id} className="border-t border-gray-200 px-4 py-6">
-                    <h3 className="text-sm font-medium text-primary">{section.name}</h3>
+                    <h3 className="text-sm font-medium text-gray-600">{section.name}</h3>
                     <div className="mt-4 space-y-4">
                       {section.options.map((option, optionIdx) => (
                         <div key={option.value} className="flex items-center">
@@ -188,7 +188,7 @@ export default function ApparelCollection() {
                           />
                           <label
                             htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                            className="ml-3 text-sm text-primary"
+                            className="ml-3 text-sm text-gray-600"
                           >
                             {option.label}
                           </label>
@@ -204,21 +204,24 @@ export default function ApparelCollection() {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-12">
-            <h2 className="text-2xl font-light tracking-tight text-primary">All Apparel</h2>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-light steel-gradient">All Apparel</h2>
+              <div className="text-sm text-gray-500 mt-1">Showing {mockProducts.length} products</div>
+            </div>
 
             <div className="flex items-center">
               <div className="relative inline-block text-left">
                 <div>
                   <button
                     type="button"
-                    className="group inline-flex justify-center text-sm font-medium text-primary hover:text-gray-500"
+                    className="group inline-flex justify-center text-sm font-medium text-gray-600 hover:text-gray-800"
                     id="menu-button"
                     aria-expanded="false"
                     aria-haspopup="true"
                   >
                     Sort
                     <ChevronDown
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-primary group-hover:text-gray-500"
+                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-500 group-hover:text-gray-700"
                       aria-hidden="true"
                     />
                   </button>
@@ -227,7 +230,7 @@ export default function ApparelCollection() {
 
               <button
                 type="button"
-                className="ml-4 p-2 text-primary hover:text-gray-500 sm:ml-6 lg:hidden"
+                className="ml-4 p-2 text-gray-600 hover:text-gray-800 sm:ml-6 lg:hidden"
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <span className="sr-only">Filters</span>
@@ -244,9 +247,10 @@ export default function ApparelCollection() {
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
+                <div className="text-sm uppercase tracking-widest text-gray-500 mb-4">Filter By</div>
                 {filters.map((section) => (
                   <div key={section.id} className="border-b border-gray-200 py-6">
-                    <h3 className="text-sm font-medium text-primary">{section.name}</h3>
+                    <h3 className="text-sm font-medium text-gray-600">{section.name}</h3>
                     <div className="mt-4 space-y-4">
                       {section.options.map((option, optionIdx) => (
                         <div key={option.value} className="flex items-center">
@@ -258,7 +262,7 @@ export default function ApparelCollection() {
                             defaultChecked={option.checked}
                             className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-accent"
                           />
-                          <label htmlFor={`filter-${section.id}-${optionIdx}`} className="ml-3 text-sm text-primary">
+                          <label htmlFor={`filter-${section.id}-${optionIdx}`} className="ml-3 text-sm text-gray-600">
                             {option.label}
                           </label>
                         </div>
@@ -271,25 +275,36 @@ export default function ApparelCollection() {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-                  {mockProducts.map((product) => (
+                  {mockProducts.map((product, index) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100">
                         <img
                           src={product.image || "/placeholder.svg"}
                           alt={product.title}
-                          className="h-full w-full object-cover object-center group-hover:opacity-75"
+                          className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                         />
+                        {index === 0 && (
+                          <div className="absolute top-2 left-2 bg-black text-white text-xs px-2 py-1 rounded">
+                            Editor's Pick
+                          </div>
+                        )}
+                        {index === 1 && (
+                          <div className="absolute top-2 left-2 bg-gray-800 text-white text-xs px-2 py-1 rounded">
+                            Best Seller
+                          </div>
+                        )}
                       </div>
                       <div className="mt-4 flex justify-between">
                         <div>
-                          <h3 className="text-sm text-primary">
+                          <h3 className="text-sm text-gray-600">
                             <Link href={`/products/${product.id}`}>
                               <span aria-hidden="true" className="absolute inset-0" />
                               {product.title}
                             </Link>
                           </h3>
+                          <p className="mt-1 text-xs text-gray-500">{index % 2 === 0 ? "In Stock" : "Limited Stock"}</p>
                         </div>
-                        <p className="text-sm font-medium text-primary">{product.price}</p>
+                        <p className="text-sm font-medium text-gray-600">{product.price}</p>
                       </div>
                     </div>
                   ))}
@@ -298,6 +313,17 @@ export default function ApparelCollection() {
             </div>
           </section>
         </main>
+
+        {/* Magazine-style footer */}
+        <div className="bg-[#fdf4ec] py-12 border-t border-gray-200">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
+            <div className="text-xs uppercase tracking-widest text-gray-500 mb-4">Summer 2023 • Issue 03</div>
+            <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+              Our apparel collection blends comfort, functionality, and style for those who live life on their own
+              terms.
+            </p>
+          </div>
+        </div>
       </div>
     </Layout>
   )

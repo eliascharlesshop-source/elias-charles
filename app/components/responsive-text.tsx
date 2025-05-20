@@ -16,7 +16,10 @@ export function ResponsiveText({ children, size = "base", className = "", as: Co
   const fontSize = useResponsiveFont(size)
 
   return (
-    <Component className={`${className} text-pretty`} style={{ fontSize, lineHeight: `calc(${fontSize} * 1.5)` }}>
+    <Component
+      className={`${className} text-pretty font-medium steel-text`}
+      style={{ fontSize, lineHeight: `calc(${fontSize} * 1.5)` }}
+    >
       {children}
     </Component>
   )
@@ -32,7 +35,7 @@ export function ResponsiveHeading({
 
   return (
     <Component
-      className={`${className} font-normal tracking-widest uppercase text-primary text-balance`}
+      className={`${className} font-extrabold tracking-widest uppercase steel-gradient text-balance`}
       style={{ fontSize, lineHeight: `calc(${fontSize} * 1.2)` }}
     >
       {children}
