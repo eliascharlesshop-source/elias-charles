@@ -1,82 +1,159 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
+import { cartApi, handleApiError } from "@/lib/api"
+import { Cart, CartItem } from "@/lib/types"
 
-const CartContext = createContext(null)
+interface CartContextType {
+  cart: Cart | null
+  totalQuantity: number
+  loading: boolean
+  error: string | null
+  addToCart: (product: {
+    id: string
+    title: string
+    price: number
+    image: string
+    size: string
+    color: string
+  }) => Promise<void>
+  removeFromCart: (itemId: string) => Promise<void>
+  updateLineQuantity: (itemId: string, quantity: number) => Promise<void>
+  clearError: () => void
+}
 
-export function CartProvider({ children }) {
-  const [cart, setCart] = useState({
-    lines: [],
-    totalQuantity: 0,
-  })
+const CartContext = createContext<CartContextType | null>(null)
 
-  const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingLine = prevCart.lines.find((line) => line.id === product.id)
+export function CartProvider({ children }: { children: React.ReactNode }) {
+  const [cart, setCart] = useState<Cart | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-      if (existingLine) {
-        return {
-          ...prevCart,
-          lines: prevCart.lines.map((line) =>
-            line.id === product.id ? { ...line, quantity: line.quantity + 1 } : line,
-          ),
-          totalQuantity: prevCart.totalQuantity + 1,
-        }
-      } else {
-        return {
-          ...prevCart,
-          lines: [...prevCart.lines, { ...product, quantity: 1 }],
-          totalQuantity: prevCart.totalQuantity + 1,
-        }
+  // Initialize cart on mount
+  useEffect(() => {
+    initializeCart()
+  }, [])
+
+  const initializeCart = async () => {
+    try {
+      setLoading(true)
+      const cartId = localStorage.getItem('cartId')
+      const response = await cartApi.get(cartId || undefined)
+      
+      if (response.success && response.data) {
+        setCart(response.data)
+        localStorage.setItem('cartId', response.data.id)
       }
-    })
+    } catch (err) {
+      setError(handleApiError(err))
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const removeFromCart = (lineId) => {
-    setCart((prevCart) => {
-      const lineToRemove = prevCart.lines.find((line) => line.id === lineId)
+  const addToCart = async (product: {
+    id: string
+    title: string
+    price: number
+    image: string
+    size: string
+    color: string
+  }) => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const response = await cartApi.addItem({
+        cartId: cart?.id,
+        productId: product.id,
+        quantity: 1,
+        size: product.size,
+        color: product.color
+      })
 
-      if (!lineToRemove) return prevCart
-
-      return {
-        ...prevCart,
-        lines: prevCart.lines.filter((line) => line.id !== lineId),
-        totalQuantity: prevCart.totalQuantity - lineToRemove.quantity,
+      if (response.success && response.data) {
+        setCart(response.data)
+        localStorage.setItem('cartId', response.data.id)
       }
-    })
+    } catch (err) {
+      setError(handleApiError(err))
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const updateLineQuantity = (lineId, quantity) => {
-    setCart((prevCart) => {
-      const lineToUpdate = prevCart.lines.find((line) => line.id === lineId)
+  const removeFromCart = async (itemId: string) => {
+    if (!cart) return
 
-      if (!lineToUpdate) return prevCart
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const response = await cartApi.updateItem({
+        cartId: cart.id,
+        itemId,
+        quantity: 0
+      })
 
-      const quantityDifference = quantity - lineToUpdate.quantity
-
-      return {
-        ...prevCart,
-        lines: prevCart.lines.map((line) => (line.id === lineId ? { ...line, quantity } : line)),
-        totalQuantity: prevCart.totalQuantity + quantityDifference,
+      if (response.success && response.data) {
+        setCart(response.data)
       }
-    })
+    } catch (err) {
+      setError(handleApiError(err))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const updateLineQuantity = async (itemId: string, quantity: number) => {
+    if (!cart) return
+
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const response = await cartApi.updateItem({
+        cartId: cart.id,
+        itemId,
+        quantity
+      })
+
+      if (response.success && response.data) {
+        setCart(response.data)
+      }
+    } catch (err) {
+      setError(handleApiError(err))
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const clearError = () => {
+    setError(null)
+  }
+
+  const value: CartContextType = {
+    cart,
+    totalQuantity: cart?.totalQuantity || 0,
+    loading,
+    error,
+    addToCart,
+    removeFromCart,
+    updateLineQuantity,
+    clearError
   }
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        totalQuantity: cart.totalQuantity,
-        addToCart,
-        removeFromCart,
-        updateLineQuantity,
-      }}
-    >
+    <CartContext.Provider value={value}>
       {children}
     </CartContext.Provider>
   )
 }
 
 export function useCart() {
-  return useContext(CartContext)
+  const context = useContext(CartContext)
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider')
+  }
+  return context
 }

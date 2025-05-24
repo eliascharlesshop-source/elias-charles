@@ -1,0 +1,181 @@
+[
+  {
+    "id": "1",
+    "title": "Classic Surf T-Shirt",
+    "handle": "classic-surf-t-shirt",
+    "description": "Our classic surf t-shirt is made from 100% organic cotton for a soft, comfortable feel. Perfect for beach days or casual wear.",
+    "story": "Inspired by the golden era of California surf culture, this t-shirt embodies the spirit of endless summers and perfect waves. Each piece is crafted with attention to detail, honoring the traditions of surf heritage while embracing modern, sustainable practices.",
+    "price": 45,
+    "images": [
+      "/placeholder.svg?height=800&width=600&text=Product+Front",
+      "/placeholder.svg?height=800&width=600&text=Product+Back",
+      "/placeholder.svg?height=800&width=600&text=Product+Detail",
+      "/placeholder.svg?height=800&width=600&text=Product+Lifestyle"
+    ],
+    "category": "Apparel",
+    "subcategory": "T-Shirts",
+    "tags": [
+      "surf",
+      "t-shirt",
+      "organic",
+      "cotton"
+    ],
+    "sku": "TS-CLS-001",
+    "inStock": true,
+    "inventory": 50,
+    "sizes": [
+      "XS",
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      {
+        "name": "White",
+        "value": "#FFFFFF",
+        "border": true
+      },
+      {
+        "name": "Black",
+        "value": "#000000"
+      },
+      {
+        "name": "Navy",
+        "value": "#0A192F"
+      },
+      {
+        "name": "Sand",
+        "value": "#E2D2B4",
+        "border": true
+      }
+    ],
+    "features": [
+      "100% organic cotton",
+      "Regular fit",
+      "Crew neck",
+      "Short sleeves",
+      "Screen-printed graphic",
+      "Machine washable"
+    ],
+    "designer": "Emma Rodriguez",
+    "designerQuote": "I wanted to create something that feels as good as it looks. This piece represents the perfect balance between style, comfort, and sustainability.",
+    "sustainabilityInfo": "This product is made with 100% organic cotton, reducing water usage by 91% compared to conventional cotton. We use eco-friendly dyes and ethical manufacturing processes.",
+    "editorial": {
+      "title": "The Art of Simplicity",
+      "content": "In a world of excess, there's beauty in simplicity. Our Classic Surf T-Shirt represents a return to the essentials – quality materials, thoughtful design, and timeless style.",
+      "image": "/images/palm-trees-sky.jpeg"
+    },
+    "createdAt": "2025-05-24T18:40:31.225Z",
+    "updatedAt": "2025-05-24T18:40:31.225Z"
+  },
+  {
+    "id": "2",
+    "title": "Relaxed Fit Hoodie",
+    "handle": "relaxed-fit-hoodie",
+    "description": "A comfortable hoodie perfect for cool beach evenings and casual wear.",
+    "story": "Designed for those moments when the sun sets and the ocean breeze picks up. This hoodie combines comfort with style.",
+    "price": 85,
+    "images": [
+      "/placeholder.svg?height=800&width=600&text=Hoodie+Front",
+      "/placeholder.svg?height=800&width=600&text=Hoodie+Back"
+    ],
+    "category": "Apparel",
+    "subcategory": "Hoodies",
+    "tags": [
+      "hoodie",
+      "casual",
+      "comfort"
+    ],
+    "sku": "HD-RLX-001",
+    "inStock": true,
+    "inventory": 30,
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "colors": [
+      {
+        "name": "Grey",
+        "value": "#808080"
+      },
+      {
+        "name": "Navy",
+        "value": "#0A192F"
+      }
+    ],
+    "features": [
+      "Relaxed fit",
+      "Kangaroo pocket",
+      "Drawstring hood",
+      "Ribbed cuffs and hem"
+    ],
+    "designer": "Marcus Chen",
+    "designerQuote": "Comfort meets style in this essential piece.",
+    "sustainabilityInfo": "Made with sustainable materials and ethical manufacturing.",
+    "editorial": {
+      "title": "Comfort Redefined",
+      "content": "The perfect hoodie for any occasion.",
+      "image": "/images/ocean-wave-1.jpeg"
+    },
+    "createdAt": "2025-05-24T18:40:31.225Z",
+    "updatedAt": "2025-05-24T18:40:31.225Z"
+  },
+  {
+    "id": "3",
+    "title": "Board Shorts",
+    "handle": "board-shorts",
+    "description": "High-performance board shorts designed for surfing and beach activities.",
+    "story": "Built for performance in the water and style on the beach.",
+    "price": 65,
+    "images": [
+      "/placeholder.svg?height=800&width=600&text=Shorts+Front",
+      "/placeholder.svg?height=800&width=600&text=Shorts+Back"
+    ],
+    "category": "Apparel",
+    "subcategory": "Shorts",
+    "tags": [
+      "shorts",
+      "surf",
+      "performance"
+    ],
+    "sku": "BS-PRF-001",
+    "inStock": true,
+    "inventory": 25,
+    "sizes": [
+      "28",
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "colors": [
+      {
+        "name": "Blue",
+        "value": "#0066CC"
+      },
+      {
+        "name": "Black",
+        "value": "#000000"
+      }
+    ],
+    "features": [
+      "Quick-dry fabric",
+      "Velcro closure",
+      "Side pockets",
+      "Stretch material"
+    ],
+    "designer": "Sarah Johnson",
+    "designerQuote": "Performance and style in perfect harmony.",
+    "sustainabilityInfo": "Made from recycled ocean plastic.",
+    "editorial": {
+      "title": "Ocean Performance",
+      "content": "Designed for the waves.",
+      "image": "/images/ocean-wave-2.jpeg"
+    },
+    "createdAt": "2025-05-24T18:40:31.226Z",
+    "updatedAt": "2025-05-24T18:40:31.226Z"
+  }
+]

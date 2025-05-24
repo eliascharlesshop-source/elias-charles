@@ -1,104 +1,104 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Heart, Share2, ChevronRight } from "lucide-react"
 import { useCart } from "../../components/cart-provider"
 import { SectionTitle, SubsectionTitle, BodyText, SmallText } from "../../components/typography"
+import { productApi, handleApiError } from "@/lib/api"
+import { Product } from "@/lib/types"
 
 export default function ProductPage() {
   const params = useParams()
-  const handle = params?.handle as string
+  const id = params?.id as string
+  const [product, setProduct] = useState<Product | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState("")
   const [selectedColor, setSelectedColor] = useState("")
   const [quantity, setQuantity] = useState(1)
 
-  const { addToCart } = useCart() || { addToCart: () => {} }
+  const { addToCart } = useCart()
 
-  // Mock product data
-  const product = {
-    id: handle || "1",
-    title: "Classic Surf T-Shirt",
-    price: "$45.00",
-    description:
-      "Our classic surf t-shirt is made from 100% organic cotton for a soft, comfortable feel. Perfect for beach days or casual wear.",
-    story:
-      "Inspired by the golden era of California surf culture, this t-shirt embodies the spirit of endless summers and perfect waves. Each piece is crafted with attention to detail, honoring the traditions of surf heritage while embracing modern, sustainable practices.",
-    features: [
-      "100% organic cotton",
-      "Regular fit",
-      "Crew neck",
-      "Short sleeves",
-      "Screen-printed graphic",
-      "Machine washable",
-    ],
-    sizes: ["XS", "S", "M", "L", "XL"],
-    colors: [
-      { name: "White", value: "#FFFFFF", border: true },
-      { name: "Black", value: "#000000" },
-      { name: "Navy", value: "#0A192F" },
-      { name: "Sand", value: "#E2D2B4", border: true },
-    ],
-    images: [
-      "/placeholder.svg?height=800&width=600&text=Product+Front",
-      "/placeholder.svg?height=800&width=600&text=Product+Back",
-      "/placeholder.svg?height=800&width=600&text=Product+Detail",
-      "/placeholder.svg?height=800&width=600&text=Product+Lifestyle",
-    ],
-    category: "Apparel",
-    tags: ["surf", "t-shirt", "organic", "cotton"],
-    sku: "TS-CLS-001",
-    inStock: true,
-    designer: "Emma Rodriguez",
-    designerQuote:
-      "I wanted to create something that feels as good as it looks. This piece represents the perfect balance between style, comfort, and sustainability.",
-    sustainabilityInfo:
-      "This product is made with 100% organic cotton, reducing water usage by 91% compared to conventional cotton. We use eco-friendly dyes and ethical manufacturing processes.",
-    relatedProducts: [
-      {
-        id: "2",
-        title: "Relaxed Fit Hoodie",
-        price: "$85.00",
-        image: "/placeholder.svg?height=400&width=400",
-      },
-      {
-        id: "3",
-        title: "Board Shorts",
-        price: "$65.00",
-        image: "/placeholder.svg?height=400&width=400",
-      },
-      {
-        id: "4",
-        title: "Surf Wax",
-        price: "$12.00",
-        image: "/placeholder.svg?height=400&width=400",
-      },
-    ],
-    editorial: {
-      title: "The Art of Simplicity",
-      content:
-        "In a world of excess, there's beauty in simplicity. Our Classic Surf T-Shirt represents a return to the essentials – quality materials, thoughtful design, and timeless style. It's not just a garment; it's a statement about conscious consumption and appreciation for craftsmanship.",
-      image: "/images/palm-trees-sky.jpeg",
-    },
+  console.log('ProductPage component mounted, id:', id, 'params:', params)
+
+  // Fetch product data
+  useEffect(() => {
+    if (!id) return
+    
+    const fetchProduct = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        const response = await productApi.getById(id)
+        
+        if (response.success && response.data) {
+          setProduct(response.data)
+        } else {
+          setError('Product not found')
+        }
+      } catch (err) {
+        setError('Failed to load product')
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchProduct()
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-primary">Loading product... ID: {id}</p>
+          <p className="text-sm text-gray-500 mt-2">Debug: {JSON.stringify({ id, loading, error })}</p>
+        </div>
+      </div>
+    )
   }
 
-  const handleAddToCart = () => {
+  if (error || !product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-primary mb-4">Product Not Found</h1>
+          <p className="text-gray-600 mb-6">{error || 'The product you are looking for does not exist.'}</p>
+          <Link href="/collections" className="bg-primary text-white px-6 py-3 hover:bg-opacity-90 transition-colors">
+            Browse Collections
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  const handleAddToCart = async () => {
     if (!selectedSize || !selectedColor) {
       alert("Please select a size and color")
       return
     }
 
-    addToCart({
-      id: product.id,
-      title: product.title,
-      price: product.price,
-      image: product.images[0],
-      quantity,
-      size: selectedSize,
-      color: selectedColor,
-    })
+    if (!product) return
+
+    try {
+      await addToCart({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.images[0] || '',
+        size: selectedSize,
+        color: selectedColor,
+      })
+      
+      // Show success message or toast
+      alert("Product added to cart!")
+    } catch (error) {
+      alert("Failed to add product to cart. Please try again.")
+    }
   }
 
   return (
@@ -164,7 +164,7 @@ export default function ProductPage() {
           {/* Product Info */}
           <div className="flex flex-col">
             <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-primary">{product.title}</h1>
-            <p className="mt-2 text-2xl text-primary">{product.price}</p>
+            <p className="mt-2 text-2xl text-primary">${product.price}</p>
 
             <div className="mt-6 prose prose-sm text-gray-700">
               <BodyText>{product.description}</BodyText>

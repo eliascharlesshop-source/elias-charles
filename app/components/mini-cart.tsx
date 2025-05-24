@@ -27,10 +27,10 @@ export function MiniCart({ isOpen, onClose }) {
   }, [onClose])
 
   // Calculate subtotal
-  const subtotal = cart.lines.reduce((total, item) => {
-    const price = Number.parseFloat(item.price?.replace("$", "") || "0")
+  const subtotal = cart?.items?.reduce((total, item) => {
+    const price = Number.parseFloat(item.price?.toString().replace("$", "") || "0")
     return total + price * item.quantity
-  }, 0)
+  }, 0) || 0
 
   return (
     <div
@@ -57,14 +57,14 @@ export function MiniCart({ isOpen, onClose }) {
               </div>
 
               <div className="mt-8">
-                {cart.lines.length === 0 ? (
+                {(cart?.items?.length || 0) === 0 ? (
                   <div className="text-center py-8">
                     <p className="text-gray-500">Your cart is empty</p>
                   </div>
                 ) : (
                   <div className="flow-root">
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
-                      {cart.lines.map((product) => (
+                      {cart?.items?.map((product) => (
                         <li key={product.id} className="flex py-6">
                           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
@@ -127,7 +127,7 @@ export function MiniCart({ isOpen, onClose }) {
               </div>
             </div>
 
-            {cart.lines.length > 0 && (
+            {(cart?.items?.length || 0) > 0 && (
               <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                 <div className="flex justify-between text-base font-medium text-primary">
                   <p>Subtotal</p>
