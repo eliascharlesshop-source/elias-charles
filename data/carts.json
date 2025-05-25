@@ -1,0 +1,114 @@
+[
+  {
+    "id": "mb2krufkxti9r2rpuff",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T18:40:39.632Z",
+    "updatedAt": "2025-05-24T18:40:39.632Z"
+  },
+  {
+    "id": "mb2krxjzsc6n0qpmrz",
+    "items": [
+      {
+        "id": "mb2krxk0h5n39z4ob3",
+        "productId": "1",
+        "title": "Classic Surf T-Shirt",
+        "price": 45,
+        "image": "/placeholder.svg?height=800&width=600&text=Product+Front",
+        "quantity": 1,
+        "size": "M",
+        "color": "White",
+        "sku": "TS-CLS-001"
+      }
+    ],
+    "totalQuantity": 1,
+    "subtotal": 45,
+    "tax": 3.6,
+    "shipping": 10,
+    "total": 58.6,
+    "createdAt": "2025-05-24T18:40:43.680Z",
+    "updatedAt": "2025-05-24T18:40:43.680Z"
+  },
+  {
+    "id": "mb2kw9eqkvfn80goomm",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T18:44:05.670Z",
+    "updatedAt": "2025-05-24T18:44:05.670Z"
+  },
+  {
+    "id": "mb2kw9nn281mxeusepk",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T18:44:05.992Z",
+    "updatedAt": "2025-05-24T18:44:05.992Z"
+  },
+  {
+    "id": "mb2le1x2h9dxzw6dmfg",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T18:57:55.767Z",
+    "updatedAt": "2025-05-24T18:57:55.767Z"
+  },
+  {
+    "id": "mb2lv0kos4dho41ogy8",
+    "items": [
+      {
+        "id": "mb2lv0kxjr6nlcaeww",
+        "productId": "1",
+        "title": "Classic Surf T-Shirt",
+        "price": 45,
+        "image": "/placeholder.svg?height=800&width=600&text=Product+Front",
+        "quantity": 2,
+        "size": "M",
+        "color": "Blue",
+        "sku": "TS-CLS-001"
+      }
+    ],
+    "totalQuantity": 2,
+    "subtotal": 90,
+    "tax": 7.2,
+    "shipping": 0,
+    "total": 97.2,
+    "createdAt": "2025-05-24T19:11:07.177Z",
+    "updatedAt": "2025-05-24T19:11:07.192Z"
+  },
+  {
+    "id": "mb2lw2y2bcuf3sh5yrk",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T19:11:56.911Z",
+    "updatedAt": "2025-05-24T19:11:58.856Z"
+  },
+  {
+    "id": "mb2lwfga49bzjx4lczh",
+    "items": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-05-24T19:12:13.126Z",
+    "updatedAt": "2025-05-24T19:12:14.467Z"
+  }
+]

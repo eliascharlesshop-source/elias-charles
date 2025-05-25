@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1",
+    "title": "Surf Collection",
+    "handle": "surf",
+    "description": "Performance gear designed for those who live for the waves.",
+    "image": "/images/ocean-wave-1.jpeg",
+    "products": [
+      "1",
+      "3"
+    ],
+    "createdAt": "2025-05-24T18:40:31.228Z",
+    "updatedAt": "2025-05-24T18:40:31.228Z"
+  },
+  {
+    "id": "2",
+    "title": "Apparel",
+    "handle": "apparel",
+    "description": "Comfortable and stylish clothing for everyday wear.",
+    "image": "/images/ocean-wave-2.jpeg",
+    "products": [
+      "1",
+      "2"
+    ],
+    "createdAt": "2025-05-24T18:40:31.230Z",
+    "updatedAt": "2025-05-24T18:40:31.230Z"
+  }
+]
