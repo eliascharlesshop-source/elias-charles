@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/app/components/auth-provider"
+import { useAuth } from "@/components/layout/auth-provider"
 import Link from "next/link"
 
 export default function ProfilePage() {

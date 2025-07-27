@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Layout from "../components/layout"
+import Layout from "@/components/layout/layout"
 
 export default function StoreLocatorPage() {
   const [selectedRegion, setSelectedRegion] = useState<string>("all")

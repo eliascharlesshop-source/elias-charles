@@ -1,10 +1,10 @@
 "use client"
 
-import Layout from "../../../components/layout"
+import Layout from "@/components/layout/layout"
 import { useState } from "react"
 import { Filter, X } from "lucide-react"
 import Link from "next/link"
-import { ResponsiveProductGrid } from "../../../components/responsive-product-grid"
+import { ResponsiveProductGrid } from "@/components/commerce/responsive-product-grid"
 
 export default function SkateBoardsCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)

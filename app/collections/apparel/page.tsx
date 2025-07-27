@@ -1,6 +1,6 @@
 "use client"
 
-import Layout from "../../components/layout"
+import Layout from "@/components/layout/layout"
 import { useState } from "react"
 import { ChevronDown, Filter, X } from "lucide-react"
 import Link from "next/link"

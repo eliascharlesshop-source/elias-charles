@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ProductTitle, ProductPrice } from "./typography"
+import { ProductTitle, ProductPrice } from "../layout/typography"
 
 interface Product {
   id: string | number

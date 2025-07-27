@@ -3,47 +3,47 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Minus, Plus, ShoppingBag } from "lucide-react"
-import { useCart } from "../components/cart-provider"
-import { PageTitle, SectionTitle, BodyText, SmallText } from "../components/typography"
+import { useCart } from "@/components/commerce/cart-provider"
+import { PageTitle, SectionTitle, BodyText, SmallText } from "@/components/layout/typography"
 
 export default function CartPage() {
-  const { cart, removeFromCart, updateLineQuantity } = useCart() || {
-    cart: { lines: [], totalQuantity: 0 },
-    removeFromCart: () => {},
-    updateLineQuantity: () => {},
-  }
-  const [promoCode, setPromoCode] = useState("")
-  const [promoApplied, setPromoApplied] = useState(false)
-  const [promoError, setPromoError] = useState("")
+  // Defensive fallback for SSR/prerender: always provide a cart object
+  const cartContext = useCart();
+  const cart = cartContext?.cart ?? { lines: [], totalQuantity: 0 };
+  const removeFromCart = cartContext?.removeFromCart ?? (() => {});
+  const updateLineQuantity = cartContext?.updateLineQuantity ?? (() => {});
+  const [promoCode, setPromoCode] = useState("");
+  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState("");
 
   const handleApplyPromo = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     if (promoCode.toLowerCase() === "discount10") {
-      setPromoApplied(true)
-      setPromoError("")
+      setPromoApplied(true);
+      setPromoError("");
     } else {
-      setPromoError("Invalid promo code")
-      setPromoApplied(false)
+      setPromoError("Invalid promo code");
+      setPromoApplied(false);
     }
-  }
+  };
 
   // Calculate subtotal
-  const subtotal = cart.lines.reduce((total, item) => {
-    const price = Number.parseFloat(item.price?.replace("$", "") || "0")
-    return total + price * item.quantity
-  }, 0)
+  const subtotal = (cart?.lines ?? []).reduce((total, item) => {
+    const price = Number.parseFloat(item.price?.replace("$", "") || "0");
+    return total + price * item.quantity;
+  }, 0);
 
   // Calculate discount
-  const discount = promoApplied ? subtotal * 0.1 : 0
+  const discount = promoApplied ? subtotal * 0.1 : 0;
 
   // Calculate shipping (free over $100)
-  const shipping = subtotal > 100 ? 0 : 10
+  const shipping = subtotal > 100 ? 0 : 10;
 
   // Calculate tax
-  const tax = (subtotal - discount) * 0.08
+  const tax = (subtotal - discount) * 0.08;
 
   // Calculate total
-  const total = subtotal - discount + shipping + tax
+  const total = subtotal - discount + shipping + tax;
 
   return (
     <div className="bg-white">
@@ -51,7 +51,7 @@ export default function CartPage() {
         <div className="py-8 sm:py-12">
           <PageTitle className="text-center mb-8 sm:mb-12">Your Cart</PageTitle>
 
-          {cart.lines.length === 0 ? (
+          {(cart?.lines?.length ?? 0) === 0 ? (
             <div className="text-center py-16 sm:py-24">
               <ShoppingBag className="mx-auto h-12 w-12 text-gray-400" />
               <SectionTitle className="mt-4 text-lg font-medium text-primary">Your cart is empty</SectionTitle>

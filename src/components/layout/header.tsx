@@ -4,9 +4,9 @@ import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { Dialog } from "@headlessui/react"
 import { X, Menu, Search, ShoppingBag, User, ChevronDown } from "lucide-react"
-import { useCart } from "./cart-provider"
+import { useCart } from "../commerce/cart-provider"
 import { useAuth } from "./auth-provider"
-import { MiniCart } from "./mini-cart"
+import { MiniCart } from "../commerce/mini-cart"
 import Link from "next/link"
 
 export function Header({ shop }) {

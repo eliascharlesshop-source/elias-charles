@@ -4,7 +4,7 @@ import { useParams } from "next/navigation"
 import Link from "next/link"
 import { useState } from "react"
 import { ChevronDown, Filter, X } from "lucide-react"
-import MagazineProductCard from "../../components/magazine-product-card"
+import MagazineProductCard from "@/components/commerce/magazine-product-card"
 
 export default function CollectionPage() {
   const params = useParams()

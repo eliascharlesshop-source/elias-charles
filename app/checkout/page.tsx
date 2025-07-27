@@ -2,14 +2,13 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useCart } from "../components/cart-provider"
+import { useCart } from "@/components/commerce/cart-provider"
 import { CheckCircle } from "lucide-react"
-import { SectionTitle } from "../components/typography"
+import { SectionTitle } from "@/components/layout/typography"
 
 export default function CheckoutPage() {
-  const { cart } = useCart() || {
-    cart: { lines: [], totalQuantity: 0 },
-  }
+  const cartContext = useCart()
+  const cart = cartContext?.cart || { items: [], totalQuantity: 0 }
 
   const [step, setStep] = useState(1)
   const [orderComplete, setOrderComplete] = useState(false)
@@ -39,8 +38,8 @@ export default function CheckoutPage() {
   })
 
   // Calculate subtotal
-  const subtotal = cart.lines.reduce((total, item) => {
-    const price = Number.parseFloat(item.price?.replace("$", "") || "0")
+  const subtotal = (cart?.items || []).reduce((total: number, item: any) => {
+    const price = Number.parseFloat(item.price?.toString().replace("$", "") || "0")
     return total + price * item.quantity
   }, 0)
 
@@ -53,7 +52,7 @@ export default function CheckoutPage() {
   // Calculate total
   const total = subtotal + shipping + tax
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     const { name, value, type, checked } = e.target
     setFormData({
       ...formData,
@@ -61,7 +60,7 @@ export default function CheckoutPage() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
     if (step < 3) {
       setStep(step + 1)
@@ -100,7 +99,7 @@ export default function CheckoutPage() {
             </SectionTitle>
 
             <div className="mt-6 divide-y divide-gray-200 border-t border-gray-200">
-              {cart.lines.map((product) => (
+              {(cart?.items || []).map((product: any) => (
                 <div key={product.id} className="flex py-6">
                   <div className="flex-shrink-0">
                     <img
@@ -744,7 +743,7 @@ export default function CheckoutPage() {
 
               <div className="mt-6 flow-root">
                 <ul role="list" className="-my-4 divide-y divide-gray-200">
-                  {cart.lines.map((product) => (
+                  {(cart?.items || []).map((product: any) => (
                     <li key={product.id} className="flex py-4 space-x-3">
                       <div className="flex-shrink-0">
                         <img

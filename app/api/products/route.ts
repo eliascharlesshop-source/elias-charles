@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { productsDb, initializeDatabase } from '@/lib/database'
 import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/lib/types'
 
+// Shopify integration
+const USE_SHOPIFY = process.env.NEXT_PUBLIC_USE_SHOPIFY === 'true'
+
 // Initialize database on first request
 let initialized = false
 
@@ -14,6 +17,17 @@ async function ensureInitialized() {
 
 export async function GET(request: NextRequest) {
   try {
+    // If Shopify is enabled, delegate to Shopify API
+    if (USE_SHOPIFY) {
+      const shopifyUrl = new URL('/api/shopify/products', request.url)
+      shopifyUrl.search = new URL(request.url).search
+      
+      const shopifyResponse = await fetch(shopifyUrl.toString())
+      const shopifyData = await shopifyResponse.json()
+      
+      return NextResponse.json(shopifyData, { status: shopifyResponse.status })
+    }
+
     await ensureInitialized()
     
     const { searchParams } = new URL(request.url)
