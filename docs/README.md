@@ -8,7 +8,9 @@
 - 📝 [**Developer Guidelines**](GUIDELINES.md) - **REQUIRED READING** for all developers
 - 🛠️ [**Environment Setup**](setup/ENVIRONMENT.md) - Development environment configuration
 - 🔌 [**API Reference**](api/API_REFERENCE.md) - Complete API documentation
-- � [**Deployment Guide**](deployment/DEPLOYMENT.md) - Production deployment procedures
+- 🚢 [**Deployment Guide**](deployment/DEPLOYMENT.md) - Production deployment procedures
+
+## 📁 Documentation Categories
 
 ### Setup & Development
 - [Getting Started](setup/GETTING_STARTED.md) - Complete setup walkthrough
@@ -112,7 +114,7 @@ EC Store
 ## 🔧 Technology Stack
 
 ### Frontend
-- **Framework**: Next.js 14 with App Router
+- **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: Shadcn/ui
@@ -125,8 +127,9 @@ EC Store
 - **Database**: File-based (development) → PostgreSQL/MongoDB (production)
 - **Authentication**: JWT
 - **Validation**: Zod
-- **Email**: Mock service → SendGrid/Mailgun (production)
-- **Payments**: Mock service → Stripe/PayPal (production)
+- **E-commerce**: Shopify Storefront API (Headless)
+- **Email**: SendGrid/Mailgun
+- **Payments**: Stripe integration
 
 ### Development Tools
 - **Package Manager**: pnpm
@@ -134,21 +137,26 @@ EC Store
 - **Formatting**: Prettier
 - **Testing**: Built-in testing utilities
 - **Version Control**: Git
+- **Deployment**: Vercel
 
 ## 📊 Project Status
 
 - ✅ **Development Phase**: Core features implemented
-- 🔄 **Testing Phase**: Comprehensive testing in progress
-- ⏳ **Production Ready**: Deployment preparation
-- 📈 **Future Enhancements**: Additional features planned
+- ✅ **Testing Phase**: Comprehensive testing completed
+- ✅ **Production Ready**: Successfully deployed
+- 📈 **Active Development**: Ongoing enhancements and optimization
+
+## 🌐 Live Demo
+
+� **Production Site**: [https://elias-charles-37bq3blqb-elicharlese-deployments.vercel.app](https://elias-charles-37bq3blqb-elicharlese-deployments.vercel.app)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md) for details on:
-- Code style and standards
-- Pull request process
-- Issue reporting
-- Development workflow
+When adding new documentation:
+1. Follow the [Documentation Guidelines](GUIDELINES.md)
+2. Place files in the appropriate category directory
+3. Update cross-references as needed
+4. Verify all links work correctly
 
 ## 📄 License
 
@@ -158,9 +166,11 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 - **Documentation**: Browse this docs folder
 - **Issues**: Create an issue on GitHub
-- **Discussions**: Use GitHub Discussions for questions
+- **API Questions**: Check [API Reference](api/API_REFERENCE.md)
+- **Setup Help**: See [Getting Started](setup/GETTING_STARTED.md)
 
 ---
 
-**Last Updated**: July 27, 2025
-**Version**: 1.0.0
+**Last Updated**: July 28, 2025  
+**Version**: 1.0.0  
+**Documentation Structure**: Organized and Optimized ✨
