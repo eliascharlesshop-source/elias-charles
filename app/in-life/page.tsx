@@ -31,7 +31,7 @@ const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
           >
             <div className="relative h-32 mb-2">
               <Image
-                src={product.image || "/placeholder.svg"}
+                src={product.image || "/icons/placeholder.svg"}
                 alt={product.title}
                 fill
                 className="object-cover rounded-sm"
@@ -64,7 +64,7 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
       </div>
 
       <div className={`relative aspect-[4/5] ${reverse ? "md:col-start-1" : ""}`}>
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover" />
       </div>
     </div>
   )
@@ -95,7 +95,7 @@ const ProductCarousel = ({ products }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="relative aspect-square">
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={product.image || "/icons/placeholder.svg"}
                     alt={product.title}
                     fill
                     className="object-cover rounded-sm"
@@ -216,7 +216,7 @@ const LifestyleSection = ({ title, image, children }) => {
   return (
     <section ref={ref} className="relative overflow-hidden py-24 my-16">
       <motion.div className="absolute inset-0 z-0" style={{ y }}>
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover" />
         <div className="absolute inset-0 bg-black/30" />
       </motion.div>
 
@@ -233,7 +233,7 @@ const ShopTheLook = ({ image, products }) => {
   return (
     <div className="relative my-16">
       <div className="aspect-[3/4] relative">
-        <Image src={image || "/placeholder.svg"} alt="Shop the look" fill className="object-cover" />
+        <Image src={image || "/icons/placeholder.svg"} alt="Shop the look" fill className="object-cover" />
 
         {products.map((product, idx) => (
           <ProductHotspot key={idx} x={product.x} y={product.y} product={product} />
@@ -280,7 +280,7 @@ export default function InLifePage() {
     {
       title: "Sun Protection Hat",
       price: "$89",
-      image: "/placeholder.svg?height=500&width=500&text=Sun+Hat",
+      image: "/products/linen-dress-beach.png",
       url: "/products/sun-hat",
       description:
         "Wide-brimmed hat offering UPF 50+ protection. Made from breathable, quick-drying materials perfect for long days at the beach.",
@@ -295,7 +295,7 @@ export default function InLifePage() {
       y: 20,
       title: "Linen Beach Shirt",
       price: "$129",
-      image: "/placeholder.svg?height=300&width=300&text=Linen+Shirt",
+      image: "/products/men-casual-hoodie.png",
       url: "/products/linen-shirt",
     },
     {
@@ -303,7 +303,7 @@ export default function InLifePage() {
       y: 40,
       title: "Woven Beach Hat",
       price: "$89",
-      image: "/placeholder.svg?height=300&width=300&text=Beach+Hat",
+      image: "/products/diverse-beach-fashion.png",
       url: "/products/beach-hat",
     },
     {
@@ -311,7 +311,7 @@ export default function InLifePage() {
       y: 70,
       title: "Canvas Beach Shorts",
       price: "$99",
-      image: "/placeholder.svg?height=300&width=300&text=Beach+Shorts",
+      image: "/products/men-urban-style.png",
       url: "/products/beach-shorts",
     },
   ]
@@ -321,7 +321,7 @@ export default function InLifePage() {
     {
       title: "Urban Commuter Backpack",
       price: "$189",
-      image: "/placeholder.svg?height=500&width=500&text=Urban+Backpack",
+      image: "/products/men-surf-style.png",
       url: "/products/urban-backpack",
       description:
         "Designed for the modern city dweller, this backpack features multiple compartments, water-resistant materials, and a sleek profile.",
@@ -330,7 +330,7 @@ export default function InLifePage() {
     {
       title: "City Skateboard",
       price: "$249",
-      image: "/skateboard.png",
+      image: "/products/cruiser-skateboard.png",
       url: "/products/city-skateboard",
       description:
         "Our city skateboard is perfect for navigating urban environments with a durable deck and smooth-rolling wheels designed for concrete surfaces.",
@@ -339,7 +339,7 @@ export default function InLifePage() {
     {
       title: "Minimalist Watch",
       price: "$159",
-      image: "/placeholder.svg?height=500&width=500&text=Minimalist+Watch",
+      image: "/products/fashion-workshop.png",
       url: "/products/minimalist-watch",
       description:
         "A sleek timepiece with a clean design that complements any outfit. Features Japanese movement and scratch-resistant glass.",
@@ -352,7 +352,7 @@ export default function InLifePage() {
     {
       title: "Alpine Backpack",
       price: "$249",
-      image: "/placeholder.svg?height=500&width=500&text=Alpine+Backpack",
+      image: "/products/men-urban-style.png",
       url: "/products/alpine-backpack",
       description:
         "Engineered for mountain adventures, this backpack offers 35L of storage, weather-resistant materials, and ergonomic support for all-day comfort.",
@@ -361,7 +361,7 @@ export default function InLifePage() {
     {
       title: "Insulated Water Bottle",
       price: "$49",
-      image: "/placeholder.svg?height=500&width=500&text=Water+Bottle",
+      image: "/products/sustainable-fashion-collage.png",
       url: "/products/water-bottle",
       description:
         "Keeps beverages cold for 24 hours or hot for 12 hours. Made from durable stainless steel with a leak-proof cap design.",
@@ -370,7 +370,7 @@ export default function InLifePage() {
     {
       title: "Merino Wool Beanie",
       price: "$59",
-      image: "/placeholder.svg?height=500&width=500&text=Wool+Beanie",
+      image: "/products/diverse-beach-fashion.png",
       url: "/products/wool-beanie",
       description:
         "Crafted from premium merino wool that regulates temperature and wicks moisture. Stylish enough for the city, functional enough for the mountains.",
@@ -497,13 +497,13 @@ export default function InLifePage() {
               </Link>
             </div>
             <ShopTheLook
-              image="/placeholder.svg?height=800&width=600&text=Beach+Lifestyle"
+              image="/products/beach-product.png"
               products={beachLookProducts}
             />
           </div>
 
           {/* Lifestyle section with parallax */}
-          <LifestyleSection title="Beach Living, Day to Night" image="/images/ocean-wave-3.jpeg">
+          <LifestyleSection title="Beach Living, Day to Night" image="/products/surfboard-on-beach.png">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
               <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
                 <Sunrise className="w-8 h-8 mb-6 text-white" />
@@ -616,7 +616,7 @@ export default function InLifePage() {
           {/* Lifestyle section with parallax */}
           <LifestyleSection
             title="24 Hours in the City"
-            image="/placeholder.svg?height=1200&width=1800&text=City+Skyline"
+            image="/products/men-urban-style.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
               <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
@@ -691,7 +691,7 @@ export default function InLifePage() {
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
             <Image
-              src="/placeholder.svg?height=1080&width=1920&text=Mountain+Vista"
+              src="/products/sustainable-fashion-collage.png"
               alt="Mountain lifestyle"
               fill
               className="object-cover"
@@ -714,7 +714,7 @@ export default function InLifePage() {
           <MagazineArticle
             title="Alpine Design: Form Meets Function"
             excerpt="In the mountains, gear isn't just about aesthetics—it's about survival and comfort in challenging conditions. We explore how our mountain collection balances technical performance with timeless design principles for products that excel at elevation."
-            image="/placeholder.svg?height=800&width=600&text=Mountain+Gear"
+            image="/products/men-urban-style.png"
           >
             <Link
               href="/collections/life"
@@ -736,7 +736,7 @@ export default function InLifePage() {
           {/* Lifestyle section with parallax */}
           <LifestyleSection
             title="Mountain Living Through the Seasons"
-            image="/placeholder.svg?height=1200&width=1800&text=Mountain+Landscape"
+            image="/products/sustainable-fashion-collage.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
               <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
