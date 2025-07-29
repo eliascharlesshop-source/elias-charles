@@ -2,10 +2,52 @@
 
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { shopifyService } from "../../lib/shopify-service"
+
+interface Collection {
+  id: string
+  title: string
+  description: string
+  handle: string
+  image?: string
+  productCount: number
+}
 
 export default function CollectionsPage() {
-  // Main collection categories with their codes and subcategories
-  const collections = [
+  const [collections, setCollections] = useState<Collection[]>([])
+  const [featuredProducts, setFeaturedProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch collections and featured products using GraphQL-enhanced service
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        // Fetch collections with caching
+        const collectionsData = await shopifyService.getCollections(20)
+        setCollections(collectionsData)
+
+        // Fetch featured products
+        const featured = await shopifyService.getFeaturedProducts(6)
+        setFeaturedProducts(featured)
+
+      } catch (err) {
+        console.error('Failed to load collections:', err)
+        setError('Failed to load collections')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  // Static collection categories for UI (can be enhanced with dynamic data)
+  const staticCollections = [
     {
       id: "boards",
       code: "BO",
@@ -75,9 +117,50 @@ export default function CollectionsPage() {
                 Don't react, wait for the pullback. Explore our curated collections of quality products for your
                 lifestyle.
               </p>
+              {loading && (
+                <div className="mt-4 text-sm text-white/80">
+                  Loading collections with GraphQL caching...
+                </div>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Shopify Collections Display */}
+        {collections.length > 0 && (
+          <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+            <div className="mb-12 text-center">
+              <div className="text-sm uppercase tracking-widest text-gray-500 mb-4">Live from Shopify</div>
+              <h2 className="text-2xl sm:text-3xl font-light steel-gradient">Our Collections</h2>
+              <p className="mt-4 text-gray-600">Enhanced with GraphQL caching for optimal performance</p>
+            </div>
+            
+            <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
+              {collections.map((collection) => (
+                <div key={collection.id} className="group relative">
+                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
+                    <img
+                      src={collection.image || "/placeholder.svg"}
+                      alt={collection.title}
+                      className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-lg font-medium text-white">
+                        <Link href={`/collections/${collection.handle}`}>
+                          <span className="absolute inset-0" />
+                          {collection.title}
+                        </Link>
+                      </h3>
+                      <p className="mt-1 text-sm text-white/80">{collection.description}</p>
+                      <p className="mt-2 text-xs text-white/60">{collection.productCount} products</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Main collections grid - Magazine Style */}
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
@@ -86,7 +169,7 @@ export default function CollectionsPage() {
             <h2 className="text-2xl sm:text-3xl font-light steel-gradient">Curated Categories</h2>
           </div>
           <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-12">
-            {collections.map((collection, index) => (
+            {staticCollections.map((collection, index) => (
               <div key={collection.id} className="group">
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                   <img
@@ -126,6 +209,48 @@ export default function CollectionsPage() {
             ))}
           </div>
         </div>
+
+        {/* Featured Products Section */}
+        {featuredProducts.length > 0 && (
+          <div className="bg-[#fdf4ec] py-24 border-t border-gray-200">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="text-center mb-12">
+                <div className="text-sm uppercase tracking-widest text-gray-500 mb-4">Featured Products</div>
+                <h2 className="text-2xl sm:text-3xl font-light steel-gradient">Trending Now</h2>
+                <p className="mt-4 text-gray-600">Powered by GraphQL recommendations</p>
+              </div>
+              
+              <div className="grid grid-cols-1 gap-y-10 gap-x-8 lg:grid-cols-3">
+                {featuredProducts.map((product) => (
+                  <div key={product.id} className="group relative">
+                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
+                      <img
+                        src={product.images[0] || "/placeholder.svg"}
+                        alt={product.title}
+                        className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div className="mt-4">
+                      <h3 className="text-sm font-medium text-gray-900 group-hover:underline">
+                        <Link href={`/products/${product.handle}`}>
+                          {product.title}
+                        </Link>
+                      </h3>
+                      <p className="mt-1 text-sm text-gray-600">{product.vendor}</p>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="text-sm font-medium text-gray-900">${product.price.toFixed(2)}</span>
+                        {product.compareAtPrice && product.compareAtPrice > product.price && (
+                          <span className="text-sm text-gray-500 line-through">${product.compareAtPrice.toFixed(2)}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Shop by category section */}
         <div className="bg-[#fdf4ec] py-24 border-t border-gray-200">
@@ -182,6 +307,17 @@ export default function CollectionsPage() {
           </div>
         </div>
 
+        {/* Error State */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mx-auto max-w-7xl my-8">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-red-800">Failed to Load Collections</h3>
+              <p className="mt-2 text-sm text-red-600">{error}</p>
+              <p className="mt-2 text-xs text-red-500">Using fallback collection structure</p>
+            </div>
+          </div>
+        )}
+
         {/* Magazine-style footer */}
         <div className="bg-[#fdf4ec] py-12 border-t border-gray-200">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 text-center">
@@ -190,6 +326,11 @@ export default function CollectionsPage() {
               Our collections are curated with intention, designed for those who understand that style is a reflection
               of values, not just aesthetics.
             </p>
+            {!loading && collections.length > 0 && (
+              <p className="mt-2 text-xs text-gray-400">
+                Powered by GraphQL • {collections.length} collections loaded with caching
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-service'
+import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-services'
 
 interface RouteParams {
   params: {

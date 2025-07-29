@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ShopifyCartService } from '@/lib/shopify-service'
+import { ShopifyCartService } from '@/lib/shopify-services'
 
 // Create a new Shopify checkout
 export async function POST(request: NextRequest) {

@@ -1,0 +1,10 @@
+{
+  "name": "@ec-mobile/ec-mobile-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@ec-mobile/ec-mobile"
+    ]
+  }
+}

@@ -1,21 +1,25 @@
-// Simplified Shopify service for frontend operations
-import { ShopifyStorefront, transformShopifyProduct } from '@/src/lib/shopify'
+// Enhanced Shopify service using advanced GraphQL implementation
+import { ShopifyService as AdvancedShopifyService } from '@/src/lib/graphql'
+import { transformShopifyProduct } from '@/src/lib/shopify'
 
 export class ShopifyService {
-  private storefront: ShopifyStorefront
+  private advancedService: AdvancedShopifyService
 
   constructor() {
-    this.storefront = new ShopifyStorefront()
+    this.advancedService = new AdvancedShopifyService(
+      process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
+      process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!
+    )
   }
 
-  // Get products with filtering and pagination
+  // Get products with filtering and pagination (enhanced with GraphQL caching)
   async getProducts(options: {
     limit?: number
     page?: number
     category?: string
     featured?: boolean
     search?: string
-    sort?: 'title' | 'price' | 'createdAt'
+    sort?: 'title' | 'price' | 'createdAt' | 'bestSelling'
     order?: 'asc' | 'desc'
   } = {}) {
     const {
@@ -24,21 +28,31 @@ export class ShopifyService {
       category,
       featured,
       search,
-      sort,
-      order = 'asc'
+      sort = 'createdAt',
+      order = 'desc'
     } = options
 
     try {
-      let data
-      if (search) {
-        data = await this.storefront.searchProducts(search, limit * 2)
-      } else {
-        data = await this.storefront.getProducts(limit * 2)
-      }
+      let products
 
-      let products = data.products.edges.map((edge: any) => 
-        transformShopifyProduct(edge.node)
-      )
+      if (search) {
+        // Use advanced search with GraphQL
+        const searchResult = await this.advancedService.searchProducts(search, {
+          first: limit * 2,
+          sortKey: this.mapSortKey(sort),
+          reverse: order === 'desc'
+        })
+        products = searchResult.products.map(transformShopifyProduct)
+      } else {
+        // Use optimized product fetching with caching
+        const rawProducts = await this.advancedService.getProducts({
+          first: limit * 2,
+          sortKey: this.mapProductSortKey(sort),
+          reverse: order === 'desc',
+          cache: true
+        })
+        products = rawProducts.map(transformShopifyProduct)
+      }
 
       // Apply filters
       if (category) {
@@ -50,36 +64,6 @@ export class ShopifyService {
 
       if (featured) {
         products = products.filter(product => product.featured)
-      }
-
-      // Apply sorting
-      if (sort) {
-        products.sort((a, b) => {
-          let aValue: any, bValue: any
-          
-          switch (sort) {
-            case 'title':
-              aValue = a.title.toLowerCase()
-              bValue = b.title.toLowerCase()
-              break
-            case 'price':
-              aValue = a.price
-              bValue = b.price
-              break
-            case 'createdAt':
-              aValue = new Date(a.createdAt).getTime()
-              bValue = new Date(b.createdAt).getTime()
-              break
-            default:
-              return 0
-          }
-
-          if (order === 'desc') {
-            return aValue < bValue ? 1 : aValue > bValue ? -1 : 0
-          } else {
-            return aValue > bValue ? 1 : aValue < bValue ? -1 : 0
-          }
-        })
       }
 
       // Paginate
@@ -104,35 +88,49 @@ export class ShopifyService {
     }
   }
 
-  // Get single product by handle
+  // Get single product by handle (with caching)
   async getProduct(handle: string) {
     try {
-      const data = await this.storefront.getProduct(handle)
+      const product = await this.advancedService.getProductByHandle(handle, true)
       
-      if (!data.productByHandle) {
+      if (!product) {
         throw new Error(`Product not found: ${handle}`)
       }
 
-      return transformShopifyProduct(data.productByHandle)
+      return transformShopifyProduct(product)
     } catch (error) {
       console.error('ShopifyService.getProduct error:', error)
       throw error
     }
   }
 
-  // Get collections
+  // Get product recommendations
+  async getProductRecommendations(productId: string, intent: 'RELATED' | 'COMPLEMENTARY' = 'RELATED') {
+    try {
+      const recommendations = await this.advancedService.getProductRecommendations(productId, intent)
+      return recommendations.map(transformShopifyProduct)
+    } catch (error) {
+      console.error('ShopifyService.getProductRecommendations error:', error)
+      return []
+    }
+  }
+
+  // Get collections (with caching)
   async getCollections(limit = 20) {
     try {
-      const data = await this.storefront.getCollections(limit)
+      const collections = await this.advancedService.getCollections({
+        first: limit,
+        cache: true
+      })
       
-      return data.collections.edges.map((edge: any) => ({
-        id: edge.node.id.replace('gid://shopify/Collection/', ''),
-        title: edge.node.title,
-        description: edge.node.description,
-        handle: edge.node.handle,
-        image: edge.node.image?.url,
-        productCount: edge.node.products.edges.length,
-        updatedAt: edge.node.updatedAt
+      return collections.map(collection => ({
+        id: collection.id.replace('gid://shopify/Collection/', ''),
+        title: collection.title,
+        description: collection.description,
+        handle: collection.handle,
+        image: collection.image?.url,
+        productCount: collection.products.edges.length,
+        updatedAt: collection.updatedAt
       }))
     } catch (error) {
       console.error('ShopifyService.getCollections error:', error)
@@ -140,7 +138,76 @@ export class ShopifyService {
     }
   }
 
-  // Cart operations
+  // Get collection by handle with products
+  async getCollectionByHandle(handle: string, options: {
+    limit?: number
+    sortKey?: 'MANUAL' | 'BEST_SELLING' | 'ALPHA_ASC' | 'ALPHA_DESC' | 'PRICE_DESC' | 'PRICE_ASC' | 'CREATED_DESC' | 'CREATED'
+    reverse?: boolean
+  } = {}) {
+    try {
+      const { limit = 20, sortKey = 'MANUAL', reverse = false } = options
+      
+      const collection = await this.advancedService.getCollectionByHandle(handle, {
+        first: limit,
+        sortKey,
+        reverse,
+        cache: true
+      })
+
+      if (!collection) {
+        throw new Error(`Collection not found: ${handle}`)
+      }
+
+      return {
+        id: collection.id.replace('gid://shopify/Collection/', ''),
+        title: collection.title,
+        description: collection.description,
+        handle: collection.handle,
+        image: collection.image?.url,
+        products: collection.products.edges.map(edge => transformShopifyProduct(edge.node)),
+        hasNextPage: collection.products.pageInfo.hasNextPage,
+        endCursor: collection.products.pageInfo.endCursor
+      }
+    } catch (error) {
+      console.error('ShopifyService.getCollectionByHandle error:', error)
+      throw error
+    }
+  }
+
+  // Featured products (cached)
+  async getFeaturedProducts(limit = 8) {
+    try {
+      const products = await this.advancedService.getFeaturedProducts(limit)
+      return products.map(transformShopifyProduct)
+    } catch (error) {
+      console.error('ShopifyService.getFeaturedProducts error:', error)
+      return []
+    }
+  }
+
+  // New arrivals (cached)
+  async getNewArrivals(limit = 12) {
+    try {
+      const products = await this.advancedService.getNewArrivals(limit)
+      return products.map(transformShopifyProduct)
+    } catch (error) {
+      console.error('ShopifyService.getNewArrivals error:', error)
+      return []
+    }
+  }
+
+  // Get products by tag
+  async getProductsByTag(tag: string, limit = 20) {
+    try {
+      const products = await this.advancedService.getProductsByTag(tag, limit)
+      return products.map(transformShopifyProduct)
+    } catch (error) {
+      console.error('ShopifyService.getProductsByTag error:', error)
+      return []
+    }
+  }
+
+  // Cart operations (enhanced with better error handling)
   async createCart(lines: Array<{ merchandiseId: string; quantity: number }>) {
     try {
       const cartLines = lines.map(line => ({
@@ -148,13 +215,15 @@ export class ShopifyService {
         quantity: line.quantity
       }))
 
-      const data = await this.storefront.createCart(cartLines)
+      const { cart, errors } = await this.advancedService.createCart({
+        lines: cartLines
+      })
       
-      if (data.cartCreate.userErrors.length > 0) {
-        throw new Error(data.cartCreate.userErrors[0].message)
+      if (errors.length > 0) {
+        throw new Error(errors[0].message)
       }
 
-      return this.transformCart(data.cartCreate.cart)
+      return cart ? this.transformCart(cart) : null
     } catch (error) {
       console.error('ShopifyService.createCart error:', error)
       throw error
@@ -168,16 +237,100 @@ export class ShopifyService {
         quantity: line.quantity
       }))
 
-      const data = await this.storefront.addToCart(cartId, cartLines)
+      const { cart, errors } = await this.advancedService.addToCart(cartId, cartLines)
       
-      if (data.cartLinesAdd.userErrors.length > 0) {
-        throw new Error(data.cartLinesAdd.userErrors[0].message)
+      if (errors.length > 0) {
+        throw new Error(errors[0].message)
       }
 
-      return this.transformCart(data.cartLinesAdd.cart)
+      return cart ? this.transformCart(cart) : null
     } catch (error) {
       console.error('ShopifyService.addToCart error:', error)
       throw error
+    }
+  }
+
+  async updateCartLines(cartId: string, lines: Array<{ id: string; quantity: number }>) {
+    try {
+      const { cart, errors } = await this.advancedService.updateCartLines(cartId, lines)
+      
+      if (errors.length > 0) {
+        throw new Error(errors[0].message)
+      }
+
+      return cart ? this.transformCart(cart) : null
+    } catch (error) {
+      console.error('ShopifyService.updateCartLines error:', error)
+      throw error
+    }
+  }
+
+  async removeFromCart(cartId: string, lineIds: string[]) {
+    try {
+      const { cart, errors } = await this.advancedService.removeFromCart(cartId, lineIds)
+      
+      if (errors.length > 0) {
+        throw new Error(errors[0].message)
+      }
+
+      return cart ? this.transformCart(cart) : null
+    } catch (error) {
+      console.error('ShopifyService.removeFromCart error:', error)
+      throw error
+    }
+  }
+
+  async getCart(cartId: string) {
+    try {
+      const cart = await this.advancedService.getCart(cartId)
+      return cart ? this.transformCart(cart) : null
+    } catch (error) {
+      console.error('ShopifyService.getCart error:', error)
+      throw error
+    }
+  }
+
+  // Advanced search
+  async advancedSearch(options: {
+    query?: string
+    productType?: string
+    vendor?: string
+    tags?: string[]
+    priceMin?: number
+    priceMax?: number
+    available?: boolean
+    sortKey?: string
+    reverse?: boolean
+    first?: number
+  }) {
+    try {
+      const products = await this.advancedService.advancedSearch(options)
+      return products.map(transformShopifyProduct)
+    } catch (error) {
+      console.error('ShopifyService.advancedSearch error:', error)
+      return []
+    }
+  }
+
+  // Utility methods
+  clearCache() {
+    this.advancedService.clearCache()
+  }
+
+  getCacheStats() {
+    return this.advancedService.getCacheStats()
+  }
+
+  // Batch operations
+  async batchGetProducts(handles: string[]) {
+    try {
+      const products = await this.advancedService.batchGetProducts(handles)
+      return products
+        .filter(product => product !== null)
+        .map(product => transformShopifyProduct(product!))
+    } catch (error) {
+      console.error('ShopifyService.batchGetProducts error:', error)
+      return []
     }
   }
 
@@ -185,6 +338,7 @@ export class ShopifyService {
     return {
       id: shopifyCart.id,
       checkoutUrl: shopifyCart.checkoutUrl,
+      totalQuantity: shopifyCart.totalQuantity,
       lines: shopifyCart.lines.edges.map((edge: any) => ({
         id: edge.node.id,
         quantity: edge.node.quantity,
@@ -204,18 +358,42 @@ export class ShopifyService {
       })),
       cost: {
         totalAmount: {
-          amount: parseFloat(shopifyCart.cost.totalAmount.amount),
-          currencyCode: shopifyCart.cost.totalAmount.currencyCode
+          amount: parseFloat(shopifyCart.estimatedCost.totalAmount.amount),
+          currencyCode: shopifyCart.estimatedCost.totalAmount.currencyCode
         },
         subtotalAmount: {
-          amount: parseFloat(shopifyCart.cost.subtotalAmount.amount),
-          currencyCode: shopifyCart.cost.subtotalAmount.currencyCode
-        },
-        totalTaxAmount: shopifyCart.cost.totalTaxAmount ? {
-          amount: parseFloat(shopifyCart.cost.totalTaxAmount.amount),
-          currencyCode: shopifyCart.cost.totalTaxAmount.currencyCode
-        } : null
+          amount: parseFloat(shopifyCart.estimatedCost.subtotalAmount.amount),
+          currencyCode: shopifyCart.estimatedCost.subtotalAmount.currencyCode
+        }
       }
+    }
+  }
+
+  private mapSortKey(sort: string): 'RELEVANCE' | 'PRICE' | 'CREATED_AT' | 'BEST_SELLING' {
+    switch (sort) {
+      case 'title':
+        return 'RELEVANCE' // Use relevance for title sorting
+      case 'price':
+        return 'PRICE'
+      case 'bestSelling':
+        return 'BEST_SELLING'
+      case 'createdAt':
+      default:
+        return 'CREATED_AT'
+    }
+  }
+
+  private mapProductSortKey(sort: string): 'TITLE' | 'PRICE' | 'BEST_SELLING' | 'CREATED_AT' | 'ID' | 'PRODUCT_TYPE' | 'RELEVANCE' | 'UPDATED_AT' | 'VENDOR' {
+    switch (sort) {
+      case 'title':
+        return 'TITLE'
+      case 'price':
+        return 'PRICE'
+      case 'bestSelling':
+        return 'BEST_SELLING'
+      case 'createdAt':
+      default:
+        return 'CREATED_AT'
     }
   }
 }

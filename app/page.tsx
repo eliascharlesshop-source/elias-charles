@@ -1,7 +1,61 @@
+"use client"
+
 import { PullQuote } from "@/src/components/layout/pull-quote"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { shopifyService } from "../lib/shopify-service"
+
+interface Product {
+  id: string
+  title: string
+  handle: string
+  price: number
+  compareAtPrice?: number
+  images: string[]
+  vendor: string
+  description: string
+}
+
+interface Collection {
+  id: string
+  title: string
+  handle: string
+  description: string
+  image?: string
+}
 
 export default function Home() {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [collections, setCollections] = useState<Collection[]>([])
+  const [newArrivals, setNewArrivals] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        setLoading(true)
+
+        // Fetch featured products, collections, and new arrivals with GraphQL caching
+        const [featured, collectionsData, arrivals] = await Promise.all([
+          shopifyService.getFeaturedProducts(6),
+          shopifyService.getCollections(4),
+          shopifyService.getNewArrivals(4)
+        ])
+
+        setFeaturedProducts(featured)
+        setCollections(collectionsData)
+        setNewArrivals(arrivals)
+
+      } catch (error) {
+        console.error('Failed to load homepage data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchHomeData()
+  }, [])
+
   return (
     <div className="magazine-layout">
       {/* Magazine Cover Hero */}
@@ -25,12 +79,27 @@ export default function Home() {
             <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
               Exploring the intersection of surf culture, sustainable fashion, and coastal living
             </p>
-            <Link
-              href="/collections"
-              className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors"
-            >
-              Explore Collections
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/collections"
+                className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
+              >
+                Explore Collections
+              </Link>
+              {!loading && featuredProducts.length > 0 && (
+                <Link
+                  href="/products"
+                  className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
+                >
+                  Shop Featured
+                </Link>
+              )}
+            </div>
+            {loading && (
+              <div className="mt-4 text-xs text-white/80">
+                Loading real products with GraphQL...
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -42,6 +111,9 @@ export default function Home() {
             <div>
               <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
               <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
+              {!loading && collections.length > 0 && (
+                <p className="text-xs text-gray-500 mt-1">{collections.length} live collections loaded</p>
+              )}
             </div>
             <div className="mt-4 md:mt-0">
               <Link href="/in-life" className="text-xs uppercase tracking-widest steel-text hover:underline">
@@ -51,20 +123,34 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
-            {[
-              { title: "Surf Culture", link: "/collections/boards/surf" },
-              { title: "Summer Apparel", link: "/collections/apparel" },
-              { title: "Coastal Living", link: "/collections/life" },
-              { title: "Self Care", link: "/collections/self-care" },
-            ].map((item, index) => (
-              <Link key={index} href={item.link} className="group">
-                <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
-                <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
-                  {item.title}
-                </h3>
-                <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
-              </Link>
-            ))}
+            {collections.length > 0 ? (
+              collections.slice(0, 4).map((collection, index) => (
+                <Link key={collection.id} href={`/collections/${collection.handle}`} className="group">
+                  <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
+                  <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
+                    {collection.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 mt-1 truncate">{collection.description}</p>
+                  <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
+                </Link>
+              ))
+            ) : (
+              // Fallback static content
+              [
+                { title: "Surf Culture", link: "/collections/boards/surf" },
+                { title: "Summer Apparel", link: "/collections/apparel" },
+                { title: "Coastal Living", link: "/collections/life" },
+                { title: "Self Care", link: "/collections/self-care" },
+              ].map((item, index) => (
+                <Link key={index} href={item.link} className="group">
+                  <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
+                  <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
+                    {item.title}
+                  </h3>
+                  <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>
@@ -75,7 +161,60 @@ export default function Home() {
         author="EC Design Team"
       />
 
-      {/* Editorial Grid */}
+      {/* Featured Products Section - Real Shopify Data */}
+      {featuredProducts.length > 0 && (
+        <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient">Featured Products</h2>
+                <p className="text-xs text-gray-500 mt-2">Powered by GraphQL • Real-time Shopify data</p>
+              </div>
+              <Link
+                href="/products"
+                className="text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
+              >
+                View All Products
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {featuredProducts.slice(0, 3).map((product, index) => (
+                <div key={product.id} className="group">
+                  <div className="aspect-[4/3] overflow-hidden rounded-lg">
+                    <img
+                      src={product.images[0] || "/placeholder.svg"}
+                      alt={product.title}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <div className="mt-6">
+                    <span className="text-xs uppercase tracking-widest text-beach-darker mb-3">{product.vendor}</span>
+                    <h3 className="text-lg uppercase tracking-wider steel-gradient mt-2 group-hover:opacity-70 transition-opacity">
+                      {product.title}
+                    </h3>
+                    <p className="steel-text mt-3 line-clamp-2">{product.description}</p>
+                    <div className="mt-4 flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-900">${product.price.toFixed(2)}</span>
+                      {product.compareAtPrice && product.compareAtPrice > product.price && (
+                        <span className="text-sm text-gray-500 line-through">${product.compareAtPrice.toFixed(2)}</span>
+                      )}
+                    </div>
+                    <Link
+                      href={`/products/${product.handle}`}
+                      className="inline-block mt-4 text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
+                    >
+                      Shop Now
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Editorial Grid - Trending Articles */}
       <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="max-w-7xl mx-auto">
           <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-12">Trending Now</h2>
@@ -125,6 +264,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* New Arrivals Section */}
+      {newArrivals.length > 0 && (
+        <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <span className="text-xs uppercase tracking-widest steel-text mb-6">Fresh Drops</span>
+                <h2 className="text-2xl sm:text-3xl uppercase tracking-wider steel-gradient">
+                  New Arrivals
+                </h2>
+                <p className="text-xs text-gray-500 mt-2">Latest products from our Shopify store</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newArrivals.map((product) => (
+                <div key={product.id} className="group">
+                  <div className="aspect-square overflow-hidden rounded-lg">
+                    <img
+                      src={product.images[0] || "/placeholder.svg"}
+                      alt={product.title}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-sm font-medium text-gray-900 group-hover:underline">
+                      <Link href={`/products/${product.handle}`}>
+                        {product.title}
+                      </Link>
+                    </h3>
+                    <p className="mt-1 text-xs text-gray-600">{product.vendor}</p>
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-900">${product.price.toFixed(2)}</span>
+                      {product.compareAtPrice && product.compareAtPrice > product.price && (
+                        <span className="text-sm text-gray-500 line-through">${product.compareAtPrice.toFixed(2)}</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Category Feature */}
       <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="max-w-7xl mx-auto">
@@ -150,7 +333,7 @@ export default function Home() {
                 </div>
               </div>
               <Link
-                href="/collections/boards/skate"
+                href="/collections/boards"
                 className="inline-block bg-white border border-gray-300 text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-50 transition-colors"
               >
                 Explore Collection
@@ -193,7 +376,7 @@ export default function Home() {
               <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Surf Collection</h3>
               <p className="steel-text mb-6">Performance gear designed for those who live for the waves.</p>
               <Link
-                href="/collections/boards/surf"
+                href="/collections/boards"
                 className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
               >
                 Explore

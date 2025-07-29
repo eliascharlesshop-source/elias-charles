@@ -6,41 +6,93 @@ import Link from "next/link"
 import { Heart, Share2, ChevronRight } from "lucide-react"
 import { useCart } from "@/components/commerce/cart-provider"
 import { SectionTitle, SubsectionTitle, BodyText, SmallText } from "@/components/layout/typography"
-import { productApi, handleApiError } from "@/lib/api"
-import { Product } from "@/lib/types"
+import { shopifyService } from "@/lib/shopify-service"
+import { transformShopifyProduct } from "@/src/lib/shopify"
+
+interface ProductVariant {
+  id: string
+  title: string
+  price: number
+  compareAtPrice?: number
+  availableForSale: boolean
+  selectedOptions: { name: string; value: string }[]
+}
+
+interface ShopifyProductData {
+  id: string
+  title: string
+  description: string
+  handle: string
+  images: string[]
+  variants: ProductVariant[]
+  options: { name: string; values: string[] }[]
+  price: number
+  compareAtPrice?: number
+  category: string
+  vendor: string
+  tags: string[]
+  inStock: boolean
+}
 
 export default function ProductPage() {
   const params = useParams()
-  const id = params?.id as string
-  const [product, setProduct] = useState<Product | null>(null)
+  const handle = params?.id as string // Actually handle for Shopify
+  const [product, setProduct] = useState<ShopifyProductData | null>(null)
+  const [recommendations, setRecommendations] = useState<ShopifyProductData[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [selectedImage, setSelectedImage] = useState(0)
-  const [selectedSize, setSelectedSize] = useState("")
-  const [selectedColor, setSelectedColor] = useState("")
+  const [selectedVariant, setSelectedVariant] = useState<ProductVariant | null>(null)
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
   const [quantity, setQuantity] = useState(1)
 
   const { addToCart } = useCart()
 
-  console.log('ProductPage component mounted, id:', id, 'params:', params)
+  console.log('ProductPage component mounted, handle:', handle, 'params:', params)
 
-  // Fetch product data
+  // Fetch product data using GraphQL-enhanced service
   useEffect(() => {
-    if (!id) return
+    if (!handle) return
     
     const fetchProduct = async () => {
       try {
         setLoading(true)
         setError(null)
         
-        const response = await productApi.getById(id)
+        // Use the enhanced GraphQL service for better performance and caching
+        const shopifyProduct = await shopifyService.getProduct(handle)
         
-        if (response.success && response.data) {
-          setProduct(response.data)
+        if (shopifyProduct) {
+          const transformedProduct = transformShopifyProduct(shopifyProduct)
+          setProduct(transformedProduct)
+          
+          // Set default selected variant
+          if (transformedProduct.variants.length > 0) {
+            setSelectedVariant(transformedProduct.variants[0])
+            
+            // Set default selected options
+            const defaultOptions: Record<string, string> = {}
+            transformedProduct.variants[0].selectedOptions.forEach(option => {
+              defaultOptions[option.name] = option.value
+            })
+            setSelectedOptions(defaultOptions)
+          }
+          
+          // Fetch product recommendations using GraphQL
+          try {
+            const relatedProducts = await shopifyService.getProductRecommendations(
+              shopifyProduct.id, 
+              'RELATED'
+            )
+            setRecommendations(relatedProducts.slice(0, 3)) // Show 3 recommendations
+          } catch (recError) {
+            console.warn('Failed to load recommendations:', recError)
+          }
         } else {
           setError('Product not found')
         }
       } catch (err) {
+        console.error('Failed to load product:', err)
         setError('Failed to load product')
       } finally {
         setLoading(false)
@@ -48,15 +100,37 @@ export default function ProductPage() {
     }
     
     fetchProduct()
-  }, [id])
+  }, [handle])
+
+  // Update selected variant when options change
+  useEffect(() => {
+    if (!product || Object.keys(selectedOptions).length === 0) return
+    
+    const variant = product.variants.find(v => 
+      v.selectedOptions.every(option => 
+        selectedOptions[option.name] === option.value
+      )
+    )
+    
+    if (variant) {
+      setSelectedVariant(variant)
+    }
+  }, [selectedOptions, product])
+
+  const handleOptionChange = (optionName: string, value: string) => {
+    setSelectedOptions(prev => ({
+      ...prev,
+      [optionName]: value
+    }))
+  }
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-primary">Loading product... ID: {id}</p>
-          <p className="text-sm text-gray-500 mt-2">Debug: {JSON.stringify({ id, loading, error })}</p>
+          <p className="text-primary">Loading product... Handle: {handle}</p>
+          <p className="text-sm text-gray-500 mt-2">Enhanced with GraphQL caching</p>
         </div>
       </div>
     )
@@ -77,29 +151,35 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = async () => {
-    if (!selectedSize || !selectedColor) {
-      alert("Please select a size and color")
+    if (!selectedVariant) {
+      alert("Please select product options")
       return
     }
 
-    if (!product) return
+    if (!selectedVariant.availableForSale) {
+      alert("This variant is currently out of stock")
+      return
+    }
 
     try {
       await addToCart({
-        id: product.id,
-        title: product.title,
-        price: product.price,
-        image: product.images[0] || '',
-        size: selectedSize,
-        color: selectedColor,
+        id: selectedVariant.id,
+        title: `${product.title} - ${selectedVariant.title}`,
+        price: selectedVariant.price,
+        image: product.images[selectedImage] || '',
+        variant: selectedVariant.title,
+        quantity: quantity,
       })
       
-      // Show success message or toast
       alert("Product added to cart!")
     } catch (error) {
+      console.error('Add to cart error:', error)
       alert("Failed to add product to cart. Please try again.")
     }
   }
+
+  const currentPrice = selectedVariant?.price || product.price
+  const compareAtPrice = selectedVariant?.compareAtPrice || product.compareAtPrice
 
   return (
     <div style={{ backgroundColor: "#fdf4ec" }}>
@@ -115,12 +195,6 @@ export default function ProductPage() {
             <ChevronRight className="h-4 w-4 text-gray-400" />
             <Link href="/collections" className="ml-2 text-gray-500 hover:text-gray-700">
               Collections
-            </Link>
-          </li>
-          <li className="flex items-center">
-            <ChevronRight className="h-4 w-4 text-gray-400" />
-            <Link href="/collections/apparel" className="ml-2 text-gray-500 hover:text-gray-700">
-              Apparel
             </Link>
           </li>
           <li className="flex items-center">
@@ -144,148 +218,118 @@ export default function ProductPage() {
             </div>
 
             {/* Image Thumbnails */}
-            <div className="mt-4 grid grid-cols-4 gap-2">
-              {product.images.map((image, index) => (
-                <button
-                  key={index}
-                  className={`aspect-h-1 aspect-w-1 overflow-hidden ${selectedImage === index ? "ring-2 ring-primary" : "opacity-70"}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img
-                    src={image || "/placeholder.svg"}
-                    alt={`${product.title} ${index + 1}`}
-                    className="h-full w-full object-cover object-center"
-                  />
-                </button>
-              ))}
-            </div>
+            {product.images.length > 1 && (
+              <div className="mt-4 grid grid-cols-4 gap-2">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    className={`aspect-h-1 aspect-w-1 overflow-hidden ${selectedImage === index ? "ring-2 ring-primary" : "opacity-70"}`}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <img
+                      src={image || "/placeholder.svg"}
+                      alt={`${product.title} ${index + 1}`}
+                      className="h-full w-full object-cover object-center"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Info */}
           <div className="flex flex-col">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-xs text-gray-500 uppercase tracking-wider">{product.vendor}</span>
+              {product.tags.includes('featured') && (
+                <span className="bg-primary text-white px-2 py-1 text-xs uppercase tracking-wider">Featured</span>
+              )}
+            </div>
+            
             <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-primary">{product.title}</h1>
-            <p className="mt-2 text-2xl text-primary">${product.price}</p>
+            
+            <div className="mt-2 flex items-center gap-3">
+              <span className="text-2xl text-primary">${currentPrice.toFixed(2)}</span>
+              {compareAtPrice && compareAtPrice > currentPrice && (
+                <span className="text-lg text-gray-500 line-through">${compareAtPrice.toFixed(2)}</span>
+              )}
+            </div>
 
             <div className="mt-6 prose prose-sm text-gray-700">
               <BodyText>{product.description}</BodyText>
             </div>
 
-            {/* Designer Quote */}
-            <div className="mt-8 border-l-2 border-primary pl-4 italic">
-              <SmallText>"{product.designerQuote}"</SmallText>
-              <p className="mt-2 text-xs text-primary">— {product.designer}, Designer</p>
-            </div>
-
-            {/* Size Selection */}
-            <div className="mt-8">
-              <SubsectionTitle className="text-sm font-medium mb-2">Size</SubsectionTitle>
-              <div className="flex flex-wrap gap-2">
-                {product.sizes.map((size) => (
-                  <button
-                    key={size}
-                    className={`px-4 py-2 border ${selectedSize === size ? "border-primary bg-primary text-white" : "border-gray-300 text-primary"}`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </button>
-                ))}
+            {/* Product Options */}
+            {product.options.map((option) => (
+              <div key={option.name} className="mt-6">
+                <SubsectionTitle className="text-sm font-medium mb-2">{option.name}</SubsectionTitle>
+                <div className="flex flex-wrap gap-2">
+                  {option.values.map((value) => (
+                    <button
+                      key={value}
+                      className={`px-4 py-2 border ${
+                        selectedOptions[option.name] === value 
+                          ? "border-primary bg-primary text-white" 
+                          : "border-gray-300 text-primary hover:border-primary"
+                      }`}
+                      onClick={() => handleOptionChange(option.name, value)}
+                    >
+                      {value}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            ))}
 
-            {/* Color Selection */}
+            {/* Quantity */}
             <div className="mt-6">
-              <SubsectionTitle className="text-sm font-medium mb-2">Color</SubsectionTitle>
-              <div className="flex flex-wrap gap-3">
-                {product.colors.map((color) => (
-                  <button
-                    key={color.name}
-                    className={`h-8 w-8 rounded-full ${selectedColor === color.name ? "ring-2 ring-primary ring-offset-2" : ""} ${color.border ? "border border-gray-300" : ""}`}
-                    style={{ backgroundColor: color.value }}
-                    onClick={() => setSelectedColor(color.name)}
-                    aria-label={color.name}
-                  />
-                ))}
+              <SubsectionTitle className="text-sm font-medium mb-2">Quantity</SubsectionTitle>
+              <div className="flex items-center gap-2">
+                <button 
+                  className="border border-gray-300 px-3 py-1 text-primary hover:bg-gray-50"
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                >
+                  −
+                </button>
+                <span className="border border-gray-300 px-4 py-1 min-w-[3rem] text-center">{quantity}</span>
+                <button 
+                  className="border border-gray-300 px-3 py-1 text-primary hover:bg-gray-50"
+                  onClick={() => setQuantity(quantity + 1)}
+                >
+                  +
+                </button>
               </div>
             </div>
 
             {/* Add to Cart */}
             <div className="mt-8 flex flex-col sm:flex-row gap-4">
               <button
-                className="flex-1 bg-primary text-white px-6 py-3 flex items-center justify-center gap-2"
+                className={`flex-1 px-6 py-3 flex items-center justify-center gap-2 transition-colors ${
+                  selectedVariant?.availableForSale 
+                    ? "bg-primary text-white hover:bg-opacity-90" 
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
                 onClick={handleAddToCart}
+                disabled={!selectedVariant?.availableForSale}
               >
-                Add to Cart
+                {selectedVariant?.availableForSale ? "Add to Cart" : "Out of Stock"}
               </button>
-              <button className="flex-1 border border-primary text-primary px-6 py-3 flex items-center justify-center gap-2">
+              <button className="flex-1 border border-primary text-primary px-6 py-3 flex items-center justify-center gap-2 hover:bg-primary hover:text-white transition-colors">
                 <Heart size={20} />
                 Save
               </button>
-              <button className="sm:flex-none border border-primary text-primary px-4 py-3 flex items-center justify-center">
+              <button className="sm:flex-none border border-primary text-primary px-4 py-3 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
                 <Share2 size={20} />
               </button>
             </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Editorial Section */}
-      <div className="bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
-            <div>
-              <SectionTitle className="text-2xl sm:text-3xl">{product.editorial.title}</SectionTitle>
-              <div className="mt-6 max-w-xl">
-                <BodyText>{product.editorial.content}</BodyText>
-              </div>
-            </div>
-            <div className="aspect-h-4 aspect-w-3 lg:aspect-h-3 lg:aspect-w-4 overflow-hidden">
-              <img
-                src={product.editorial.image || "/placeholder.svg"}
-                alt="Editorial image"
-                className="h-full w-full object-cover object-center"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Product Story */}
-      <div style={{ backgroundColor: "#fdf4ec" }} className="py-16 sm:py-24">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 text-center">
-          <SectionTitle>The Story</SectionTitle>
-          <div className="mt-8 text-lg sm:text-xl leading-relaxed text-primary">{product.story}</div>
-        </div>
-      </div>
-
-      {/* Product Features */}
-      <div className="bg-gradient-to-b from-cream to-[#fdf4ec] py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
-            <div className="transform transition-all hover:scale-[1.01] duration-300">
-              <SectionTitle className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-[2px] after:bg-primary">
-                Features
-              </SectionTitle>
-              <ul className="mt-8 space-y-6">
-                {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-start group">
-                    <span className="flex-shrink-0 h-7 w-7 flex items-center justify-center rounded-full bg-primary text-white text-sm group-hover:bg-accent transition-colors duration-300">
-                      {index + 1}
-                    </span>
-                    <span className="ml-4 text-base leading-relaxed">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative transform transition-all hover:scale-[1.01] duration-300">
-              <SectionTitle className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-1/2 after:h-[2px] after:bg-primary">
-                Sustainability
-              </SectionTitle>
-              <div className="mt-8 prose prose-sm">
-                <BodyText>{product.sustainabilityInfo}</BodyText>
-              </div>
-              <div className="mt-6 inline-block px-4 py-2 border border-primary text-primary hover:bg-primary hover:text-white transition-colors duration-300">
-                Learn More About Our Practices
-              </div>
+            {/* Stock Status */}
+            <div className="mt-4">
+              <p className="text-sm text-gray-600">
+                Status: <span className={selectedVariant?.availableForSale ? "text-green-600" : "text-red-600"}>
+                  {selectedVariant?.availableForSale ? "In Stock" : "Out of Stock"}
+                </span>
+              </p>
             </div>
           </div>
         </div>
@@ -301,8 +345,8 @@ export default function ProductPage() {
               <p className="mt-2 text-primary">{product.category}</p>
             </div>
             <div>
-              <SubsectionTitle className="text-sm font-medium">SKU</SubsectionTitle>
-              <p className="mt-2 text-primary">{product.sku}</p>
+              <SubsectionTitle className="text-sm font-medium">Vendor</SubsectionTitle>
+              <p className="mt-2 text-primary">{product.vendor}</p>
             </div>
             <div>
               <SubsectionTitle className="text-sm font-medium">Tags</SubsectionTitle>
@@ -316,27 +360,43 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {/* Related Products */}
-      <div className="bg-cream py-16 sm:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionTitle className="mb-8">You May Also Like</SectionTitle>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {product.relatedProducts.map((relatedProduct) => (
-              <div key={relatedProduct.id} className="group">
-                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden">
-                  <img
-                    src={relatedProduct.image || "/placeholder.svg"}
-                    alt={relatedProduct.title}
-                    className="h-full w-full object-cover object-center group-hover:opacity-75"
-                  />
+      {/* Related Products - GraphQL Enhanced */}
+      {recommendations.length > 0 && (
+        <div className="bg-cream py-16 sm:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionTitle className="mb-8">You May Also Like</SectionTitle>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recommendations.map((recommendedProduct) => (
+                <div key={recommendedProduct.id} className="group">
+                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden">
+                    <img
+                      src={recommendedProduct.images[0] || "/placeholder.svg"}
+                      alt={recommendedProduct.title}
+                      className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
+                    />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-sm text-primary group-hover:underline">
+                      <Link href={`/products/${recommendedProduct.handle}`}>
+                        {recommendedProduct.title}
+                      </Link>
+                    </h3>
+                    <p className="mt-1 text-sm font-medium text-primary">
+                      ${recommendedProduct.price.toFixed(2)}
+                      {recommendedProduct.compareAtPrice && recommendedProduct.compareAtPrice > recommendedProduct.price && (
+                        <span className="ml-2 text-xs text-gray-500 line-through">
+                          ${recommendedProduct.compareAtPrice.toFixed(2)}
+                        </span>
+                      )}
+                    </p>
+                    <p className="mt-1 text-xs text-gray-600">{recommendedProduct.vendor}</p>
+                  </div>
                 </div>
-                <h3 className="mt-4 text-sm text-primary">{relatedProduct.title}</h3>
-                <p className="mt-1 text-sm font-medium text-primary">{relatedProduct.price}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

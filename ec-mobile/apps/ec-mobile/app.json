@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "EC Store",
+    "slug": "ec-store",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#fdf4ec",
+      "resizeMode": "contain"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ec.store"
+    },
+    "android": {
+      "backgroundColor": "#fdf4ec",
+      "package": "com.ec.store"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "platforms": ["ios", "android", "web"],
+    "scheme": "ec-store"
+  }
+}

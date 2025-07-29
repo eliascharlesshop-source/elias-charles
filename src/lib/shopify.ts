@@ -1,4 +1,5 @@
 // Simple Shopify Storefront API client - no admin API needed for frontend
+import { createFallbackResponse, isShopifyUnavailable } from './shopify-fallback'
 
 // Shopify Storefront API client for public data
 export class ShopifyStorefront {
@@ -126,7 +127,15 @@ export class ShopifyStorefront {
       after: cursor,
     }
 
-    return await this.query(query, variables)
+    try {
+      return await this.query(query, variables)
+    } catch (error) {
+      if (isShopifyUnavailable(error)) {
+        console.warn('Shopify store unavailable, using fallback data')
+        return createFallbackResponse('products', limit)
+      }
+      throw error
+    }
   }
 
   // Get a single product by handle
@@ -239,7 +248,16 @@ export class ShopifyStorefront {
     `
 
     const variables = { first: limit }
-    return await this.query(query, variables)
+    
+    try {
+      return await this.query(query, variables)
+    } catch (error) {
+      if (isShopifyUnavailable(error)) {
+        console.warn('Shopify store unavailable, using fallback collections data')
+        return createFallbackResponse('collections', limit)
+      }
+      throw error
+    }
   }
 
   // Search products
