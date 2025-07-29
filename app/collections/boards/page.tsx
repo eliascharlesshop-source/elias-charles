@@ -9,55 +9,55 @@ export default function BoardsCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+    // Products data with real board images
   const mockProducts = [
     {
       id: 1,
       title: "Classic Shortboard",
       price: "$695",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/longboard.png",
     },
     {
       id: 2,
       title: "Performance Longboard",
       price: "$895",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/cruiser-skateboard.png",
     },
     {
       id: 3,
       title: "Beginner Foam Board",
       price: "$325",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/longboard.png",
     },
     {
       id: 4,
       title: "Fish Surfboard",
       price: "$745",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/cruiser-skateboard.png",
     },
     {
       id: 5,
       title: "Classic Skateboard",
       price: "$135",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/longboard.png",
     },
     {
       id: 6,
-      title: "Longboard Skateboard",
-      price: "$185",
-      image: "/placeholder.svg?height=400&width=300",
+      title: "Pro Skateboard",
+      price: "$165",
+      image: "/products/cruiser-skateboard.png",
     },
     {
       id: 7,
-      title: "Cruiser Skateboard",
-      price: "$155",
-      image: "/placeholder.svg?height=400&width=300",
+      title: "Electric Skateboard",
+      price: "$485",
+      image: "/products/longboard.png",
     },
     {
       id: 8,
-      title: "Kids Skateboard",
-      price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      title: "Complete Skateboard",
+      price: "$125",
+      image: "/products/cruiser-skateboard.png",
     },
   ]
 
@@ -268,9 +268,9 @@ export default function BoardsCollection() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                   {mockProducts.map((product, index) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                         />

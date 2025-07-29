@@ -23,7 +23,7 @@ export default function CollectionPage() {
         { id: "surf", code: "BO-SU", title: "Surf" },
         { id: "skate", code: "BO-SK", title: "Skate" },
       ],
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial:
         "Our boards are crafted with precision and passion, designed for riders who demand performance and style.",
     },
@@ -38,7 +38,7 @@ export default function CollectionPage() {
         { id: "bottoms", code: "AP-BO", title: "Bottoms" },
         { id: "jewelry", code: "AP-JE", title: "Jewelry" },
       ],
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial:
         "Our apparel collection blends comfort, functionality, and style for those who live life on their own terms.",
     },
@@ -51,7 +51,7 @@ export default function CollectionPage() {
         { id: "nutrition", code: "SE-NU", title: "Nutrition" },
         { id: "supplements", code: "SE-SU", title: "Supplements" },
       ],
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial: "Our self-care products are formulated with natural ingredients that nourish your body and mind.",
     },
     life: {
@@ -64,25 +64,25 @@ export default function CollectionPage() {
         { id: "travel", code: "LI-TR", title: "Travel" },
         { id: "family", code: "LI-FA", title: "Family" },
       ],
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial: "Our life collection brings quality and intention to every aspect of your daily experience.",
     },
     men: {
       title: "Men's Collection",
       description: "Shop our latest men's apparel, surf gear, and accessories.",
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial: "Designed for the modern man who values quality, comfort, and style in equal measure.",
     },
     women: {
       title: "Women's Collection",
       description: "Shop our latest women's apparel, surf gear, and accessories.",
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial: "Crafted for the woman who moves through life with purpose and grace.",
     },
     sale: {
       title: "Sale",
       description: "Special offers and discounted items across all categories.",
-      featuredImage: "/placeholder.svg?height=1200&width=800",
+      featuredImage: "/icons/placeholder.svg",
       editorial: "Don't miss these limited-time offers on our premium products.",
     },
   }
@@ -212,7 +212,7 @@ export default function CollectionPage() {
         <div className="relative">
           <div className="aspect-h-2 aspect-w-5 w-full overflow-hidden">
             <img
-              src={currentCollection.featuredImage || "/placeholder.svg?height=800&width=2000"}
+              src={currentCollection.featuredImage || "/icons/placeholder.svg"}
               alt={currentCollection.title}
               className="h-full w-full object-cover object-center"
             />
@@ -500,7 +500,7 @@ export default function CollectionPage() {
                         </div>
                         <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                           <img
-                            src="/placeholder.svg?height=600&width=800"
+                            src="/icons/placeholder.svg"
                             alt="Behind the scenes"
                             className="h-full w-full object-cover object-center"
                           />

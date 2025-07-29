@@ -40,25 +40,25 @@ export default function SkateBoardsCollection() {
       id: 5,
       title: "Pro Model Skateboard",
       price: "$165",
-      image: "/placeholder.svg?height=400&width=300&query=pro skateboard",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 6,
       title: "Penny Board",
       price: "$110",
-      image: "/placeholder.svg?height=400&width=300&query=penny board",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 7,
       title: "Electric Skateboard",
       price: "$495",
-      image: "/placeholder.svg?height=400&width=300&query=electric skateboard",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 8,
       title: "Skateboard Deck",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300&query=skateboard deck",
+      image: "/icons/placeholder.svg",
     },
   ]
 

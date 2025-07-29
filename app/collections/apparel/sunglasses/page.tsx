@@ -9,43 +9,43 @@ export default function SunglassesCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+  // Products data with real images
   const mockProducts = [
     {
       id: 1,
       title: "Classic Wayfarer",
       price: "$120",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
     {
       id: 2,
       title: "Aviator Sunglasses",
       price: "$135",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-urban-style.png",
     },
     {
       id: 3,
       title: "Round Frame Sunglasses",
       price: "$110",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 4,
       title: "Sport Sunglasses",
       price: "$145",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
     {
       id: 5,
       title: "Polarized Sunglasses",
       price: "$165",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/fashion-workshop.png",
     },
     {
       id: 6,
       title: "Wooden Frame Sunglasses",
       price: "$185",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/linen-dress-beach.png",
     },
   ]
 
@@ -233,9 +233,9 @@ export default function SunglassesCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

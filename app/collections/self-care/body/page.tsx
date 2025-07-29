@@ -15,37 +15,37 @@ export default function BodyCareCollection() {
       id: 1,
       title: "Ocean Face Wash",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 2,
       title: "Surf Sunscreen SPF 50",
       price: "$24",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 3,
       title: "Sea Salt Hair Spray",
       price: "$22",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 4,
       title: "After-Sun Aloe Gel",
       price: "$18",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 5,
       title: "Hydrating Body Lotion",
       price: "$26",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 6,
       title: "Coconut Body Scrub",
       price: "$32",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
   ]
 
@@ -234,9 +234,9 @@ export default function BodyCareCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

@@ -15,49 +15,49 @@ export default function LifeCollection() {
       id: 1,
       title: "Ocean Print Wall Art",
       price: "$85",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 2,
       title: "Surf Board Rack",
       price: "$120",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 3,
       title: "Beach Towel",
       price: "$42",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 4,
       title: "Car Surfboard Carrier",
       price: "$75",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 5,
       title: "Travel Beach Tent",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 6,
       title: "Insulated Water Bottle",
       price: "$38",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 7,
       title: "Kid's Beach Playkit",
       price: "$45",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 8,
       title: "Waterproof Phone Case",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
   ]
 
@@ -275,9 +275,9 @@ export default function LifeCollection() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                   {mockProducts.map((product, index) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                         />

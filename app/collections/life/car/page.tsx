@@ -15,37 +15,37 @@ export default function CarCollection() {
       id: 1,
       title: "Car Surfboard Carrier",
       price: "$75",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 2,
       title: "Waterproof Car Seat Cover",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 3,
       title: "Beach Parking Permit Holder",
       price: "$18",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 4,
       title: "Car Air Freshener",
       price: "$12",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 5,
       title: "Trunk Organizer",
       price: "$45",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
     {
       id: 6,
       title: "Roof Rack Pads",
       price: "$38",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/icons/placeholder.svg",
     },
   ]
 
@@ -232,9 +232,9 @@ export default function CarCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

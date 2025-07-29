@@ -53,7 +53,7 @@ export default function CollectionsPage() {
       code: "BO",
       title: "Boards",
       description: "Surf and skate boards for every level",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/icons/placeholder.svg",
       subcategories: [
         { id: "surf", code: "BO-SU", title: "Surf" },
         { id: "skate", code: "BO-SK", title: "Skate" },
@@ -64,7 +64,7 @@ export default function CollectionsPage() {
       code: "AP",
       title: "Apparel",
       description: "Clothing and accessories for your active lifestyle",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/icons/placeholder.svg",
       subcategories: [
         { id: "hats", code: "AP-HA", title: "Hats" },
         { id: "sunglasses", code: "AP-SU", title: "Sunglasses" },
@@ -78,7 +78,7 @@ export default function CollectionsPage() {
       code: "SE",
       title: "Self Care",
       description: "Products to help you look and feel your best",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/icons/placeholder.svg",
       subcategories: [
         { id: "body", code: "SE-BO", title: "Body" },
         { id: "nutrition", code: "SE-NU", title: "Nutrition" },
@@ -90,7 +90,7 @@ export default function CollectionsPage() {
       code: "LI",
       title: "Life",
       description: "Everything for your home, car, travel, and family",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/icons/placeholder.svg",
       subcategories: [
         { id: "house", code: "LI-HO", title: "House" },
         { id: "car", code: "LI-CA", title: "Car" },
@@ -138,9 +138,9 @@ export default function CollectionsPage() {
             <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-8">
               {collections.map((collection) => (
                 <div key={collection.id} className="group relative">
-                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
+                  <div className="aspect-square w-full overflow-hidden rounded-lg">
                     <img
-                      src={collection.image || "/placeholder.svg"}
+                      src={collection.image || "/icons/placeholder.svg"}
                       alt={collection.title}
                       className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                     />
@@ -173,7 +173,7 @@ export default function CollectionsPage() {
               <div key={collection.id} className="group">
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                   <img
-                    src={collection.image || "/placeholder.svg"}
+                    src={collection.image || "/icons/placeholder.svg"}
                     alt={collection.title}
                     className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                   />
@@ -223,9 +223,9 @@ export default function CollectionsPage() {
               <div className="grid grid-cols-1 gap-y-10 gap-x-8 lg:grid-cols-3">
                 {featuredProducts.map((product) => (
                   <div key={product.id} className="group relative">
-                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
+                    <div className="aspect-square w-full overflow-hidden rounded-lg">
                       <img
-                        src={product.images[0] || "/placeholder.svg"}
+                        src={product.images[0] || "/icons/placeholder.svg"}
                         alt={product.title}
                         className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                       />
@@ -282,9 +282,9 @@ export default function CollectionsPage() {
                   },
                 ].map((category, index) => (
                   <div key={category.name} className="group relative">
-                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg">
+                    <div className="aspect-square w-full overflow-hidden rounded-lg">
                       <img
-                        src={category.imageSrc || "/placeholder.svg"}
+                        src={category.imageSrc || "/icons/placeholder.svg"}
                         alt={category.name}
                         className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                       />

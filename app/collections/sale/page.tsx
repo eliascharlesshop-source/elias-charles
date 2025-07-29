@@ -9,7 +9,7 @@ export default function SaleCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+    // Sale products data with real images
   const mockProducts = [
     {
       id: 1,
@@ -17,7 +17,7 @@ export default function SaleCollection() {
       originalPrice: "$45",
       salePrice: "$35",
       discount: "22% off",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ export default function SaleCollection() {
       originalPrice: "$85",
       salePrice: "$65",
       discount: "24% off",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
     {
       id: 3,
@@ -33,7 +33,7 @@ export default function SaleCollection() {
       originalPrice: "$65",
       salePrice: "$45",
       discount: "31% off",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-urban-style.png",
     },
     {
       id: 4,
@@ -41,23 +41,23 @@ export default function SaleCollection() {
       originalPrice: "$95",
       salePrice: "$75",
       discount: "21% off",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/linen-dress-beach.png",
     },
     {
       id: 5,
       title: "Beanie",
       originalPrice: "$28",
-      salePrice: "$19",
-      discount: "32% off",
-      image: "/placeholder.svg?height=400&width=300",
+      salePrice: "$18",
+      discount: "36% off",
+      image: "/products/diverse-beach-fashion.png",
     },
     {
       id: 6,
       title: "Sunglasses",
       originalPrice: "$120",
-      salePrice: "$89",
-      discount: "26% off",
-      image: "/placeholder.svg?height=400&width=300",
+      salePrice: "$85",
+      discount: "29% off",
+      image: "/products/fashion-workshop.png",
     },
   ]
 
@@ -243,9 +243,9 @@ export default function SaleCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />
