@@ -2,10 +2,10 @@ import type React from "react"
 import "./globals.css"
 import "./styles/text-utils.css"
 import { Inter } from "next/font/google"
-import { Header } from "@/components/layout/header"
-import { Footer } from "@/components/layout/footer"
-import { CartProvider } from "@/components/commerce/cart-provider"
-import { AuthProvider } from "@/components/layout/auth-provider"
+import { Header } from "@/src/components/layout/header"
+import { Footer } from "@/src/components/layout/footer"
+import { CartProvider } from "@/src/components/commerce/cart-provider"
+import { AuthProvider } from "@/src/components/layout/auth-provider"
 
 const inter = Inter({ subsets: ["latin"] })
 

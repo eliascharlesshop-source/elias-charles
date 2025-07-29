@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { productsDb, initializeDatabase } from '@/lib/database'
-import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/lib/types'
+import { productsDb, initializeDatabase } from '@/src/lib/database'
+import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/src/lib/types'
 
 // Shopify integration
 const USE_SHOPIFY = process.env.NEXT_PUBLIC_USE_SHOPIFY === 'true'
@@ -17,17 +17,28 @@ async function ensureInitialized() {
 
 export async function GET(request: NextRequest) {
   try {
-    // If Shopify is enabled, delegate to Shopify API
+    // If Shopify is enabled, try Shopify API first
     if (USE_SHOPIFY) {
-      const shopifyUrl = new URL('/api/shopify/products', request.url)
-      shopifyUrl.search = new URL(request.url).search
-      
-      const shopifyResponse = await fetch(shopifyUrl.toString())
-      const shopifyData = await shopifyResponse.json()
-      
-      return NextResponse.json(shopifyData, { status: shopifyResponse.status })
+      try {
+        const shopifyUrl = new URL('/api/shopify/products', request.url)
+        shopifyUrl.search = new URL(request.url).search
+        
+        const shopifyResponse = await fetch(shopifyUrl.toString())
+        const shopifyData = await shopifyResponse.json()
+        
+        // If Shopify returns success, use it
+        if (shopifyResponse.ok && shopifyData.success) {
+          return NextResponse.json(shopifyData, { status: shopifyResponse.status })
+        }
+        
+        // If Shopify fails, log error and fall back to mock data
+        console.warn('Shopify API unavailable, falling back to mock data:', shopifyData.error)
+      } catch (shopifyError) {
+        console.warn('Shopify connection failed, falling back to mock data:', shopifyError)
+      }
     }
 
+    // Use mock data (either Shopify disabled or Shopify failed)
     await ensureInitialized()
     
     const { searchParams } = new URL(request.url)

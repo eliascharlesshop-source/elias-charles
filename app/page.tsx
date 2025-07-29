@@ -1,4 +1,4 @@
-import { PullQuote } from "@/components/layout/pull-quote"
+import { PullQuote } from "@/src/components/layout/pull-quote"
 import Link from "next/link"
 
 export default function Home() {

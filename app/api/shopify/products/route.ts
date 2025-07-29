@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { ShopifyStorefront, transformShopifyProduct, withShopifyErrorHandling } from '@/lib/shopify'
+import { ShopifyStorefront, transformShopifyProduct, withShopifyErrorHandling } from '@/src/lib/shopify'
 
 export async function GET(request: NextRequest) {
   try {
@@ -99,14 +99,31 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({
         success: false,
         error: 'Shopify is not configured. Please check your environment variables.',
-        details: error.message
+        details: error.message,
+        fallback: 'Using mock data instead'
       }, { status: 503 })
+    }
+    
+    // Check for 402 payment required error (store billing issue)
+    if (error instanceof Error && (
+      error.message.includes('402') || 
+      error.message.includes('Unavailable Shop') ||
+      error.message.includes('PAYMENT_REQUIRED')
+    )) {
+      return NextResponse.json({
+        success: false,
+        error: 'Shopify store is unavailable (billing/setup issue)',
+        details: 'Store may need billing setup or has access restrictions',
+        fallback: 'Using mock data instead',
+        action: 'Check your Shopify store billing and setup'
+      }, { status: 402 })
     }
     
     return NextResponse.json({
       success: false,
       error: 'Failed to fetch products from Shopify',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
+      fallback: 'Using mock data instead'
     }, { status: 500 })
   }
 }
