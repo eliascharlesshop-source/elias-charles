@@ -1,22 +1,51 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { ARVRService, ARVisualization, VREnvironment } from '@/src/lib/ar-vr-service'
-import { useVoiceCommands } from '@/src/lib/voice-service'
+
+// Only import and use these on client side
+let ARVRService: any = null
+let useVoiceCommands: any = null
+
+if (typeof window !== 'undefined') {
+  ARVRService = require('@/src/lib/ar-vr-service').ARVRService
+  useVoiceCommands = require('@/src/lib/voice-service').useVoiceCommands
+}
 
 export default function ARVRVisualizationPage() {
-  const [arvrService] = useState(() => new ARVRService())
+  const [arvrService, setArvrService] = useState<any>(null)
   const [arSupported, setArSupported] = useState(false)
   const [vrSupported, setVrSupported] = useState(false)
   const [arActive, setArActive] = useState(false)
   const [vrActive, setVrActive] = useState(false)
-  const [visualizations, setVisualizations] = useState<ARVisualization[]>([])
-  const [vrEnvironments, setVrEnvironments] = useState<VREnvironment[]>([])
+  const [visualizations, setVisualizations] = useState<any[]>([])
+  const [vrEnvironments, setVrEnvironments] = useState<any[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
   
-  const { startListening, stopListening, speak, isListening, isSupported: voiceSupported } = useVoiceCommands()
+  // Voice commands - only initialize on client side
+  const voiceHook = useVoiceCommands ? useVoiceCommands() : {
+    startListening: () => {},
+    stopListening: () => {},
+    speak: () => {},
+    isListening: false,
+    isSupported: false
+  }
+  const { startListening, stopListening, speak, isListening, isSupported: voiceSupported } = voiceHook
 
   useEffect(() => {
+    // Initialize service only on client side
+    if (typeof window !== 'undefined' && ARVRService && !arvrService) {
+      const service = new ARVRService()
+      setArvrService(service)
+      
+      // Check AR/VR support
+      setArSupported(service.isARSupported())
+      setVrSupported(service.isVRSupported())
+    }
+  }, [arvrService])
+
+  useEffect(() => {
+    if (!arvrService) return
+    
     // Check AR/VR support
     setArSupported(arvrService.isARSupported())
     setVrSupported(arvrService.isVRSupported())

@@ -1,6 +1,6 @@
-// GraphQL Fragments for reusable query components
+// GraphQL Fragments for reusable query components (Storefront API compatible)
 export const SHOPIFY_FRAGMENTS = {
-  // Product core fields
+  // Product core fields (Storefront API compatible)
   PRODUCT_CORE: `
     fragment ProductCore on Product {
       id
@@ -14,7 +14,6 @@ export const SHOPIFY_FRAGMENTS = {
       updatedAt
       onlineStoreUrl
       availableForSale
-      totalInventory
       seo {
         title
         description
@@ -35,13 +34,6 @@ export const SHOPIFY_FRAGMENTS = {
             height
           }
         }
-        nodes {
-          id
-          url
-          altText
-          width
-          height
-        }
       }
       featuredImage {
         id
@@ -53,7 +45,7 @@ export const SHOPIFY_FRAGMENTS = {
     }
   `,
 
-  // Product variants
+  // Product variants (Storefront API compatible)
   PRODUCT_VARIANTS: `
     fragment ProductVariants on Product {
       variants(first: 100) {
@@ -62,7 +54,6 @@ export const SHOPIFY_FRAGMENTS = {
             id
             title
             availableForSale
-            quantityAvailable
             sku
             weight
             weightUnit
@@ -123,10 +114,10 @@ export const SHOPIFY_FRAGMENTS = {
     }
   `,
 
-  // Collection products
+  // Collection products (Storefront API compatible)
   COLLECTION_PRODUCTS: `
     fragment CollectionProducts on Collection {
-      products(first: 20, sortKey: CREATED_AT, reverse: true) {
+      products(first: 20) {
         edges {
           node {
             id
@@ -163,7 +154,6 @@ export const SHOPIFY_FRAGMENTS = {
                 node {
                   id
                   availableForSale
-                  quantityAvailable
                 }
               }
             }

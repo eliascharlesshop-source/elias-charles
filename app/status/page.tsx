@@ -3,20 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-      {
-        name: 'AR/VR Visualization',
-        status: 'completed',
-        description: 'Immersive 3D visualization of environmental data',
-        link: '/arvr',
-        icon: '🥽'
-      },
-      {
-        name: 'Voice Commands',
-        status: 'completed',
-        description: 'Voice-controlled data collection and queries',
-        link: '/voice',
-        icon: '🎙️'
-      },ureStatus {
+interface FeatureStatus {
   name: string
   status: 'completed' | 'in-progress' | 'planned'
   description: string

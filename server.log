@@ -1,0 +1,3198 @@
+nohup: ignoring input
+
+> elias-charles-store@1.0.0 dev
+> next dev
+
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.3.191:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1538ms
+ ○ Compiling /api/test ...
+ ✓ Compiled /api/test in 3.6s (343 modules)
+ GET /api/test 200 in 3772ms
+ ○ Compiling /api/shopify/products ...
+ ✓ Compiled /api/shopify/products in 670ms (369 modules)
+ShopifyService.getProducts error: Error [ShopifyGraphQLError]: GraphQL Error: Field 'totalCount' doesn't exist on type 'ProductConnection', Fragment ProductVariants was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getProducts (src/lib/graphql/service.ts:45:26)
+    at async ShopifyService.getProducts (lib/shopify-service.ts:48:28)
+    at async GET (app/api/shopify/products/route.ts:16:19)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment ProductCore on Product {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      productType\n' +
+    '      vendor\n' +
+    '      tags\n' +
+    '      createdAt\n' +
+    '      updatedAt\n' +
+    '      onlineStoreUrl\n' +
+    '      availableForSale\n' +
+    '      totalInventory\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment ProductImages on Product {\n' +
+    '      images(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            url\n' +
+    '            altText\n' +
+    '            width\n' +
+    '            height\n' +
+    '          }\n' +
+    '        }\n' +
+    '        nodes {\n' +
+    '          id\n' +
+    '          url\n' +
+    '          altText\n' +
+    '          width\n' +
+    '          height\n' +
+    '        }\n' +
+    '      }\n' +
+    '      featuredImage {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment ProductVariants on Product {\n' +
+    '      variants(first: 100) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            availableForSale\n' +
+    '            quantityAvailable\n' +
+    '            sku\n' +
+    '            weight\n' +
+    '            weightUnit\n' +
+    '            requiresShipping\n' +
+    '            taxable\n' +
+    '            barcode\n' +
+    '            price {\n' +
+    '              amount\n' +
+    '              currencyCode\n' +
+    '            }\n' +
+    '            compareAtPrice {\n' +
+    '              amount\n' +
+    '              currencyCode\n' +
+    '            }\n' +
+    '            selectedOptions {\n' +
+    '              name\n' +
+    '              value\n' +
+    '            }\n' +
+    '            image {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            product {\n' +
+    '              id\n' +
+    '              handle\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '      }\n' +
+    '      options {\n' +
+    '        id\n' +
+    '        name\n' +
+    '        values\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getProducts(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $query: String\n' +
+    '      $sortKey: ProductSortKeys = CREATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...ProductCore\n' +
+    '            ...ProductImages\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 10) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                  quantityAvailable\n' +
+    '                  price {\n' +
+    '                    amount\n' +
+    '                    currencyCode\n' +
+    '                  }\n' +
+    '                  compareAtPrice {\n' +
+    '                    amount\n' +
+    '                    currencyCode\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '        totalCount\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+Shopify products API error: Error [ShopifyGraphQLError]: GraphQL Error: Field 'totalCount' doesn't exist on type 'ProductConnection', Fragment ProductVariants was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getProducts (src/lib/graphql/service.ts:45:26)
+    at async ShopifyService.getProducts (lib/shopify-service.ts:48:28)
+    at async GET (app/api/shopify/products/route.ts:16:19)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment ProductCore on Product {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      productType\n' +
+    '      vendor\n' +
+    '      tags\n' +
+    '      createdAt\n' +
+    '      updatedAt\n' +
+    '      onlineStoreUrl\n' +
+    '      availableForSale\n' +
+    '      totalInventory\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment ProductImages on Product {\n' +
+    '      images(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            url\n' +
+    '            altText\n' +
+    '            width\n' +
+    '            height\n' +
+    '          }\n' +
+    '        }\n' +
+    '        nodes {\n' +
+    '          id\n' +
+    '          url\n' +
+    '          altText\n' +
+    '          width\n' +
+    '          height\n' +
+    '        }\n' +
+    '      }\n' +
+    '      featuredImage {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment ProductVariants on Product {\n' +
+    '      variants(first: 100) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            availableForSale\n' +
+    '            quantityAvailable\n' +
+    '            sku\n' +
+    '            weight\n' +
+    '            weightUnit\n' +
+    '            requiresShipping\n' +
+    '            taxable\n' +
+    '            barcode\n' +
+    '            price {\n' +
+    '              amount\n' +
+    '              currencyCode\n' +
+    '            }\n' +
+    '            compareAtPrice {\n' +
+    '              amount\n' +
+    '              currencyCode\n' +
+    '            }\n' +
+    '            selectedOptions {\n' +
+    '              name\n' +
+    '              value\n' +
+    '            }\n' +
+    '            image {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            product {\n' +
+    '              id\n' +
+    '              handle\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '      }\n' +
+    '      options {\n' +
+    '        id\n' +
+    '        name\n' +
+    '        values\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getProducts(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $query: String\n' +
+    '      $sortKey: ProductSortKeys = CREATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      products(first: $first, after: $after, query: $query, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...ProductCore\n' +
+    '            ...ProductImages\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 10) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                  quantityAvailable\n' +
+    '                  price {\n' +
+    '                    amount\n' +
+    '                    currencyCode\n' +
+    '                  }\n' +
+    '                  compareAtPrice {\n' +
+    '                    amount\n' +
+    '                    currencyCode\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '        totalCount\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+ GET /api/shopify/products?limit=1 500 in 4265ms
+ ✓ Compiled in 171ms (93 modules)
+ ✓ Compiled in 65ms (91 modules)
+ GET /api/shopify/products?limit=1 200 in 372ms
+ ○ Compiling /api/shopify/collections ...
+ ✓ Compiled /api/shopify/collections in 548ms (369 modules)
+ShopifyService.getCollections error: Error [ShopifyGraphQLError]: GraphQL Error: Argument 'sortKey' on Field 'products' has an invalid value (CREATED_AT). Expected type 'ProductCollectionSortKeys'., Field 'productsCount' doesn't exist on type 'Collection', Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20, sortKey: CREATED_AT, reverse: true) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                  quantityAvailable\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            productsCount\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+Shopify collections API error: Error [ShopifyGraphQLError]: GraphQL Error: Argument 'sortKey' on Field 'products' has an invalid value (CREATED_AT). Expected type 'ProductCollectionSortKeys'., Field 'productsCount' doesn't exist on type 'Collection', Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20, sortKey: CREATED_AT, reverse: true) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                  quantityAvailable\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            productsCount\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+ GET /api/shopify/collections?limit=1 500 in 4080ms
+ ✓ Compiled in 182ms (91 modules)
+ShopifyService.getCollections error: Error [ShopifyGraphQLError]: GraphQL Error: Field 'productsCount' doesn't exist on type 'Collection', Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            productsCount\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+Shopify collections API error: Error [ShopifyGraphQLError]: GraphQL Error: Field 'productsCount' doesn't exist on type 'Collection', Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            productsCount\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+ GET /api/shopify/collections?limit=1 500 in 3489ms
+ ✓ Compiled in 190ms (91 modules)
+ ✓ Compiled in 12ms
+ ✓ Compiled /api/shopify/collections in 359ms (91 modules)
+ShopifyService.getCollections error: Error [ShopifyGraphQLError]: GraphQL Error: Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+Shopify collections API error: Error [ShopifyGraphQLError]: GraphQL Error: Fragment CollectionProducts was defined, but not used
+    at ShopifyGraphQLClient.request (src/lib/graphql/client.ts:67:16)
+    at async ShopifyService.getCollections (src/lib/graphql/service.ts:93:26)
+    at async ShopifyService.getCollections (lib/shopify-service.ts:121:26)
+    at async GET (app/api/shopify/collections/route.ts:10:24)
+  65 |
+  66 |         if (result.errors && result.errors.length > 0) {
+> 67 |           throw new ShopifyGraphQLError(result.errors, query, variables);
+     |                ^
+  68 |         }
+  69 |
+  70 |         // Cache successful response {
+  errors: [Array],
+  query: '\n' +
+    '    \n' +
+    '    fragment CollectionCore on Collection {\n' +
+    '      id\n' +
+    '      title\n' +
+    '      description\n' +
+    '      handle\n' +
+    '      updatedAt\n' +
+    '      seo {\n' +
+    '        title\n' +
+    '        description\n' +
+    '      }\n' +
+    '      image {\n' +
+    '        id\n' +
+    '        url\n' +
+    '        altText\n' +
+    '        width\n' +
+    '        height\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    \n' +
+    '    fragment CollectionProducts on Collection {\n' +
+    '      products(first: 20) {\n' +
+    '        edges {\n' +
+    '          node {\n' +
+    '            id\n' +
+    '            title\n' +
+    '            handle\n' +
+    '            availableForSale\n' +
+    '            featuredImage {\n' +
+    '              id\n' +
+    '              url\n' +
+    '              altText\n' +
+    '            }\n' +
+    '            priceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            compareAtPriceRange {\n' +
+    '              minVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '              maxVariantPrice {\n' +
+    '                amount\n' +
+    '                currencyCode\n' +
+    '              }\n' +
+    '            }\n' +
+    '            variants(first: 1) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  availableForSale\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  \n' +
+    '    query getCollections(\n' +
+    '      $first: Int = 20\n' +
+    '      $after: String\n' +
+    '      $sortKey: CollectionSortKeys = UPDATED_AT\n' +
+    '      $reverse: Boolean = true\n' +
+    '    ) {\n' +
+    '      collections(first: $first, after: $after, sortKey: $sortKey, reverse: $reverse) {\n' +
+    '        edges {\n' +
+    '          cursor\n' +
+    '          node {\n' +
+    '            ...CollectionCore\n' +
+    '            products(first: 4) {\n' +
+    '              edges {\n' +
+    '                node {\n' +
+    '                  id\n' +
+    '                  title\n' +
+    '                  handle\n' +
+    '                  featuredImage {\n' +
+    '                    id\n' +
+    '                    url\n' +
+    '                    altText\n' +
+    '                  }\n' +
+    '                  priceRange {\n' +
+    '                    minVariantPrice {\n' +
+    '                      amount\n' +
+    '                      currencyCode\n' +
+    '                    }\n' +
+    '                  }\n' +
+    '                }\n' +
+    '              }\n' +
+    '            }\n' +
+    '          }\n' +
+    '        }\n' +
+    '        pageInfo {\n' +
+    '          hasNextPage\n' +
+    '          hasPreviousPage\n' +
+    '          startCursor\n' +
+    '          endCursor\n' +
+    '        }\n' +
+    '      }\n' +
+    '    }\n' +
+    '  ',
+  variables: [Object]
+}
+ GET /api/shopify/collections?limit=1 500 in 3853ms
+ ✓ Compiled in 71ms (91 modules)
+ GET /api/shopify/collections?limit=1 200 in 238ms
+ ○ Compiling / ...
+ ✓ Compiled / in 12.6s (967 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 13552ms
+ ✓ Compiled in 1070ms (421 modules)
+ ✓ Compiled in 593ms (421 modules)
+ ✓ Compiled in 541ms (421 modules)
+ ✓ Compiled in 494ms (421 modules)
+ ✓ Compiled in 462ms (421 modules)
+ ✓ Compiled in 545ms (421 modules)
+ ✓ Compiled in 400ms (421 modules)
+ ✓ Compiled in 441ms (421 modules)
+ ✓ Compiled in 377ms (421 modules)
+ ○ Compiling /api/cart ...
+ ✓ Compiled /api/cart in 3.2s (949 modules)
+ GET /api/cart?cartId=mdnqap54mz6p9q7na4m 404 in 3423ms
+ ✓ Compiled in 735ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 703ms
+ ✓ Compiled in 371ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 362ms
+ ✓ Compiled in 342ms (421 modules)
+ ✓ Compiled in 376ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 345ms
+ ✓ Compiled in 336ms (421 modules)
+ ✓ Compiled in 304ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 350ms
+ ✓ Compiled in 345ms (421 modules)
+ ✓ Compiled in 357ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 398ms
+ ✓ Compiled in 362ms (421 modules)
+ ✓ Compiled in 370ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 344ms
+ ✓ Compiled in 334ms (421 modules)
+ ✓ Compiled in 455ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 443ms
+ ✓ Compiled in 433ms (421 modules)
+ ✓ Compiled in 373ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 443ms
+ ✓ Compiled in 450ms (421 modules)
+ ✓ Compiled in 361ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 375ms
+ ✓ Compiled in 356ms (421 modules)
+ ✓ Compiled in 373ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 386ms
+ ✓ Compiled in 351ms (421 modules)
+ ✓ Compiled in 336ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 469ms
+ ✓ Compiled in 458ms (421 modules)
+ ✓ Compiled in 344ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 376ms
+ ✓ Compiled in 359ms (421 modules)
+ ✓ Compiled in 532ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 448ms
+ ✓ Compiled in 412ms (421 modules)
+ ✓ Compiled in 406ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 426ms
+ ✓ Compiled in 422ms (421 modules)
+ ✓ Compiled in 416ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 360ms
+ ✓ Compiled in 358ms (421 modules)
+ ✓ Compiled in 345ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 392ms
+ ✓ Compiled in 388ms (421 modules)
+ ✓ Compiled in 382ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 373ms
+ ✓ Compiled in 363ms (421 modules)
+ ✓ Compiled in 409ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 80ms
+ ✓ Compiled in 372ms (421 modules)
+ ✓ Compiled in 574ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 978ms
+ ✓ Compiled in 535ms (421 modules)
+ ✓ Compiled in 379ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 365ms
+ ✓ Compiled in 370ms (421 modules)
+ ✓ Compiled in 410ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 419ms
+ ✓ Compiled in 411ms (421 modules)
+ ✓ Compiled in 381ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 373ms
+ ✓ Compiled in 373ms (421 modules)
+ ✓ Compiled in 302ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 345ms
+ ✓ Compiled in 335ms (421 modules)
+ ✓ Compiled in 365ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 355ms
+ ✓ Compiled in 331ms (421 modules)
+ ✓ Compiled in 371ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 375ms
+ ✓ Compiled in 381ms (421 modules)
+ ✓ Compiled in 510ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 343ms
+ ✓ Compiled in 335ms (421 modules)
+ ✓ Compiled in 329ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 333ms
+ ✓ Compiled in 349ms (421 modules)
+ ✓ Compiled in 430ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 391ms
+ ✓ Compiled in 367ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 93ms
+ ✓ Compiled in 411ms (421 modules)
+ ✓ Compiled in 312ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 325ms
+ ✓ Compiled in 322ms (421 modules)
+ ✓ Compiled in 329ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 433ms
+ ✓ Compiled in 402ms (421 modules)
+ ✓ Compiled in 334ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 346ms
+ ✓ Compiled in 341ms (421 modules)
+ ✓ Compiled in 357ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 466ms
+ ✓ Compiled in 414ms (421 modules)
+ ✓ Compiled in 337ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 383ms
+ ✓ Compiled in 355ms (421 modules)
+ ✓ Compiled in 318ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 424ms
+ ✓ Compiled in 417ms (421 modules)
+ ✓ Compiled in 331ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 346ms
+ ✓ Compiled in 345ms (421 modules)
+ ✓ Compiled in 438ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 417ms
+ ✓ Compiled in 413ms (421 modules)
+ ✓ Compiled in 556ms (421 modules)
+ ✓ Compiled in 364ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 820ms
+ ✓ Compiled in 363ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 414ms
+ ✓ Compiled in 425ms (421 modules)
+ ✓ Compiled in 640ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 381ms
+ ✓ Compiled in 358ms (421 modules)
+ ✓ Compiled in 336ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 454ms
+ ✓ Compiled in 420ms (421 modules)
+ ✓ Compiled in 356ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 330ms
+ ✓ Compiled in 321ms (421 modules)
+ ✓ Compiled in 321ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 456ms
+ ✓ Compiled in 439ms (421 modules)
+ ✓ Compiled in 369ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 481ms
+ ✓ Compiled in 429ms (421 modules)
+ ✓ Compiled in 364ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 339ms
+ ✓ Compiled in 329ms (421 modules)
+ ✓ Compiled in 382ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 458ms
+ ✓ Compiled in 404ms (421 modules)
+ ✓ Compiled in 439ms (421 modules)
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 399ms
+ ✓ Compiled in 389ms (421 modules)
+ ✓ Compiled in 1593ms (939 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823207371 200 in 1312ms
+ ○ Compiling /collections ...
+ ✓ Compiled /collections in 1434ms (948 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 2865ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 3.1s (952 modules)
+ GET /images/palm-trees-street-2.jpeg 404 in 2672ms
+ GET /images/palm-trees-street-1.jpeg 404 in 2677ms
+ GET /placeholder.svg?height=600&width=800 404 in 2862ms
+ GET /images/palm-trees-sky.jpeg 404 in 2867ms
+ GET /api/cart?cartId=mdnqap54mz6p9q7na4m 404 in 533ms
+ ✓ Compiled in 1157ms (427 modules)
+ ✓ Compiled in 419ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 467ms
+ ✓ Compiled in 468ms (427 modules)
+ ✓ Compiled in 521ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 386ms
+ ✓ Compiled in 375ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 354ms
+ ✓ Compiled in 350ms (427 modules)
+ ✓ Compiled in 348ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 367ms
+ ✓ Compiled in 337ms (427 modules)
+ ✓ Compiled in 464ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 400ms
+ ✓ Compiled in 397ms (427 modules)
+ ✓ Compiled in 326ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 389ms
+ ✓ Compiled in 392ms (427 modules)
+ ✓ Compiled in 328ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 379ms
+ ✓ Compiled in 365ms (427 modules)
+ ✓ Compiled in 322ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 382ms
+ ✓ Compiled in 376ms (427 modules)
+ ✓ Compiled in 356ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 706ms
+ ✓ Compiled in 730ms (427 modules)
+ ✓ Compiled in 457ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 446ms
+ ✓ Compiled in 413ms (427 modules)
+ ✓ Compiled in 356ms (427 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 492ms
+ ✓ Compiled in 449ms (427 modules)
+ ✓ Compiled in 288ms (427 modules)
+ ⨯ SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>) {
+  page: '/collections'
+}
+ ✓ Compiled in 369ms (427 modules)
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 3.3s (1281 modules)
+ ✓ Compiled in 327ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 500 in 4776ms
+ ✓ Compiled in 570ms (669 modules)
+ ✓ Compiled in 467ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 461ms
+ ✓ Compiled in 765ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 755ms
+ ✓ Compiled in 561ms (669 modules)
+ ✓ Compiled in 324ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 363ms
+ ✓ Compiled in 396ms (669 modules)
+ ✓ Compiled in 369ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 114ms
+ ✓ Compiled in 383ms (669 modules)
+ ✓ Compiled in 900ms (669 modules)
+ ✓ Compiled in 556ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 1226ms
+ ✓ Compiled in 423ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 374ms
+ ✓ Compiled in 348ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 379ms
+ ✓ Compiled in 360ms (669 modules)
+ ✓ Compiled in 349ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 419ms
+ ✓ Compiled in 396ms (669 modules)
+ ✓ Compiled in 411ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 363ms
+ ✓ Compiled in 350ms (669 modules)
+ ✓ Compiled in 344ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 373ms
+ ✓ Compiled in 361ms (669 modules)
+ ✓ Compiled in 333ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 371ms
+ ✓ Compiled in 369ms (669 modules)
+ ✓ Compiled in 470ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 550ms
+ ✓ Compiled in 540ms (669 modules)
+ ✓ Compiled in 318ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 321ms
+ ✓ Compiled in 350ms (669 modules)
+ ✓ Compiled in 340ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 501ms
+ ✓ Compiled in 496ms (669 modules)
+ ✓ Compiled in 386ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 418ms
+ ✓ Compiled in 421ms (669 modules)
+ ✓ Compiled in 335ms (669 modules)
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 385ms
+ ✓ Compiled in 379ms (669 modules)
+ ✓ Compiled in 532ms (669 modules)
+ GET / 200 in 280ms
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 775ms
+ ○ Compiling /api/test ...
+ ✓ Compiled /api/test in 2.3s (1283 modules)
+ GET /api/test 200 in 1598ms
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 1926ms
+ ○ Compiling /api/shopify/products ...
+ ✓ Compiled /api/shopify/products in 2.5s (1293 modules)
+ GET /api/shopify/products?limit=1 200 in 2831ms
+ GET /collections?id=c8b67fcf-e239-4691-96b5-a486a882f891&vscodeBrowserReqId=1753823265833 200 in 2321ms
+ ✓ Compiled in 512ms (669 modules)
+ ○ Compiling /api/shopify/collections ...
+ ✓ Compiled /api/shopify/collections in 1155ms (1295 modules)
+ GET /api/shopify/collections?limit=1 200 in 1689ms
+ ✓ Compiled in 566ms (669 modules)
+ GET / 200 in 226ms
+ ✓ Compiled in 631ms (669 modules)
+ GET /collections 200 in 486ms
+ ○ Compiling /products/[id] ...
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ProductPage component mounted, handle: test_ec params: { id: 'test_ec' }
+ GET /products/test_ec 200 in 3675ms
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+ ⚠ ./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+
+./app/products/[id]/page.tsx
+Attempted import error: 'shopifyService' is not exported from '@/lib/shopify-service' (imported as 'shopifyService').
+
+Import trace for requested module:
+./app/products/[id]/page.tsx
+[?25h

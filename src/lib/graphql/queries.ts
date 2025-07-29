@@ -12,11 +12,10 @@ export const SHOPIFY_QUERIES = {
     }
   `,
 
-  // Get all products with pagination and filtering
+  // Get all products with pagination and filtering (Storefront API compatible)
   GET_PRODUCTS: `
     ${SHOPIFY_FRAGMENTS.PRODUCT_CORE}
     ${SHOPIFY_FRAGMENTS.PRODUCT_IMAGES}
-    ${SHOPIFY_FRAGMENTS.PRODUCT_VARIANTS}
     query getProducts(
       $first: Int = 20
       $after: String
@@ -55,7 +54,6 @@ export const SHOPIFY_QUERIES = {
                 node {
                   id
                   availableForSale
-                  quantityAvailable
                   price {
                     amount
                     currencyCode
@@ -75,7 +73,6 @@ export const SHOPIFY_QUERIES = {
           startCursor
           endCursor
         }
-        totalCount
       }
     }
   `,
@@ -186,10 +183,9 @@ export const SHOPIFY_QUERIES = {
     }
   `,
 
-  // Get all collections
+  // Get all collections (Storefront API compatible)
   GET_COLLECTIONS: `
     ${SHOPIFY_FRAGMENTS.COLLECTION_CORE}
-    ${SHOPIFY_FRAGMENTS.COLLECTION_PRODUCTS}
     query getCollections(
       $first: Int = 20
       $after: String
@@ -201,7 +197,6 @@ export const SHOPIFY_QUERIES = {
           cursor
           node {
             ...CollectionCore
-            productsCount
             products(first: 4) {
               edges {
                 node {

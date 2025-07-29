@@ -98,7 +98,6 @@ export function Header({ shop }) {
       { name: "CATALOG", href: "/catalog" },
       { name: "DATA SHARING", href: "/data-sharing" },
       { name: "STATUS", href: "/status" },
-      { name: "ADMIN", href: "/admin" },
       { name: "SALE", href: "/collections/sale" },
       { name: "AR/VR", href: "/arvr" },
       { name: "VOICE", href: "/voice" },
