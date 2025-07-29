@@ -109,7 +109,7 @@ export default function SaleCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/images/palm-trees-sky.jpeg" alt="Sale Collection" className="h-full w-full object-cover" />
+            <img src="/products/diverse-beach-fashion.png" alt="Sale Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
           <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">

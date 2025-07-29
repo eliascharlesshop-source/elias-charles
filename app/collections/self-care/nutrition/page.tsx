@@ -90,7 +90,7 @@ export default function NutritionCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/images/ocean-wave-1.jpeg" alt="Nutrition Collection" className="h-full w-full object-cover" />
+            <img src="/products/straw-beach-hat.png" alt="Nutrition Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
           </div>
           <div className="relative px-4 sm:px-6 py-24 sm:py-32 lg:px-8 lg:py-48">

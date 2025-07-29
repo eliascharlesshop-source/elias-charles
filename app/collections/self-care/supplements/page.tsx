@@ -91,7 +91,7 @@ export default function SupplementsCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/images/ocean-wave-2.jpeg" alt="Supplements Collection" className="h-full w-full object-cover" />
+            <img src="/products/mountain-product-text.png" alt="Supplements Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
           </div>
           <div className="relative px-4 sm:px-6 py-24 sm:py-32 lg:px-8 lg:py-48">

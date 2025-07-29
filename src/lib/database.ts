@@ -204,7 +204,7 @@ export async function initializeDatabase() {
         editorial: {
           title: 'The Art of Simplicity',
           content: 'In a world of excess, there\'s beauty in simplicity. Our Classic Surf T-Shirt represents a return to the essentials – quality materials, thoughtful design, and timeless style.',
-          image: '/images/palm-trees-sky.jpeg'
+          image: '/products/beach-product.png'
         },
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()

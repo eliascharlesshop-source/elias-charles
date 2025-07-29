@@ -106,7 +106,7 @@ export default function CollectionsPage() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/images/palm-trees-sky.jpeg" alt="Collections" className="h-full w-full object-cover" />
+            <img src="/products/beach-product.png" alt="Collections" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
           <div className="relative px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
@@ -265,7 +265,7 @@ export default function CollectionsPage() {
                   {
                     name: "Men",
                     href: "/collections/men",
-                    imageSrc: "/images/palm-trees-street-1.jpeg",
+                    imageSrc: "/products/surfboard-on-beach.png",
                     description: "Curated styles for the modern man",
                   },
                   {
@@ -277,7 +277,7 @@ export default function CollectionsPage() {
                   {
                     name: "Sale",
                     href: "/collections/sale",
-                    imageSrc: "/images/palm-trees-sky.jpeg",
+                    imageSrc: "/products/sustainable-fashion-collage.png",
                     description: "Limited time offers on premium items",
                   },
                 ].map((category, index) => (
