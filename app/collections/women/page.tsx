@@ -9,55 +9,55 @@ export default function WomensCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+    // Placeholder products data with real product images
   const mockProducts = [
     {
       id: 1,
       title: "Women's Classic Surf T-Shirt",
       price: "$45",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/linen-dress-beach.png",
     },
     {
       id: 2,
       title: "Women's Relaxed Fit Hoodie",
       price: "$85",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
     {
       id: 3,
       title: "Women's Board Shorts",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/fashion-workshop.png",
     },
     {
       id: 4,
       title: "Women's Casual Pants",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/linen-dress-beach.png",
     },
     {
       id: 5,
       title: "Women's Beanie",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
     {
       id: 6,
       title: "Women's Sunglasses",
       price: "$120",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/fashion-workshop.png",
     },
     {
       id: 7,
-      title: "Women's Surf Watch",
-      price: "$150",
-      image: "/placeholder.svg?height=400&width=300",
+      title: "Women's Cotton Cap",
+      price: "$35",
+      image: "/products/linen-dress-beach.png",
     },
     {
       id: 8,
       title: "Women's Leather Bracelet",
       price: "$35",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
   ]
 
@@ -251,9 +251,9 @@ export default function WomensCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

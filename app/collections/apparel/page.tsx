@@ -9,55 +9,55 @@ export default function ApparelCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+  // Placeholder products data with consistent real product images
   const mockProducts = [
     {
       id: 1,
       title: "Classic T-Shirt",
       price: "$45",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 2,
       title: "Relaxed Fit Hoodie",
       price: "$85",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
     {
       id: 3,
       title: "Board Shorts",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-urban-style.png",
     },
     {
       id: 4,
       title: "Casual Pants",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/linen-dress-beach.png",
     },
     {
       id: 5,
       title: "Beanie",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
     {
       id: 6,
       title: "Sunglasses",
       price: "$120",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/fashion-workshop.png",
     },
     {
       id: 7,
       title: "Cotton Cap",
       price: "$35",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 8,
       title: "Leather Bracelet",
       price: "$35",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/diverse-beach-fashion.png",
     },
   ]
 
@@ -277,9 +277,9 @@ export default function ApparelCollection() {
                 <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
                   {mockProducts.map((product, index) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                         />

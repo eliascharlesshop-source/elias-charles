@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { ProductTitle, ProductPrice } from "./typography"
 import { ProductTag } from "./product-tag"
 
 interface ProductCardProps {
@@ -21,9 +20,9 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="beach-card group relative">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100 rounded-sm">
+      <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-sm">
         <img
-          src={product.imageSrc || "/placeholder.svg"}
+          src={product.imageSrc || "/icons/placeholder.svg"}
           alt={product.imageAlt}
           className="h-full w-full object-cover object-center group-hover:opacity-75 transition-all duration-300"
         />
@@ -41,14 +40,14 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="mt-4 flex justify-between">
         <div className="max-w-[70%]">
-          <ProductTitle>
+          <h3 className="text-sm font-medium text-gray-900">
             <Link href={product.href} className="hover:text-beach-darker transition-colors duration-300">
               <span className="absolute inset-0" />
               {product.name}
             </Link>
-          </ProductTitle>
+          </h3>
         </div>
-        <ProductPrice className="ml-2 text-beach-darker font-medium">{product.price}</ProductPrice>
+        <p className="ml-2 text-beach-darker font-medium text-sm">{product.price}</p>
       </div>
     </div>
   )

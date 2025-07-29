@@ -22,16 +22,16 @@ export function MagazineProductCard({
   tagline,
 }: ProductCardProps) {
   const aspectClasses = {
-    square: "aspect-h-1 aspect-w-1",
-    portrait: "aspect-h-4 aspect-w-3",
-    landscape: "aspect-h-2 aspect-w-3",
+    square: "aspect-square",
+    portrait: "aspect-[3/4]",
+    landscape: "aspect-[4/3]",
   }
 
   return (
     <div className={`group relative ${featured ? "col-span-2 row-span-2" : ""}`}>
       <div className={`${aspectClasses[aspectRatio]} w-full overflow-hidden rounded-sm bg-gray-100`}>
         <img
-          src={image || "/placeholder.svg"}
+          src={image || "/icons/placeholder.svg"}
           alt={title}
           className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity duration-300"
         />

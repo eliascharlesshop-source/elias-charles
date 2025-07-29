@@ -9,55 +9,55 @@ export default function MensCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
 
-  // Placeholder products data
+    // Placeholder products data with real product images
   const mockProducts = [
     {
       id: 1,
       title: "Men's Classic Surf T-Shirt",
       price: "$45",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 2,
       title: "Men's Relaxed Fit Hoodie",
       price: "$85",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
     {
       id: 3,
       title: "Men's Board Shorts",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-urban-style.png",
     },
     {
       id: 4,
       title: "Men's Casual Pants",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 5,
       title: "Men's Beanie",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
     {
       id: 6,
       title: "Men's Sunglasses",
       price: "$120",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-urban-style.png",
     },
     {
       id: 7,
-      title: "Men's Surf Watch",
-      price: "$150",
-      image: "/placeholder.svg?height=400&width=300",
+      title: "Men's Cotton Cap",
+      price: "$35",
+      image: "/products/men-casual-hoodie.png",
     },
     {
       id: 8,
       title: "Men's Leather Bracelet",
       price: "$35",
-      image: "/placeholder.svg?height=400&width=300",
+      image: "/products/men-surf-style.png",
     },
   ]
 
@@ -248,9 +248,9 @@ export default function MensCollection() {
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                   {mockProducts.map((product) => (
                     <div key={product.id} className="group relative">
-                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                      <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
                         <img
-                          src={product.image || "/placeholder.svg"}
+                          src={product.image || "/icons/placeholder.svg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

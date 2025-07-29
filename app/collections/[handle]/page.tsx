@@ -100,7 +100,7 @@ export default function CollectionPage() {
       id: 1,
       title: "Classic Surf T-Shirt",
       price: "$45",
-      image: "/placeholder.svg?height=600&width=400",
+      image: "/products/men-casual-hoodie.png",
       aspectRatio: "portrait",
       featured: true,
       tagline: "Essential for every beach day",
@@ -109,7 +109,7 @@ export default function CollectionPage() {
       id: 2,
       title: "Relaxed Fit Hoodie",
       price: "$85",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "/products/men-surf-style.png",
       aspectRatio: "square",
       tagline: "Comfort meets style",
     },
@@ -117,7 +117,7 @@ export default function CollectionPage() {
       id: 3,
       title: "Board Shorts",
       price: "$65",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/products/men-urban-style.png",
       aspectRatio: "landscape",
       tagline: "Perfect for waves or wandering",
     },
@@ -125,14 +125,14 @@ export default function CollectionPage() {
       id: 4,
       title: "Surf Wax",
       price: "$12",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "/products/linen-dress-beach.png",
       aspectRatio: "square",
     },
     {
       id: 5,
       title: "Skate Deck",
       price: "$120",
-      image: "/placeholder.svg?height=600&width=400",
+      image: "/products/longboard.png",
       aspectRatio: "portrait",
       featured: true,
       tagline: "Handcrafted for the streets",
@@ -141,7 +141,7 @@ export default function CollectionPage() {
       id: 6,
       title: "Casual Pants",
       price: "$95",
-      image: "/placeholder.svg?height=400&width=600",
+      image: "/products/diverse-beach-fashion.png",
       aspectRatio: "landscape",
       tagline: "Everyday essential",
     },
@@ -149,14 +149,14 @@ export default function CollectionPage() {
       id: 7,
       title: "Surf Leash",
       price: "$35",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "/products/fashion-workshop.png",
       aspectRatio: "square",
     },
     {
       id: 8,
       title: "Beanie",
       price: "$28",
-      image: "/placeholder.svg?height=400&width=400",
+      image: "/products/cruiser-skateboard.png",
       aspectRatio: "square",
       tagline: "For cool coastal evenings",
     },
@@ -417,9 +417,9 @@ export default function CollectionPage() {
                   <div className="grid grid-cols-1 gap-y-8 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
                     {mockProducts.map((product) => (
                       <div key={product.id} className="group relative">
-                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-gray-100">
+                        <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
                           <img
-                            src={product.image || "/placeholder.svg"}
+                            src={product.image || "/icons/placeholder.svg"}
                             alt={product.title}
                             className="h-full w-full object-cover object-center group-hover:opacity-75"
                           />
