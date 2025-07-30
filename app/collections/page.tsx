@@ -3,6 +3,7 @@
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
 import { useState, useEffect } from "react"
+import { ShopifyCollectionService, ShopifyDataTransformer } from "@/lib/shopify-services"
 
 interface Collection {
   id: string
@@ -126,16 +127,32 @@ export default function CollectionsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch collections and featured products using fallback approach
+  // Fetch collections and featured products using Shopify first, then fallback
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true)
         setError(null)
 
-        // Try to fetch collections with fallback
-        const collectionsData = await fetchCollectionsFallback()
-        setCollections(collectionsData)
+        // First, try to fetch from Shopify
+        try {
+          const shopifyCollections = await ShopifyCollectionService.getAllCollections(20)
+          const transformedCollections = shopifyCollections.map(collection => 
+            ShopifyDataTransformer.collectionToAppFormat(collection)
+          )
+          
+          if (transformedCollections.length > 0) {
+            setCollections(transformedCollections)
+            console.log('✅ Loaded collections from Shopify:', transformedCollections.length)
+          } else {
+            throw new Error('No collections found in Shopify')
+          }
+        } catch (shopifyError) {
+          console.warn('Shopify collections failed, trying fallback:', shopifyError)
+          // Try to fetch collections with fallback API
+          const collectionsData = await fetchCollectionsFallback()
+          setCollections(collectionsData)
+        }
 
         // Try to fetch featured products with fallback
         const featured = await fetchFeaturedProductsFallback()

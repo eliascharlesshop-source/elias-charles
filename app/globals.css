@@ -39,6 +39,14 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Custom theme variables - Light Mode (Tan theme) */
+    --theme-background: #fdf4ec;
+    --theme-surface: #ffffff;
+    --theme-text-primary: #4a4e52;
+    --theme-text-secondary: #6b7280;
+    --theme-text-on-image: #ffffff;
+    --theme-accent: #7ba3c9;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -73,6 +81,14 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* Custom theme variables - Dark Mode (Slate theme) */
+    --theme-background: #1e293b;
+    --theme-surface: #334155;
+    --theme-text-primary: #e2e8f0;
+    --theme-text-secondary: #cbd5e1;
+    --theme-text-on-image: #ffffff;
+    --theme-accent: #64748b;
   }
 }
 
@@ -148,7 +164,7 @@
     -webkit-line-clamp: 3;
   }
 
-  /* Steel grey gradient text */
+  /* Steel grey gradient text - responsive to dark mode */
   .steel-gradient {
     background: linear-gradient(135deg, #71767b 0%, #414549 100%);
     -webkit-background-clip: text;
@@ -156,9 +172,53 @@
     color: transparent;
     display: inline-block;
   }
+  
+  .dark .steel-gradient {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 
-  /* Steel grey solid text */
+  /* Steel grey solid text - responsive to dark mode */
   .steel-text {
-    color: #4a4e52;
+    color: var(--theme-text-primary);
+  }
+  
+  /* Text on images - always white for contrast */
+  .text-on-image {
+    color: var(--theme-text-on-image);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Theme backgrounds */
+  .bg-theme {
+    background-color: var(--theme-background);
+  }
+  
+  .bg-theme-surface {
+    background-color: var(--theme-surface);
+  }
+  
+  /* Theme-specific cream color (tan in light, slate in dark) */
+  .bg-cream {
+    background-color: #fdf4ec;
+  }
+  
+  .dark .bg-cream {
+    background-color: #334155;
+  }
+  
+  /* Beach accent colors - responsive */
+  .text-beach-darker {
+    color: var(--theme-accent);
+  }
+  
+  .border-beach-darker {
+    border-color: var(--theme-accent);
+  }
+  
+  .bg-beach-darker {
+    background-color: var(--theme-accent);
   }
 }

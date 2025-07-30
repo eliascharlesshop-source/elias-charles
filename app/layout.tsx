@@ -6,6 +6,7 @@ import { Header } from "@/src/components/layout/header"
 import { Footer } from "@/src/components/layout/footer"
 import { CartProvider } from "@/src/components/commerce/cart-provider"
 import { AuthProvider } from "@/src/components/layout/auth-provider"
+import { DarkModeToggle } from "@/src/components/ui/dark-mode-toggle"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,6 +32,7 @@ export default function RootLayout({
             <Header shop={{ name: "EC" }} />
             <main className="flex-grow" style={{ backgroundColor: "#fdf4ec" }}>
               {children}
+              <DarkModeToggle />
             </main>
             <Footer />
           </CartProvider>

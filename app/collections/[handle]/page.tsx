@@ -2,9 +2,31 @@
 
 import { useParams } from "next/navigation"
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronDown, Filter, X } from "lucide-react"
 import MagazineProductCard from "@/components/commerce/magazine-product-card"
+import { ShopifyCollectionService, ShopifyProductService, ShopifyDataTransformer } from "@/lib/shopify-services"
+
+interface Product {
+  id: string
+  title: string
+  handle: string
+  price: number
+  images: string[]
+  description: string
+  vendor: string
+  featured?: boolean
+  tagline?: string
+}
+
+interface CollectionData {
+  id: string
+  title: string
+  description: string
+  handle: string
+  image?: string
+  products: Product[]
+}
 
 export default function CollectionPage() {
   const params = useParams()
@@ -12,6 +34,72 @@ export default function CollectionPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
   const [viewMode, setViewMode] = useState("grid") // grid or magazine
+  const [shopifyCollection, setShopifyCollection] = useState<CollectionData | null>(null)
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch collection and products data from Shopify
+  useEffect(() => {
+    async function fetchCollectionData() {
+      try {
+        setLoading(true)
+        setError(null)
+
+        // Try to fetch the specific collection by handle
+        const collection = await ShopifyCollectionService.getCollectionByHandle(handle)
+        
+        if (collection) {
+          const transformedCollection = {
+            ...ShopifyDataTransformer.collectionToAppFormat(collection),
+            products: [] // We'll populate this separately
+          }
+          setShopifyCollection(transformedCollection)
+          
+          // Fetch products for this collection
+          // Since we don't have collection-specific products endpoint yet,
+          // we'll fetch all products and filter by collection handle or type
+          const allProducts = await ShopifyProductService.getAllProducts(50)
+          const transformedProducts = allProducts
+            .map(product => ShopifyDataTransformer.productToAppFormat(product))
+            .filter(product => {
+              // Filter products that might belong to this collection
+              // This is a basic implementation - in reality you'd want collection-specific API calls
+              const categoryMatch = product.category?.toLowerCase().includes(handle.toLowerCase())
+              const typeMatch = product.productType?.toLowerCase().includes(handle.toLowerCase())
+              const handleMatch = handle === 'featured' ? product.featured : false
+              
+              return categoryMatch || typeMatch || handleMatch
+            })
+            .slice(0, 12) // Limit to 12 products for performance
+          
+          setProducts(transformedProducts)
+        } else {
+          // If no specific collection found, use fallback data and fetch general products
+          setShopifyCollection(null)
+          
+          // Fetch general products that might fit this collection
+          const allProducts = await ShopifyProductService.getAllProducts(20)
+          const transformedProducts = allProducts
+            .map(product => ShopifyDataTransformer.productToAppFormat(product))
+            .slice(0, 8)
+          
+          setProducts(transformedProducts)
+        }
+      } catch (err) {
+        console.error('Error fetching collection data:', err)
+        setError('Failed to load collection data')
+        // Keep the fallback data structure for now
+        setProducts([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    if (handle) {
+      fetchCollectionData()
+    }
+  }, [handle])
 
   // Collection data mapping
   const collectionsData = {
@@ -94,74 +182,6 @@ export default function CollectionPage() {
     subcategories: [],
   }
 
-  // Placeholder products data with magazine-style information
-  const mockProducts = [
-    {
-      id: 1,
-      title: "Classic Surf T-Shirt",
-      price: "$45",
-      image: "/products/men-casual-hoodie.png",
-      aspectRatio: "portrait",
-      featured: true,
-      tagline: "Essential for every beach day",
-    },
-    {
-      id: 2,
-      title: "Relaxed Fit Hoodie",
-      price: "$85",
-      image: "/products/men-surf-style.png",
-      aspectRatio: "square",
-      tagline: "Comfort meets style",
-    },
-    {
-      id: 3,
-      title: "Board Shorts",
-      price: "$65",
-      image: "/products/men-urban-style.png",
-      aspectRatio: "landscape",
-      tagline: "Perfect for waves or wandering",
-    },
-    {
-      id: 4,
-      title: "Surf Wax",
-      price: "$12",
-      image: "/products/linen-dress-beach.png",
-      aspectRatio: "square",
-    },
-    {
-      id: 5,
-      title: "Skate Deck",
-      price: "$120",
-      image: "/products/longboard.png",
-      aspectRatio: "portrait",
-      featured: true,
-      tagline: "Handcrafted for the streets",
-    },
-    {
-      id: 6,
-      title: "Casual Pants",
-      price: "$95",
-      image: "/products/diverse-beach-fashion.png",
-      aspectRatio: "landscape",
-      tagline: "Everyday essential",
-    },
-    {
-      id: 7,
-      title: "Surf Leash",
-      price: "$35",
-      image: "/products/fashion-workshop.png",
-      aspectRatio: "square",
-    },
-    {
-      id: 8,
-      title: "Beanie",
-      price: "$28",
-      image: "/products/cruiser-skateboard.png",
-      aspectRatio: "square",
-      tagline: "For cool coastal evenings",
-    },
-  ]
-
   // Filter options
   const filters = [
     {
@@ -219,23 +239,32 @@ export default function CollectionPage() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-12 md:p-16">
               <div className="max-w-2xl">
-                <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-white sm:text-5xl">
-                  {currentCollection.title}
+                <h1 className="text-3xl sm:text-4xl font-light tracking-tight text-white md:text-5xl">
+                  {shopifyCollection?.title || currentCollection.title}
                 </h1>
-                {currentCollection.code && (
-                  <p className="mt-1 text-sm sm:text-lg text-white/80">Code: {currentCollection.code}</p>
+                {shopifyCollection?.description && (
+                  <p className="mt-1 text-sm sm:text-lg text-white/80">ID: {shopifyCollection.id}</p>
                 )}
-                <p className="mt-2 sm:mt-4 text-base sm:text-lg text-white">{currentCollection.description}</p>
+                <p className="mt-2 sm:mt-4 text-base sm:text-lg text-white">
+                  {shopifyCollection?.description || currentCollection.description}
+                </p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Editorial section */}
-        {currentCollection.editorial && (
+        {(shopifyCollection?.description || currentCollection.editorial) && (
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
             <div className="max-w-3xl mx-auto text-center">
-              <p className="text-xl italic text-primary">{currentCollection.editorial}</p>
+              <p className="text-xl italic text-primary">
+                {shopifyCollection?.description || currentCollection.editorial}
+              </p>
+              {products.length > 0 && (
+                <p className="mt-4 text-sm text-gray-600">
+                  Showing {products.length} products from Shopify
+                </p>
+              )}
             </div>
           </div>
         )}
@@ -413,101 +442,138 @@ export default function CollectionPage() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                {viewMode === "grid" ? (
-                  <div className="grid grid-cols-1 gap-y-8 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
-                    {mockProducts.map((product) => (
-                      <div key={product.id} className="group relative">
-                        <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
-                          <img
-                            src={product.image || "/icons/placeholder.svg"}
-                            alt={product.title}
-                            className="h-full w-full object-cover object-center group-hover:opacity-75"
-                          />
-                        </div>
-                        <div className="mt-4 flex justify-between">
-                          <div>
-                            <h3 className="text-sm text-primary">
-                              <Link href={`/products/${product.id}`}>
-                                <span aria-hidden="true" className="absolute inset-0" />
-                                {product.title}
-                              </Link>
-                            </h3>
-                          </div>
-                          <p className="text-sm font-medium text-primary">{product.price}</p>
-                        </div>
-                      </div>
-                    ))}
+                {loading ? (
+                  <div className="flex justify-center items-center py-12">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    <span className="ml-3 text-primary">Loading products...</span>
+                  </div>
+                ) : error ? (
+                  <div className="text-center py-12">
+                    <p className="text-red-600 mb-4">{error}</p>
+                    <button 
+                      onClick={() => window.location.reload()} 
+                      className="text-primary hover:underline"
+                    >
+                      Try again
+                    </button>
+                  </div>
+                ) : products.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-primary mb-4">No products found in this collection.</p>
+                    <p className="text-sm text-gray-600">
+                      {shopifyCollection ? 
+                        "This collection is set up but doesn't have products assigned yet." :
+                        "This collection will be available once products are added to your Shopify store."
+                      }
+                    </p>
+                    <Link 
+                      href="/collections" 
+                      className="inline-block mt-4 text-primary hover:underline"
+                    >
+                      ← Browse all collections
+                    </Link>
                   </div>
                 ) : (
-                  // Magazine layout
-                  <div className="grid grid-cols-12 gap-2 sm:gap-4">
-                    {mockProducts.map((product, index) => {
-                      // Create a more dynamic magazine layout
-                      const isLarge = product.featured
-                      const spanClasses = isLarge
-                        ? "col-span-12 sm:col-span-6 md:col-span-8"
-                        : "col-span-12 sm:col-span-6 md:col-span-4"
-
-                      // Alternate layout for visual interest
-                      const isAlternate = index % 3 === 0
-
-                      return (
-                        <div key={product.id} className={spanClasses}>
-                          <MagazineProductCard
-                            id={product.id}
-                            title={product.title}
-                            price={product.price}
-                            image={product.image}
-                            aspectRatio={product.aspectRatio as any}
-                            featured={product.featured}
-                            tagline={product.tagline}
-                          />
-
-                          {/* Add editorial content for featured products */}
-                          {isLarge && (
-                            <div className="mt-4 border-l-4 border-primary pl-4">
-                              <p className="italic text-primary text-sm">
-                                {isAlternate
-                                  ? "Don't react, wait for the pullback. The perfect piece for those who understand timing is everything."
-                                  : "The ego is your tree, trim it, train it, let it be natural sometimes. Wear with intention."}
-                              </p>
+                  <>
+                    {viewMode === "grid" ? (
+                      <div className="grid grid-cols-1 gap-y-8 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
+                        {products.map((product) => (
+                          <div key={product.id} className="group relative">
+                            <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
+                              <img
+                                src={product.images[0] || "/icons/placeholder.svg"}
+                                alt={product.title}
+                                className="h-full w-full object-cover object-center group-hover:opacity-75"
+                              />
                             </div>
-                          )}
-                        </div>
-                      )
-                    })}
-
-                    {/* Editorial block */}
-                    <div className="col-span-12 mt-8 sm:mt-12 border-t border-gray-200 pt-8 sm:pt-12">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
-                        <div>
-                          <h3 className="text-xl sm:text-2xl font-light text-primary">
-                            The Story Behind the Collection
-                          </h3>
-                          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-primary">
-                            Each piece in this collection tells a story of craftsmanship and intention. We believe in
-                            creating products that not only look good but feel good—both on your body and in your
-                            conscience.
-                          </p>
-                          <div className="mt-4 sm:mt-6">
-                            <Link
-                              href="/in-life"
-                              className="text-xs sm:text-sm font-semibold leading-6 text-primary border-b border-primary pb-1 hover:border-gray-500 hover:text-gray-500"
-                            >
-                              Read more in IN LIFE <span aria-hidden="true">→</span>
-                            </Link>
+                            <div className="mt-4 flex justify-between">
+                              <div>
+                                <h3 className="text-sm text-primary">
+                                  <Link href={`/products/${product.handle}`}>
+                                    <span aria-hidden="true" className="absolute inset-0" />
+                                    {product.title}
+                                  </Link>
+                                </h3>
+                                <p className="text-xs text-gray-500 mt-1">{product.vendor}</p>
+                              </div>
+                              <p className="text-sm font-medium text-primary">${product.price.toFixed(2)}</p>
+                            </div>
                           </div>
-                        </div>
-                        <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                          <img
-                            src="/icons/placeholder.svg"
-                            alt="Behind the scenes"
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
+                        ))}
                       </div>
-                    </div>
-                  </div>
+                    ) : (
+                      // Magazine layout
+                      <div className="grid grid-cols-12 gap-2 sm:gap-4">
+                        {products.map((product, index) => {
+                          // Create a more dynamic magazine layout
+                          const isLarge = product.featured || index % 4 === 0
+                          const spanClasses = isLarge
+                            ? "col-span-12 sm:col-span-6 md:col-span-8"
+                            : "col-span-12 sm:col-span-6 md:col-span-4"
+
+                          // Alternate layout for visual interest
+                          const isAlternate = index % 3 === 0
+
+                          return (
+                            <div key={product.id} className={spanClasses}>
+                              <MagazineProductCard
+                                id={product.id}
+                                title={product.title}
+                                price={`$${product.price.toFixed(2)}`}
+                                image={product.images[0] || "/icons/placeholder.svg"}
+                                aspectRatio={isLarge ? "portrait" : "square"}
+                                featured={product.featured}
+                                tagline={product.tagline}
+                              />
+
+                              {/* Add editorial content for featured products */}
+                              {isLarge && (
+                                <div className="mt-4 border-l-4 border-primary pl-4">
+                                  <p className="italic text-primary text-sm">
+                                    {isAlternate
+                                      ? `${product.description?.slice(0, 100)}...` || "Premium quality, designed for those who demand excellence."
+                                      : "Crafted with attention to detail and sustainable practices."}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          )
+                        })}
+
+                        {/* Editorial block - only show if we have products */}
+                        {products.length > 0 && (
+                          <div className="col-span-12 mt-8 sm:mt-12 border-t border-gray-200 pt-8 sm:pt-12">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 items-center">
+                              <div>
+                                <h3 className="text-xl sm:text-2xl font-light text-primary">
+                                  The Story Behind the Collection
+                                </h3>
+                                <p className="mt-3 sm:mt-4 text-sm sm:text-base text-primary">
+                                  {shopifyCollection?.description || currentCollection.editorial || 
+                                   "Each piece in this collection tells a story of craftsmanship and intention. We believe in creating products that not only look good but feel good—both on your body and in your conscience."}
+                                </p>
+                                <div className="mt-4 sm:mt-6">
+                                  <Link
+                                    href="/in-life"
+                                    className="text-xs sm:text-sm font-semibold leading-6 text-primary border-b border-primary pb-1 hover:border-gray-500 hover:text-gray-500"
+                                  >
+                                    Read more in IN LIFE <span aria-hidden="true">→</span>
+                                  </Link>
+                                </div>
+                              </div>
+                              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                                <img
+                                  src={shopifyCollection?.image || "/icons/placeholder.svg"}
+                                  alt="Behind the scenes"
+                                  className="h-full w-full object-cover object-center"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
