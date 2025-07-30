@@ -30,7 +30,7 @@ export default function RootLayout({
         <AuthProvider>
           <CartProvider>
             <Header shop={{ name: "EC" }} />
-            <main className="flex-grow" style={{ backgroundColor: "#fdf4ec" }}>
+            <main className="flex-grow bg-cream">
               {children}
               <DarkModeToggle />
             </main>

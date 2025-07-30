@@ -20,7 +20,7 @@ export default function TestProductPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+      <div className="min-h-screen flex items-center justify-center bg-cream">
         <div className="text-center">
           <p className="text-primary">Test Loading... ID: {id}</p>
         </div>
@@ -29,7 +29,7 @@ export default function TestProductPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+    <div className="min-h-screen flex items-center justify-center bg-cream">
       <div className="text-center">
         <p className="text-primary">Test Loaded! ID: {id}</p>
       </div>

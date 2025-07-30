@@ -131,7 +131,7 @@ export default function ProductPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+      <div className="min-h-screen flex items-center justify-center bg-cream">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-primary">Loading product... Handle: {handle}</p>
@@ -143,7 +143,7 @@ export default function ProductPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#fdf4ec" }}>
+      <div className="min-h-screen flex items-center justify-center bg-cream">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-primary mb-4">Product Not Found</h1>
           <p className="text-gray-600 mb-6">{error || 'The product you are looking for does not exist.'}</p>
@@ -189,7 +189,7 @@ export default function ProductPage() {
   const compareAtPrice = selectedVariant?.compareAtPrice || product.compareAtPrice
 
   return (
-    <div style={{ backgroundColor: "#fdf4ec" }}>
+    <div className="bg-cream">
       {/* Breadcrumb */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 sm:py-6 text-xs">
         <ol className="flex items-center space-x-2">
@@ -343,7 +343,7 @@ export default function ProductPage() {
       </div>
 
       {/* Product Details */}
-      <div style={{ backgroundColor: "#fdf4ec" }} className="py-16 sm:py-24">
+      <div className="bg-cream py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 className="mb-8 text-2xl font-semibold">Details</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

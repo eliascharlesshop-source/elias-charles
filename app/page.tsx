@@ -30,8 +30,15 @@ export default function Home() {
   const [collections, setCollections] = useState<Collection[]>([])
   const [newArrivals, setNewArrivals] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+    
     const fetchHomeData = async () => {
       try {
         setLoading(true)
@@ -59,7 +66,59 @@ export default function Home() {
     }
 
     fetchHomeData()
-  }, [])
+  }, [isMounted])
+
+  // Prevent hydration mismatch by not rendering dynamic content until mounted
+  if (!isMounted) {
+    return (
+      <div className="magazine-layout">
+        {/* Magazine Cover Hero */}
+        <section className="relative h-screen">
+          <div className="absolute inset-0">
+            <img
+              src="/images/ocean-bw-1.jpg"
+              alt="Ocean waves in black and white"
+              className="h-full w-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/30"></div>
+          </div>
+          <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
+            <div className="max-w-md">
+              <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
+                Summer 2023 Issue
+              </span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
+                The Ocean <br /> Edition
+              </h1>
+              <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
+                Exploring the intersection of surf culture, sustainable fashion, and coastal living
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/collections"
+                  className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
+                >
+                  Explore Collections
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        {/* Static content during hydration */}
+        <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-6">
+              <div>
+                <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
+                <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    )
+  }
 
   return (
     <div className="magazine-layout">
@@ -91,7 +150,7 @@ export default function Home() {
               >
                 Explore Collections
               </Link>
-              {!loading && featuredProducts.length > 0 && (
+              {isMounted && !loading && featuredProducts.length > 0 && (
                 <Link
                   href="/products"
                   className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
@@ -100,7 +159,7 @@ export default function Home() {
                 </Link>
               )}
             </div>
-            {loading && (
+            {isMounted && loading && (
               <div className="mt-4 text-xs text-white/80">
                 Loading real products with GraphQL...
               </div>
@@ -110,7 +169,7 @@ export default function Home() {
       </section>
 
       {/* Development Notice for Shopify Configuration */}
-      {process.env.NODE_ENV === 'development' && loading && (
+      {isMounted && process.env.NODE_ENV === 'development' && loading && (
         <DevNotice
           type="info"
           message="Loading Shopify data..."
@@ -118,7 +177,8 @@ export default function Home() {
         />
       )}
       
-      {process.env.NODE_ENV === 'development' && !loading && featuredProducts.length === 0 && collections.length === 0 && (
+      {/* Only show this warning if explicitly needed for debugging */}
+      {isMounted && process.env.NODE_ENV === 'development' && process.env.SHOW_SHOPIFY_DEBUG === 'true' && !loading && featuredProducts.length === 0 && collections.length === 0 && (
         <DevNotice
           type="warning"
           message="Shopify not configured"
@@ -133,7 +193,7 @@ export default function Home() {
             <div>
               <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
               <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
-              {!loading && collections.length > 0 && (
+              {isMounted && !loading && collections.length > 0 && (
                 <p className="text-xs text-gray-500 mt-1">{collections.length} live collections loaded</p>
               )}
             </div>
@@ -184,8 +244,8 @@ export default function Home() {
       />
 
       {/* Featured Products Section - Real Shopify Data */}
-      {featuredProducts.length > 0 && (
-        <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+      {isMounted && featuredProducts.length > 0 && (
+        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-end mb-12">
               <div>
@@ -237,7 +297,7 @@ export default function Home() {
       )}
 
       {/* Editorial Grid - Trending Articles */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-12">Trending Now</h2>
 
@@ -287,8 +347,8 @@ export default function Home() {
       </section>
 
       {/* New Arrivals Section */}
-      {newArrivals.length > 0 && (
-        <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+      {isMounted && newArrivals.length > 0 && (
+        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-end mb-12">
               <div>
@@ -331,7 +391,7 @@ export default function Home() {
       )}
 
       {/* Category Feature */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
             <div className="max-w-xl">
@@ -429,7 +489,7 @@ export default function Home() {
       </section>
 
       {/* Feature Article / Editorial */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
+      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             <div className="lg:col-span-7">
