@@ -262,7 +262,7 @@ export default function InLifePage() {
     {
       title: "Sunset Surf Board",
       price: "$599",
-      image: "/beach-product.png",
+      image: "/products/beach-product.png",
       url: "/products/sunset-surf-board",
       description:
         "Our signature surfboard designed for both beginners and experienced surfers. Features a durable epoxy construction with a versatile shape that performs well in various conditions.",
@@ -271,7 +271,7 @@ export default function InLifePage() {
     {
       title: "Beach Tote Bag",
       price: "$129",
-      image: "/woven-beach-tote.png",
+      image: "/products/woven-beach-tote.png",
       url: "/products/beach-tote",
       description:
         "Handwoven from sustainable materials, our beach tote is spacious enough for all your essentials while remaining lightweight and stylish.",
@@ -436,7 +436,7 @@ export default function InLifePage() {
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
-            <Image src="/images/ocean-wave-1.jpeg" alt="Beach lifestyle" fill className="object-cover" />
+            <Image src="/lifestyle/images/ocean-wave-1.jpeg" alt="Beach lifestyle" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 md:p-12 text-white max-w-3xl">
                 <p className="text-sm uppercase tracking-wider mb-4">Featured Story</p>
@@ -455,7 +455,7 @@ export default function InLifePage() {
           <MagazineArticle
             title="Morning Rituals: Sunrise Surf Sessions"
             excerpt="The early morning hours offer the most pristine surf conditions, with offshore winds creating glassy waves perfect for long rides. We explore the ritual of dawn patrol and how it sets the tone for a day lived in harmony with the ocean."
-            image="/images/ocean-wave-2.jpeg"
+            image="/lifestyle/images/ocean-wave-2.jpeg"
           >
             <Link
               href="/collections/boards/surf"
@@ -554,7 +554,7 @@ export default function InLifePage() {
                 <div key={item} className="group">
                   <div className="relative aspect-square mb-3 overflow-hidden">
                     <Image
-                      src={`/beach-product.png?text=Editor's+Pick+${item}`}
+                      src={`/products/beach-product.png`}
                       alt={`Editor's pick ${item}`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -574,7 +574,7 @@ export default function InLifePage() {
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
-            <Image src="/images/night-highway-1.jpeg" alt="City lifestyle" fill className="object-cover" />
+            <Image src="/lifestyle/images/night-highway-1.jpeg" alt="City lifestyle" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 md:p-12 text-white max-w-3xl">
                 <p className="text-sm uppercase tracking-wider mb-4">Urban Living</p>
@@ -593,7 +593,7 @@ export default function InLifePage() {
           <MagazineArticle
             title="Urban Movement: The Rise of City Skating"
             excerpt="Skateboarding has evolved from counterculture to mainstream urban transportation. We explore how modern city dwellers are embracing skateboards and longboards as sustainable, efficient ways to navigate urban environments while expressing personal style."
-            image="/images/night-highway-2.jpeg"
+            image="/lifestyle/images/night-highway-2.jpeg"
             reverse={true}
           >
             <Link
@@ -670,7 +670,7 @@ export default function InLifePage() {
                 <div key={item} className="group">
                   <div className="relative aspect-square mb-3 overflow-hidden">
                     <Image
-                      src={`/placeholder-ju3jl.png?text=Urban+Pick+${item}`}
+                      src={`/products/placeholder-ju3jl.png`}
                       alt={`Urban pick ${item}`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -789,7 +789,7 @@ export default function InLifePage() {
                 <div key={item} className="group">
                   <div className="relative aspect-square mb-3 overflow-hidden">
                     <Image
-                      src={`/mountain-product-text.png?text=Mountain+Pick+${item}`}
+                      src={`/products/mountain-product-text.png`}
                       alt={`Mountain pick ${item}`}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
