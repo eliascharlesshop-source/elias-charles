@@ -7,9 +7,9 @@ export default function CareersPage() {
       {/* Hero Section */}
       <div className="relative">
         <div className="absolute inset-0">
-          <img
-            src="/placeholder.svg?height=800&width=1600"
-            alt="Team working together"
+                    <img
+            src="/images/hero/streetlights-night-1.jpg"
+            alt="Beach and ocean view"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
@@ -46,10 +46,10 @@ export default function CareersPage() {
                 </p>
               </div>
               <div>
-                <img
-                  src="/placeholder.svg?height=600&width=800"
-                  alt="Team meeting on the beach"
-                  className="w-full object-cover rounded-lg"
+                                <img
+                  src="/images/lifestyle/palm-trees-sky-2.jpg"
+                  alt="Office environment"
+                  className="h-full w-full object-cover"
                 />
               </div>
             </div>

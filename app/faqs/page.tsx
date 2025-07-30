@@ -153,9 +153,9 @@ export default function FAQsPage() {
       {/* Hero Section */}
       <div className="relative">
         <div className="absolute inset-0">
-          <img
-            src="/placeholder.svg?height=800&width=1600"
-            alt="Surfboard on beach"
+                    <img
+            src="/images/lifestyle/palm-trees-sky-3.jpg"
+            alt="Beach and palm trees"
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />

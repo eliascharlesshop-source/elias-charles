@@ -1,15 +1,39 @@
 // Enhanced Shopify service using advanced GraphQL implementation
 import { ShopifyService as AdvancedShopifyService } from '@/src/lib/graphql'
 import { transformShopifyProduct } from '@/src/lib/shopify'
+import { isShopifyEnabled } from './shopify-config'
 
 export class ShopifyService {
-  private advancedService: AdvancedShopifyService
+  private advancedService: AdvancedShopifyService | null = null
+  private isEnabled: boolean
 
   constructor() {
-    this.advancedService = new AdvancedShopifyService(
-      process.env.SHOPIFY_STORE_DOMAIN!,
-      process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN!
-    )
+    this.isEnabled = isShopifyEnabled()
+    
+    if (this.isEnabled) {
+      try {
+        const domain = process.env.SHOPIFY_STORE_DOMAIN
+        const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+        
+        if (!domain || !token) {
+          console.warn('Shopify environment variables not properly configured')
+          this.isEnabled = false
+          return
+        }
+        
+        this.advancedService = new AdvancedShopifyService(domain, token)
+      } catch (error) {
+        console.warn('Failed to initialize Shopify service:', error)
+        this.isEnabled = false
+      }
+    }
+  }
+
+  // Check if Shopify is available
+  private ensureShopifyEnabled() {
+    if (!this.isEnabled || !this.advancedService) {
+      throw new Error('Shopify is not configured or enabled')
+    }
   }
 
   // Get products with filtering and pagination (enhanced with GraphQL caching)
@@ -22,6 +46,10 @@ export class ShopifyService {
     sort?: 'title' | 'price' | 'createdAt' | 'bestSelling'
     order?: 'asc' | 'desc'
   } = {}) {
+    if (!this.isEnabled || !this.advancedService) {
+      return [] // Return empty array if Shopify not configured
+    }
+
     const {
       limit = 12,
       page = 1,
@@ -117,6 +145,10 @@ export class ShopifyService {
 
   // Get collections (with caching)
   async getCollections(limit = 20) {
+    if (!this.isEnabled || !this.advancedService) {
+      return [] // Return empty array if Shopify not configured
+    }
+
     try {
       const collections = await this.advancedService.getCollections({
         first: limit,
@@ -134,7 +166,7 @@ export class ShopifyService {
       }))
     } catch (error) {
       console.error('ShopifyService.getCollections error:', error)
-      throw error
+      return [] // Return empty array on error
     }
   }
 
@@ -176,6 +208,10 @@ export class ShopifyService {
 
   // Featured products (cached)
   async getFeaturedProducts(limit = 8) {
+    if (!this.isEnabled || !this.advancedService) {
+      return [] // Return empty array if Shopify not configured
+    }
+
     try {
       const products = await this.advancedService.getFeaturedProducts(limit)
       return products.map(transformShopifyProduct)
@@ -187,6 +223,10 @@ export class ShopifyService {
 
   // New arrivals (cached)
   async getNewArrivals(limit = 12) {
+    if (!this.isEnabled || !this.advancedService) {
+      return [] // Return empty array if Shopify not configured
+    }
+
     try {
       const products = await this.advancedService.getNewArrivals(limit)
       return products.map(transformShopifyProduct)
@@ -398,6 +438,16 @@ export class ShopifyService {
   }
 }
 
-// Singleton instance
-export const shopifyService = new ShopifyService()
+// Singleton instance with lazy initialization
+let _shopifyService: ShopifyService | null = null
+
+export function getShopifyService(): ShopifyService {
+  if (!_shopifyService) {
+    _shopifyService = new ShopifyService()
+  }
+  return _shopifyService
+}
+
+// For backwards compatibility
+export const shopifyService = getShopifyService()
 export default shopifyService

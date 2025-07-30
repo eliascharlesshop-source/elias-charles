@@ -1,6 +1,7 @@
 "use client"
 
 import { PullQuote } from "@/src/components/layout/pull-quote"
+import { DevNotice } from "@/src/components/ui/dev-notice"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { shopifyService } from "../lib/shopify-service"
@@ -37,9 +38,9 @@ export default function Home() {
 
         // Fetch featured products, collections, and new arrivals with GraphQL caching
         const [featured, collectionsData, arrivals] = await Promise.all([
-          shopifyService.getFeaturedProducts(6),
-          shopifyService.getCollections(4),
-          shopifyService.getNewArrivals(4)
+          shopifyService.getFeaturedProducts(6).catch(() => []),
+          shopifyService.getCollections(4).catch(() => []),
+          shopifyService.getNewArrivals(4).catch(() => [])
         ])
 
         setFeaturedProducts(featured)
@@ -47,7 +48,11 @@ export default function Home() {
         setNewArrivals(arrivals)
 
       } catch (error) {
-        console.error('Failed to load homepage data:', error)
+        console.warn('Shopify data not available, using fallback content:', error.message)
+        // Set empty arrays as fallback
+        setFeaturedProducts([])
+        setCollections([])
+        setNewArrivals([])
       } finally {
         setLoading(false)
       }
@@ -62,7 +67,7 @@ export default function Home() {
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <img
-            src="/images/ocean-waves-bw.jpeg"
+            src="/images/ocean-bw-1.jpg"
             alt="Ocean waves in black and white"
             className="h-full w-full object-cover"
           />
@@ -103,6 +108,23 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Development Notice for Shopify Configuration */}
+      {process.env.NODE_ENV === 'development' && loading && (
+        <DevNotice
+          type="info"
+          message="Loading Shopify data..."
+          details="The site will show fallback content if Shopify is not configured."
+        />
+      )}
+      
+      {process.env.NODE_ENV === 'development' && !loading && featuredProducts.length === 0 && collections.length === 0 && (
+        <DevNotice
+          type="warning"
+          message="Shopify not configured"
+          details="Add SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN to .env.local to load real products and collections."
+        />
+      )}
 
       {/* Table of Contents / Issue Navigation */}
       <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
@@ -224,17 +246,17 @@ export default function Home() {
               {
                 title: "The Rise of Sustainable Surf Gear",
                 excerpt: "How eco-conscious brands are changing the industry standard.",
-                image: "/images/ocean-wave-1.jpeg",
+                image: "/images/ocean-bw-2.jpg",
               },
               {
                 title: "Summer Essentials",
                 excerpt: "The must-have pieces for your beach days and beyond.",
-                image: "/images/ocean-wave-2.jpeg",
+                image: "/images/ocean-bw-3.jpg",
               },
               {
                 title: "Skate Culture Meets High Fashion",
                 excerpt: "The unexpected influence of skate aesthetics on runway trends.",
-                image: "/images/ocean-wave-3.jpeg",
+                image: "/images/lifestyle/palm-trees-street-1.jpg",
               },
             ].map((article, index) => (
               <div key={index} className="group">
@@ -247,10 +269,10 @@ export default function Home() {
                 </div>
                 <div className="mt-6">
                   <span className="text-xs uppercase tracking-widest text-beach-darker mb-3">Trending</span>
-                  <h3 className="text-lg uppercase tracking-wider steel-gradient mt-2 group-hover:opacity-70 transition-opacity">
+                  <h3 className="text-lg sm:text-xl uppercase tracking-wider steel-gradient mt-2 group-hover:opacity-70 transition-opacity leading-tight">
                     {article.title}
                   </h3>
-                  <p className="steel-text mt-3">{article.excerpt}</p>
+                  <p className="steel-text mt-3 text-sm sm:text-base leading-relaxed">{article.excerpt}</p>
                   <Link
                     href="/in-life"
                     className="inline-block mt-4 text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
@@ -312,24 +334,24 @@ export default function Home() {
       <section className="py-16 px-6 sm:px-12 lg:px-24" style={{ backgroundColor: "#fdf4ec" }}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div>
+            <div className="max-w-xl">
               <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Collection</span>
-              <h2 className="text-2xl sm:text-3xl uppercase tracking-wider steel-gradient mb-6">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl uppercase tracking-wider steel-gradient mb-6 leading-tight">
                 The Skate <br />
                 Collection
               </h2>
-              <p className="steel-text mb-6">
+              <p className="steel-text mb-6 text-sm sm:text-base leading-relaxed">
                 From street to beach, our skate collection combines performance, style, and sustainability. Designed for
                 those who see the world as their playground.
               </p>
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                 <div>
                   <span className="block w-8 h-0.5 bg-beach-darker mb-4"></span>
-                  <p className="text-sm steel-text">Sustainable materials that don't compromise on performance</p>
+                  <p className="text-sm steel-text leading-relaxed">Sustainable materials that don't compromise on performance</p>
                 </div>
                 <div>
                   <span className="block w-8 h-0.5 bg-beach-darker mb-4"></span>
-                  <p className="text-sm steel-text">Designed by skaters for skaters with coastal influences</p>
+                  <p className="text-sm steel-text leading-relaxed">Designed by skaters for skaters with coastal influences</p>
                 </div>
               </div>
               <Link
@@ -341,7 +363,7 @@ export default function Home() {
             </div>
             <div>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src="/images/night-highway-2.jpeg" alt="Skate collection" className="h-full w-full object-cover" />
+                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover" />
               </div>
             </div>
           </div>
@@ -353,17 +375,17 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-2">
           {/* Row 1: Nature Product */}
           <div className="aspect-square">
-            <img src="/images/ocean-wave-1.jpeg" alt="Ocean waves" className="h-full w-full object-cover" />
+            <img src="/images/ocean-bw-4.jpg" alt="Ocean waves" className="h-full w-full object-cover" />
           </div>
-          <div className="aspect-square bg-cream flex items-center justify-center p-8">
-            <div className="text-center">
-              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Summer Essentials</h3>
-              <p className="steel-text mb-6">
+          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+            <div className="text-center max-w-xs lg:max-w-sm">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider steel-gradient mb-3 sm:mb-4 leading-tight">Summer Essentials</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 Discover our curated collection of beach-ready items for the perfect summer.
               </p>
               <Link
                 href="/collections"
-                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
               >
                 Shop Now
               </Link>
@@ -371,33 +393,33 @@ export default function Home() {
           </div>
 
           {/* Row 2: Product Nature */}
-          <div className="aspect-square bg-cream flex items-center justify-center p-8">
-            <div className="text-center">
-              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Surf Collection</h3>
-              <p className="steel-text mb-6">Performance gear designed for those who live for the waves.</p>
+          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+            <div className="text-center max-w-xs lg:max-w-sm">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider steel-gradient mb-3 sm:mb-4 leading-tight">Surf Collection</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Performance gear designed for those who live for the waves.</p>
               <Link
                 href="/collections/boards"
-                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
               >
                 Explore
               </Link>
             </div>
           </div>
           <div className="aspect-square">
-            <img src="/images/ocean-wave-2.jpeg" alt="Ocean landscape" className="h-full w-full object-cover" />
+            <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Ocean landscape" className="h-full w-full object-cover" />
           </div>
 
           {/* Row 3: Nature Product */}
           <div className="aspect-square">
-            <img src="/images/ocean-wave-3.jpeg" alt="Beach sunset" className="h-full w-full object-cover" />
+            <img src="/images/ocean-bw-5.jpg" alt="Beach sunset" className="h-full w-full object-cover" />
           </div>
-          <div className="aspect-square bg-cream flex items-center justify-center p-8">
-            <div className="text-center">
-              <h3 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-4">Coastal Living</h3>
-              <p className="steel-text mb-6">Bring the beach home with our curated home and lifestyle products.</p>
+          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+            <div className="text-center max-w-xs lg:max-w-sm">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider steel-gradient mb-3 sm:mb-4 leading-tight">Coastal Living</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Bring the beach home with our curated home and lifestyle products.</p>
               <Link
                 href="/collections/life"
-                className="inline-block border border-gray-300 text-beach-darker px-4 py-2 text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
+                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
               >
                 Discover
               </Link>
@@ -413,23 +435,23 @@ export default function Home() {
             <div className="lg:col-span-7">
               <div className="aspect-[4/5] overflow-hidden">
                 <img
-                  src="/images/night-highway-1.jpeg"
+                  src="/images/brand/highway-lights-1.jpg"
                   alt="Night highway with streaking lights"
                   className="h-full w-full object-cover"
                 />
               </div>
             </div>
-            <div className="lg:col-span-5 flex flex-col justify-center">
+            <div className="lg:col-span-5 flex flex-col justify-center max-w-2xl">
               <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Article</span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider steel-gradient mb-6">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider steel-gradient mb-6 leading-tight">
                 The Art of Sustainable Surfwear
               </h2>
-              <p className="steel-text mb-6">
+              <p className="steel-text mb-6 text-sm sm:text-base leading-relaxed">
                 Our latest collection represents our commitment to sustainable fashion that doesn't compromise on style
                 or performance. Each piece is crafted with attention to environmental impact, using organic cotton and
                 eco-friendly dyes.
               </p>
-              <p className="steel-text mb-8">
+              <p className="steel-text mb-8 text-sm sm:text-base leading-relaxed">
                 We spoke with our designers about the inspiration behind the collection and the challenges of creating
                 high-performance gear that respects our oceans.
               </p>

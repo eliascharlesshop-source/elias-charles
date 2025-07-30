@@ -112,7 +112,7 @@ export default function WomensCollection() {
         <div className="relative">
           <div className="absolute inset-0">
             <img
-              src="/images/palm-trees-street-2.jpeg"
+              src="/images/lifestyle/palm-trees-street-2.jpg"
               alt="Women's Collection"
               className="h-full w-full object-cover"
             />
@@ -253,7 +253,7 @@ export default function WomensCollection() {
                     <div key={product.id} className="group relative">
                       <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
                         <img
-                          src={product.image || "/icons/placeholder.svg"}
+                          src={product.image || "/images/lifestyle/palm-trees-sky-3.jpg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

@@ -112,7 +112,7 @@ export default function MensCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/products/men-surf-style.png" alt="Men's Collection" className="h-full w-full object-cover" />
+            <img src="/images/ocean-bw-3.jpg" alt="Men's Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
           <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">
@@ -250,7 +250,7 @@ export default function MensCollection() {
                     <div key={product.id} className="group relative">
                       <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
                         <img
-                          src={product.image || "/icons/placeholder.svg"}
+                          src={product.image || "/images/lifestyle/palm-trees-street-2.jpg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

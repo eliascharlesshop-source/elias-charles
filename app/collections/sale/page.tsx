@@ -109,7 +109,7 @@ export default function SaleCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/products/diverse-beach-fashion.png" alt="Sale Collection" className="h-full w-full object-cover" />
+            <img src="/images/ocean-bw-4.jpg" alt="Sale Collection" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
           <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">
@@ -245,7 +245,7 @@ export default function SaleCollection() {
                     <div key={product.id} className="group relative">
                       <div className="aspect-square w-full overflow-hidden bg-gray-100">
                         <img
-                          src={product.image || "/icons/placeholder.svg"}
+                          src={product.image || "/images/ocean-bw-6.jpg"}
                           alt={product.title}
                           className="h-full w-full object-cover object-center group-hover:opacity-75"
                         />

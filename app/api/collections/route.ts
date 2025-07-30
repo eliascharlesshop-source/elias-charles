@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
         title: "Boards",
         handle: "boards",
         description: "Surf and skate boards for every level",
-        image: "/products/longboard.png",
+        image: "/images/ocean-bw-5.jpg",
         products: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
         title: "Apparel",
         handle: "apparel",
         description: "Clothing and accessories for your active lifestyle",
-        image: "/products/men-casual-hoodie.png",
+        image: "/images/lifestyle/palm-trees-sky-2.jpg",
         products: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
         title: "Self Care",
         handle: "self-care",
         description: "Products to help you look and feel your best",
-        image: "/products/linen-dress-beach.png",
+        image: "/images/brand/highway-lights-1.jpg",
         products: [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()

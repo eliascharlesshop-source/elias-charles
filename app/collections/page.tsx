@@ -231,7 +231,7 @@ export default function CollectionsPage() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/products/beach-product.png" alt="Collections" className="h-full w-full object-cover" />
+            <img src="/images/lifestyle/palm-trees-street-3.jpg" alt="Collections" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-40" />
           </div>
           <div className="relative px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
@@ -265,7 +265,7 @@ export default function CollectionsPage() {
                 <div key={collection.id} className="group relative">
                   <div className="aspect-square w-full overflow-hidden rounded-lg">
                     <img
-                      src={collection.image || "/icons/placeholder.svg"}
+                      src={collection.image || "/images/lifestyle/palm-trees-street-1.jpg"}
                       alt={collection.title}
                       className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                     />
@@ -298,7 +298,7 @@ export default function CollectionsPage() {
               <div key={collection.id} className="group">
                 <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
                   <img
-                    src={collection.image || "/icons/placeholder.svg"}
+                    src={collection.image || "/images/ocean-bw-2.jpg"}
                     alt={collection.title}
                     className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                   />
@@ -350,7 +350,7 @@ export default function CollectionsPage() {
                   <div key={product.id} className="group relative">
                     <div className="aspect-square w-full overflow-hidden rounded-lg">
                       <img
-                        src={product.images[0] || "/icons/placeholder.svg"}
+                        src={product.images[0] || "/images/lifestyle/palm-trees-sky-1.jpg"}
                         alt={product.title}
                         className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                       />
@@ -409,7 +409,7 @@ export default function CollectionsPage() {
                   <div key={category.name} className="group relative">
                     <div className="aspect-square w-full overflow-hidden rounded-lg">
                       <img
-                        src={category.imageSrc || "/icons/placeholder.svg"}
+                        src={category.imageSrc || "/images/brand/highway-lights-2.jpg"}
                         alt={category.name}
                         className="h-full w-full object-cover object-center group-hover:opacity-90 transition duration-300"
                       />

@@ -6,7 +6,7 @@ export default function ContactPage() {
       {/* Hero Section */}
       <div className="relative">
         <div className="absolute inset-0">
-          <img src="/placeholder.svg?height=800&width=1600" alt="Beach sunset" className="h-full w-full object-cover" />
+          <img src="/images/ocean-bw-6.jpg" alt="Beach sunset" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
         </div>
         <div className="relative px-6 py-32 sm:py-40 lg:px-8 lg:py-56">

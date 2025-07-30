@@ -211,7 +211,7 @@ export default function ProductPage() {
           <div className="relative">
             <div className="aspect-h-4 aspect-w-3 overflow-hidden">
               <img
-                src={product.images[selectedImage] || "/placeholder.svg"}
+                src={product.images[selectedImage] || "/images/lifestyle/palm-trees-street-3.jpg"}
                 alt={product.title}
                 className="h-full w-full object-cover object-center"
               />
