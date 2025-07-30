@@ -78,7 +78,7 @@ export class EmailService {
             <h2>Order Details</h2>
             <p><strong>Order Number:</strong> {{orderNumber}}</p>
             <p><strong>Order Date:</strong> {{orderDate}}</p>
-            <p><strong>Total:</strong> ${{total}}</p>
+            <p><strong>Total:</strong> $\{{total}}</p>
           </div>
 
           <h3>Items Ordered:</h3>
@@ -115,7 +115,7 @@ Thank you for your order! We've received your order and are processing it now.
 Order Details:
 - Order Number: {{orderNumber}}
 - Order Date: {{orderDate}}
-- Total: ${{total}}
+- Total: $\{{total}}
 
 Items Ordered:
 {{itemsListText}}

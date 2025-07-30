@@ -4,10 +4,9 @@ import { useParams } from "next/navigation"
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Heart, Share2, ChevronRight } from "lucide-react"
-import { useCart } from "@/components/commerce/cart-provider"
-import { SectionTitle, SubsectionTitle, BodyText, SmallText } from "@/components/layout/typography"
-import { shopifyService } from "@/lib/shopify-service"
+import { useCart } from "../../../components/commerce/cart-provider"
 import { transformShopifyProduct } from "@/src/lib/shopify"
+import shopifyService from "../../../lib/shopify-service"
 
 interface ProductVariant {
   id: string
@@ -46,7 +45,13 @@ export default function ProductPage() {
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({})
   const [quantity, setQuantity] = useState(1)
 
-  const { addToCart } = useCart()
+  const cartContext = useCart()
+  const addToCart = cartContext?.addToCart
+
+  if (!addToCart) {
+    console.error('addToCart function not available')
+    return
+  }
 
   console.log('ProductPage component mounted, handle:', handle, 'params:', params)
 
@@ -64,7 +69,7 @@ export default function ProductPage() {
         
         if (shopifyProduct) {
           const transformedProduct = transformShopifyProduct(shopifyProduct)
-          setProduct(transformedProduct)
+          setProduct({ ...transformedProduct, options: [] })
           
           // Set default selected variant
           if (transformedProduct.variants.length > 0) {
@@ -84,7 +89,7 @@ export default function ProductPage() {
               shopifyProduct.id, 
               'RELATED'
             )
-            setRecommendations(relatedProducts.slice(0, 3)) // Show 3 recommendations
+            setRecommendations(relatedProducts.slice(0, 3).map(p => ({ ...p, options: [] }))) // Show 3 recommendations
           } catch (recError) {
             console.warn('Failed to load recommendations:', recError)
           }
@@ -151,7 +156,7 @@ export default function ProductPage() {
   }
 
   const handleAddToCart = async () => {
-    if (!selectedVariant) {
+    if (!selectedVariant || !addToCart) {
       alert("Please select product options")
       return
     }
@@ -162,14 +167,16 @@ export default function ProductPage() {
     }
 
     try {
-      await addToCart({
+      const cartItem = {
         id: selectedVariant.id,
         title: `${product.title} - ${selectedVariant.title}`,
-        price: selectedVariant.price,
+        price: `$${selectedVariant.price.toFixed(2)}`,
         image: product.images[selectedImage] || '',
-        variant: selectedVariant.title,
-        quantity: quantity,
-      })
+        size: selectedOptions.Size || '',
+        color: selectedOptions.Color || '',
+      }
+      
+      addToCart(cartItem)
       
       alert("Product added to cart!")
     } catch (error) {
@@ -256,13 +263,13 @@ export default function ProductPage() {
             </div>
 
             <div className="mt-6 prose prose-sm text-gray-700">
-              <BodyText>{product.description}</BodyText>
+              <p className="text-lg">{product.description}</p>
             </div>
 
             {/* Product Options */}
             {product.options.map((option) => (
               <div key={option.name} className="mt-6">
-                <SubsectionTitle className="text-sm font-medium mb-2">{option.name}</SubsectionTitle>
+                <h3 className="text-sm font-medium mb-2">{option.name}</h3>
                 <div className="flex flex-wrap gap-2">
                   {option.values.map((value) => (
                     <button
@@ -283,7 +290,7 @@ export default function ProductPage() {
 
             {/* Quantity */}
             <div className="mt-6">
-              <SubsectionTitle className="text-sm font-medium mb-2">Quantity</SubsectionTitle>
+              <h3 className="text-sm font-medium mb-2">Quantity</h3>
               <div className="flex items-center gap-2">
                 <button 
                   className="border border-gray-300 px-3 py-1 text-primary hover:bg-gray-50"
@@ -338,22 +345,22 @@ export default function ProductPage() {
       {/* Product Details */}
       <div style={{ backgroundColor: "#fdf4ec" }} className="py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionTitle className="mb-8">Details</SectionTitle>
+          <h2 className="mb-8 text-2xl font-semibold">Details</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <SubsectionTitle className="text-sm font-medium">Category</SubsectionTitle>
+              <h3 className="text-sm font-medium">Category</h3>
               <p className="mt-2 text-primary">{product.category}</p>
             </div>
             <div>
-              <SubsectionTitle className="text-sm font-medium">Vendor</SubsectionTitle>
+              <h3 className="text-sm font-medium">Vendor</h3>
               <p className="mt-2 text-primary">{product.vendor}</p>
             </div>
             <div>
-              <SubsectionTitle className="text-sm font-medium">Tags</SubsectionTitle>
+              <h3 className="text-sm font-medium">Tags</h3>
               <p className="mt-2 text-primary">{product.tags.join(", ")}</p>
             </div>
             <div>
-              <SubsectionTitle className="text-sm font-medium">Availability</SubsectionTitle>
+              <h3 className="text-sm font-medium">Availability</h3>
               <p className="mt-2 text-primary">{product.inStock ? "In Stock" : "Out of Stock"}</p>
             </div>
           </div>
@@ -364,7 +371,7 @@ export default function ProductPage() {
       {recommendations.length > 0 && (
         <div className="bg-cream py-16 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <SectionTitle className="mb-8">You May Also Like</SectionTitle>
+            <h2 className="mb-8 text-2xl font-semibold">You May Also Like</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {recommendations.map((recommendedProduct) => (
                 <div key={recommendedProduct.id} className="group">

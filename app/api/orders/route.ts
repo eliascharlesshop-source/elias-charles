@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
           // Clear cart if payment successful and cartId provided
           if (paymentResult.status === 'completed' && cartId) {
             await cartsDb.update(cartId, {
-              items: [],
+              lines: [],
               totalQuantity: 0,
               subtotal: 0,
               tax: 0,

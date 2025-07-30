@@ -3,13 +3,29 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Minus, Plus, ShoppingBag } from "lucide-react"
-import { useCart } from "@/components/commerce/cart-provider"
+import { useCart } from "../../components/commerce/cart-provider"
 import { PageTitle, SectionTitle, BodyText, SmallText } from "@/components/layout/typography"
+
+interface CartItem {
+  id: string
+  title: string
+  price: string
+  image?: string
+  size?: string
+  color?: string
+  quantity: number
+}
+
+interface LocalCart {
+  id: string
+  lines: CartItem[]
+  totalQuantity: number
+}
 
 export default function CartPage() {
   // Defensive fallback for SSR/prerender: always provide a cart object
   const cartContext = useCart();
-  const cart = cartContext?.cart ?? { lines: [], totalQuantity: 0 };
+  const cart: LocalCart = cartContext?.cart ?? { id: 'temp', lines: [], totalQuantity: 0 };
   const removeFromCart = cartContext?.removeFromCart ?? (() => {});
   const updateLineQuantity = cartContext?.updateLineQuantity ?? (() => {});
   const [promoCode, setPromoCode] = useState("");
@@ -71,7 +87,7 @@ export default function CartPage() {
             <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
               <div className="lg:col-span-7">
                 <ul role="list" className="divide-y divide-gray-200 border-t border-b border-gray-200">
-                  {cart.lines.map((product) => (
+                  {(cart?.lines ?? []).map((product) => (
                     <li key={product.id} className="flex py-6 sm:py-8">
                       <div className="flex-shrink-0">
                         <img

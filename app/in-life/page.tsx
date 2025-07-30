@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
@@ -9,6 +9,24 @@ import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent,
 // Interactive product hotspot component
 const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return (
+      <div className="absolute" style={{ left: `${x}%`, top: `${y}%` }}>
+        <button
+          className={`${color} rounded-full w-6 h-6 flex items-center justify-center z-10 shadow-md transition-transform hover:scale-110`}
+          aria-label="View product details"
+        >
+          <Plus size={14} />
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="absolute" style={{ left: `${x}%`, top: `${y}%` }}>
@@ -73,7 +91,12 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
 // Interactive product carousel
 const ProductCarousel = ({ products }) => {
   const [activeIndex, setActiveIndex] = useState(0)
+  const [isMounted, setIsMounted] = useState(false)
   const containerRef = useRef(null)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1))
@@ -81,6 +104,48 @@ const ProductCarousel = ({ products }) => {
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1))
+  }
+
+  if (!isMounted) {
+    return (
+      <div className="relative my-12">
+        <div className="overflow-hidden" ref={containerRef}>
+          <div className="flex">
+            <div className="min-w-full px-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div className="relative aspect-square">
+                  <Image
+                    src={products[0]?.image || "/icons/placeholder.svg"}
+                    alt={products[0]?.title || "Product"}
+                    fill
+                    className="object-cover rounded-sm"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{products[0]?.title}</h3>
+                  <p className="text-lg mb-2">{products[0]?.price}</p>
+                  <p className="text-sm mb-4">{products[0]?.description}</p>
+                  <div className="flex gap-2 mb-4">
+                    {products[0]?.colors?.map((color, i) => (
+                      <div
+                        key={i}
+                        className={`w-6 h-6 rounded-full border ${color}`}
+                      />
+                    ))}
+                  </div>
+                  <Link
+                    href={products[0]?.url || "#"}
+                    className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                  >
+                    Shop Now
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -256,6 +321,11 @@ const ShopTheLook = ({ image, products }) => {
 
 export default function InLifePage() {
   const [activeTab, setActiveTab] = useState("beach")
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Sample beach products data
   const beachProducts = [
@@ -404,7 +474,7 @@ export default function InLifePage() {
                 ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
                 : "text-gray-500 hover:text-black"
             }`}
-            onClick={() => setActiveTab("beach")}
+            onClick={() => isMounted && setActiveTab("beach")}
           >
             Beach Life
           </button>
@@ -414,7 +484,7 @@ export default function InLifePage() {
                 ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
                 : "text-gray-500 hover:text-black"
             }`}
-            onClick={() => setActiveTab("city")}
+            onClick={() => isMounted && setActiveTab("city")}
           >
             City Style
           </button>
@@ -424,12 +494,16 @@ export default function InLifePage() {
                 ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
                 : "text-gray-500 hover:text-black"
             }`}
-            onClick={() => setActiveTab("mountains")}
+            onClick={() => isMounted && setActiveTab("mountains")}
           >
             Mountain Escape
           </button>
         </div>
       </div>
+
+      {/* Only render dynamic content after mount to prevent hydration errors */}
+      {isMounted && (
+        <React.Fragment>
 
       {/* Beach Life Content */}
       {activeTab === "beach" && (
@@ -839,6 +913,7 @@ export default function InLifePage() {
           </div>
         </div>
       </div>
+      </React.Fragment>)}
     </div>
   )
 }

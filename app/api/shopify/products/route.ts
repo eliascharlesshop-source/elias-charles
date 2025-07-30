@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import shopifyService from '@/lib/shopify-service'
+import shopifyService from '../../../../lib/shopify-service'
 
 export async function GET(request: NextRequest) {
   try {
@@ -23,16 +23,36 @@ export async function GET(request: NextRequest) {
       order
     })
 
-    return NextResponse.json({
-      success: true,
-      data: result.products,
-      pagination: result.pagination,
-      meta: {
-        source: 'GraphQL',
-        cached: true,
-        queryTime: new Date().toISOString()
-      }
-    })
+    if (Array.isArray(result)) {
+      // Shopify not configured, return empty data
+      return NextResponse.json({
+        success: true,
+        data: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          totalPages: 0,
+          hasNextPage: false
+        },
+        meta: {
+          source: 'GraphQL',
+          cached: false,
+          queryTime: new Date().toISOString()
+        }
+      })
+    } else {
+      return NextResponse.json({
+        success: true,
+        data: result.products,
+        pagination: result.pagination,
+        meta: {
+          source: 'GraphQL',
+          cached: true,
+          queryTime: new Date().toISOString()
+        }
+      })
+    }
 
   } catch (error) {
     console.error('Shopify products API error:', error)

@@ -50,7 +50,7 @@ export interface CartItem {
 
 export interface Cart {
   id: string
-  items: CartItem[]
+  lines: CartItem[]
   totalQuantity: number
   subtotal: number
   tax: number
@@ -66,6 +66,7 @@ export interface User {
   firstName: string
   lastName: string
   phone?: string
+  role?: string
   addresses: Address[]
   orders: string[]
   createdAt: string
@@ -103,6 +104,7 @@ export interface Order {
   paymentStatus: 'pending' | 'paid' | 'failed' | 'refunded'
   shippingMethod: string
   trackingNumber?: string
+  transactionId?: string
   notes?: string
   createdAt: string
   updatedAt: string

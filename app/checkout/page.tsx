@@ -2,13 +2,29 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useCart } from "@/components/commerce/cart-provider"
+import { useCart } from "../../components/commerce/cart-provider"
 import { CheckCircle } from "lucide-react"
 import { SectionTitle } from "@/components/layout/typography"
 
+interface CartItem {
+  id: string
+  title: string
+  price: string
+  image?: string
+  size?: string
+  color?: string
+  quantity: number
+}
+
+interface LocalCart {
+  id?: string
+  lines: CartItem[]
+  totalQuantity: number
+}
+
 export default function CheckoutPage() {
   const cartContext = useCart()
-  const cart = cartContext?.cart || { items: [], totalQuantity: 0 }
+  const cart: LocalCart = cartContext?.cart || { lines: [], totalQuantity: 0 }
 
   const [step, setStep] = useState(1)
   const [orderComplete, setOrderComplete] = useState(false)
@@ -38,7 +54,7 @@ export default function CheckoutPage() {
   })
 
   // Calculate subtotal
-  const subtotal = (cart?.items || []).reduce((total: number, item: any) => {
+  const subtotal = (cart?.lines || []).reduce((total: number, item: any) => {
     const price = Number.parseFloat(item.price?.toString().replace("$", "") || "0")
     return total + price * item.quantity
   }, 0)
@@ -99,7 +115,7 @@ export default function CheckoutPage() {
             </SectionTitle>
 
             <div className="mt-6 divide-y divide-gray-200 border-t border-gray-200">
-              {(cart?.items || []).map((product: any) => (
+              {(cart?.lines || []).map((product: any) => (
                 <div key={product.id} className="flex py-6">
                   <div className="flex-shrink-0">
                     <img
@@ -743,7 +759,7 @@ export default function CheckoutPage() {
 
               <div className="mt-6 flow-root">
                 <ul role="list" className="-my-4 divide-y divide-gray-200">
-                  {(cart?.items || []).map((product: any) => (
+                  {(cart?.lines || []).map((product: any) => (
                     <li key={product.id} className="flex py-4 space-x-3">
                       <div className="flex-shrink-0">
                         <img

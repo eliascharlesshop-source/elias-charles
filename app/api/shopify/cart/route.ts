@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import shopifyService from '@/lib/shopify-service'
+import shopifyService from '../../../../lib/shopify-service'
 
 export async function POST(request: NextRequest) {
   try {

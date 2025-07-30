@@ -1,7 +1,7 @@
 // Layout Components  
 export { default as Layout } from './layout'
-export { default as Header } from './header'
-export { default as Footer } from './footer'
+export { Header } from './header'
+export { Footer } from './footer'
 export { AuthProvider } from './auth-provider'
 export { ProfileDropdown } from './profile-dropdown'
 export { ResponsiveFilters } from './responsive-filters'

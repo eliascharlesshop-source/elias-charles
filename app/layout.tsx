@@ -4,8 +4,8 @@ import "./styles/text-utils.css"
 import { Inter } from "next/font/google"
 import { Header } from "@/src/components/layout/header"
 import { Footer } from "@/src/components/layout/footer"
-import { CartProvider } from "@/src/components/commerce/cart-provider"
-import { AuthProvider } from "@/src/components/layout/auth-provider"
+import { CartProvider } from "@/components/commerce/cart-provider"
+import { AuthProvider } from "@/components/layout/auth-provider"
 import { DarkModeToggle } from "@/src/components/ui/dark-mode-toggle"
 
 const inter = Inter({ subsets: ["latin"] })

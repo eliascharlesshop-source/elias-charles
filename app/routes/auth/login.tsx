@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { useAuth } from "@/components/layout/auth-provider"
+import { useAuth } from "../../../components/layout/auth-provider"
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
 import { useRouter } from "next/navigation"

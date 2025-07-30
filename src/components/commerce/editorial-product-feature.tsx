@@ -1,5 +1,4 @@
 import type { ReactNode } from "react"
-import { SectionTitle, BodyText } from "./typography"
 
 interface EditorialProductFeatureProps {
   title: string
@@ -31,9 +30,9 @@ export function EditorialProductFeature({
           )}
 
           <div className={imagePosition === "left" ? "lg:col-start-2" : ""}>
-            <SectionTitle className="text-2xl sm:text-3xl">{title}</SectionTitle>
+            <h2 className="text-2xl sm:text-3xl font-semibold">{title}</h2>
             <div className="mt-6 max-w-xl">
-              {typeof content === "string" ? <BodyText>{content}</BodyText> : content}
+              {typeof content === "string" ? <p className="text-lg">{content}</p> : content}
             </div>
           </div>
 

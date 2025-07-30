@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { useResponsiveFont } from "../hooks/use-responsive-font"
+import { useResponsiveFont } from "../../../app/hooks/use-responsive-font"
 
 type TextSize = "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl"
 

@@ -1,20 +1,31 @@
 "use client"
 
-import { useCart } from "./cart-provider"
+import { useCart } from './cart-provider'
+import { Card } from '../ui/card'
+import { Badge } from '../ui/badge'
 
-export function OrderSummary({ shippingMethod = "standard" }) {
-  const { cart } = useCart() || {
-    cart: { lines: [], totalQuantity: 0 },
+export default function OrderSummary() {
+  const { cart } = useCart()
+
+  if (!cart || cart.lines.length === 0) {
+    return (
+      <Card className="p-6">
+        <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+        <p className="text-muted-foreground">Your cart is empty</p>
+      </Card>
+    )
   }
 
   // Calculate subtotal
-  const subtotal = cart.lines.reduce((total, item) => {
-    const price = Number.parseFloat(item.price?.replace("$", "") || "0")
+  const subtotal = cart.lines.reduce((total: number, item) => {
+    const price = typeof item.price === 'string' 
+      ? Number.parseFloat((item.price as string).replace("$", "") || "0")
+      : item.price || 0
     return total + price * item.quantity
   }, 0)
 
   // Calculate shipping cost based on method and subtotal
-  const getShippingCost = (method) => {
+  const getShippingCost = (method: string) => {
     if (method === "standard") {
       return subtotal > 100 ? 0 : 10
     } else if (method === "express") {
@@ -25,6 +36,8 @@ export function OrderSummary({ shippingMethod = "standard" }) {
     return 0
   }
 
+  // Default shipping method for now - could be made dynamic
+  const shippingMethod = "standard"
   const shipping = getShippingCost(shippingMethod)
 
   // Calculate tax

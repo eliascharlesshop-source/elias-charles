@@ -44,7 +44,18 @@ export const productApi = {
     if (params?.search) searchParams.set('search', params.search)
 
     const query = searchParams.toString()
-    return apiRequest(`/products${query ? `?${query}` : ''}`)
+    const response = await apiRequest<Product[]>(`/products${query ? `?${query}` : ''}`)
+    
+    // Convert ApiResponse to PaginatedResponse format
+    return {
+      ...response,
+      pagination: {
+        page: params?.page || 1,
+        limit: params?.limit || 10,
+        total: response.data?.length || 0,
+        totalPages: Math.ceil((response.data?.length || 0) / (params?.limit || 10))
+      }
+    }
   },
 
   getById: async (id: string): Promise<ApiResponse<Product>> => {
@@ -117,7 +128,18 @@ export const orderApi = {
     if (params?.limit) searchParams.set('limit', params.limit.toString())
 
     const query = searchParams.toString()
-    return apiRequest(`/orders${query ? `?${query}` : ''}`)
+    const response = await apiRequest<Order[]>(`/orders${query ? `?${query}` : ''}`)
+    
+    // Convert ApiResponse to PaginatedResponse format
+    return {
+      ...response,
+      pagination: {
+        page: params?.page || 1,
+        limit: params?.limit || 10,
+        total: response.data?.length || 0,
+        totalPages: Math.ceil((response.data?.length || 0) / (params?.limit || 10))
+      }
+    }
   },
 
   getById: async (id: string): Promise<ApiResponse<Order>> => {

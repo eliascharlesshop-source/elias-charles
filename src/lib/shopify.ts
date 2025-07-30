@@ -422,11 +422,11 @@ export function transformShopifyProduct(shopifyProduct: any) {
   const variant = shopifyProduct.variants.edges[0]?.node
   const images = shopifyProduct.images.edges.map((edge: any) => edge.node.url)
   
-  // Extract custom metafields
+  // Extract custom metafields - handle cases where metafields might be null or have null entries
   const metafields = shopifyProduct.metafields || []
-  const featured = metafields.find((m: any) => m.key === 'featured')?.value === 'true'
-  const category = metafields.find((m: any) => m.key === 'category')?.value || shopifyProduct.productType
-  const subcategory = metafields.find((m: any) => m.key === 'subcategory')?.value
+  const featured = metafields.find((m: any) => m && m.key === 'featured')?.value === 'true'
+  const category = metafields.find((m: any) => m && m.key === 'category')?.value || shopifyProduct.productType
+  const subcategory = metafields.find((m: any) => m && m.key === 'subcategory')?.value
 
   return {
     id: shopifyProduct.id.replace('gid://shopify/Product/', ''),

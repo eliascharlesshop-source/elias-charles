@@ -5,12 +5,29 @@ import Link from "next/link"
 import { X, Plus, Minus } from "lucide-react"
 import { useCart } from "./cart-provider"
 
+interface CartItem {
+  id: string
+  title: string
+  price: string | number
+  image?: string
+  size?: string
+  color?: string
+  quantity: number
+}
+
+interface LocalCart {
+  id?: string
+  lines: CartItem[]
+  totalQuantity: number
+}
+
 export function MiniCart({ isOpen, onClose }) {
-  const { cart, removeFromCart, updateLineQuantity } = useCart() || {
+  const cartData = useCart() || {
     cart: { lines: [], totalQuantity: 0 },
     removeFromCart: () => {},
     updateLineQuantity: () => {},
   }
+  const { cart, removeFromCart, updateLineQuantity } = cartData
   const cartRef = useRef(null)
 
   // Close cart when clicking outside
@@ -27,10 +44,11 @@ export function MiniCart({ isOpen, onClose }) {
   }, [onClose])
 
   // Calculate subtotal
-  const subtotal = cart?.items?.reduce((total, item) => {
+  const cartLines = cart?.lines || []
+  const subtotal = cartLines.reduce((total: number, item: CartItem) => {
     const price = Number.parseFloat(item.price?.toString().replace("$", "") || "0")
     return total + price * item.quantity
-  }, 0) || 0
+  }, 0)
 
   return (
     <div
@@ -57,14 +75,14 @@ export function MiniCart({ isOpen, onClose }) {
               </div>
 
               <div className="mt-8">
-                {(cart?.items?.length || 0) === 0 ? (
+                {cartLines.length === 0 ? (
                   <div className="text-center py-8">
                     <p className="text-gray-500">Your cart is empty</p>
                   </div>
                 ) : (
                   <div className="flow-root">
                     <ul role="list" className="-my-6 divide-y divide-gray-200">
-                      {cart?.items?.map((product) => (
+                      {cartLines.map((product) => (
                         <li key={product.id} className="flex py-6">
                           <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                             <img
@@ -127,7 +145,7 @@ export function MiniCart({ isOpen, onClose }) {
               </div>
             </div>
 
-            {(cart?.items?.length || 0) > 0 && (
+            {cartLines.length > 0 && (
               <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
                 <div className="flex justify-between text-base font-medium text-primary">
                   <p>Subtotal</p>

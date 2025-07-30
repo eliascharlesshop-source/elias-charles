@@ -158,10 +158,29 @@ export async function PUT(
 }
 
 // DELETE /api/users/[id] - Delete user (admin only)
-export const DELETE = AuthService.requireRole('admin', async (
+export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
-) => {
+) {
+  // Check authentication first
+  const auth = await AuthService.authenticateRequest(request)
+  if (!auth) {
+    const response: ApiResponse = {
+      success: false,
+      error: 'Authentication required'
+    }
+    return NextResponse.json(response, { status: 401 })
+  }
+
+  // Check role
+  if (auth.role !== 'admin') {
+    const response: ApiResponse = {
+      success: false,
+      error: 'Insufficient permissions'
+    }
+    return NextResponse.json(response, { status: 403 })
+  }
+
   try {
     await ensureInitialized()
     const { id } = await params
@@ -191,4 +210,4 @@ export const DELETE = AuthService.requireRole('admin', async (
     }
     return NextResponse.json(response, { status: 500 })
   }
-})
+}

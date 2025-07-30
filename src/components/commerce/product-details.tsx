@@ -1,7 +1,6 @@
 "use client"
 import { useState } from "react"
 import { Minus, Plus } from "lucide-react"
-import { SubsectionTitle, BodyText } from "./typography"
 
 interface ProductDetailsProps {
   product: {
@@ -50,10 +49,10 @@ export function ProductDetails({ product, onAddToCart }: ProductDetailsProps) {
   return (
     <div className="lg:pl-6 xl:pl-8">
       <div className="prose prose-sm max-w-none text-primary">
-        <BodyText>{product.description}</BodyText>
+        <p className="text-lg">{product.description}</p>
 
         <div className="mt-6 sm:mt-8">
-          <SubsectionTitle className="text-sm font-medium">Details</SubsectionTitle>
+          <h3 className="text-sm font-medium">Details</h3>
           <ul className="mt-2 sm:mt-4 list-disc pl-5 text-xs sm:text-sm">
             {product.details.map((detail, index) => (
               <li key={index} className="text-primary mb-1">
@@ -64,7 +63,7 @@ export function ProductDetails({ product, onAddToCart }: ProductDetailsProps) {
         </div>
 
         <div className="mt-6 sm:mt-8">
-          <SubsectionTitle className="text-sm font-medium">Size</SubsectionTitle>
+          <h3 className="text-sm font-medium">Size</h3>
           <div className="mt-2 sm:mt-4 grid grid-cols-5 gap-2 sm:gap-4">
             {product.sizes.map((size) => (
               <button
@@ -83,7 +82,7 @@ export function ProductDetails({ product, onAddToCart }: ProductDetailsProps) {
         </div>
 
         <div className="mt-6 sm:mt-8">
-          <SubsectionTitle className="text-sm font-medium">Color</SubsectionTitle>
+          <h3 className="text-sm font-medium">Color</h3>
           <div className="mt-2 sm:mt-4 grid grid-cols-3 gap-2 sm:gap-4">
             {product.colors.map((color) => (
               <button
@@ -102,7 +101,7 @@ export function ProductDetails({ product, onAddToCart }: ProductDetailsProps) {
         </div>
 
         <div className="mt-6 sm:mt-8">
-          <SubsectionTitle className="text-sm font-medium">Quantity</SubsectionTitle>
+          <h3 className="text-sm font-medium">Quantity</h3>
           <div className="mt-2 sm:mt-4 flex items-center">
             <button
               onClick={decrementQuantity}

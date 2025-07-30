@@ -6,9 +6,25 @@ import { CheckCircle } from "lucide-react"
 import { useCart } from "@/components/commerce/cart-provider"
 import { PageTitle, SectionTitle, BodyText } from "@/components/layout/typography"
 
+interface CartItem {
+  id: string
+  title: string
+  price: string | number
+  image?: string
+  size?: string
+  color?: string
+  quantity: number
+}
+
+interface LocalCart {
+  id?: string
+  lines: CartItem[]
+  totalQuantity: number
+}
+
 export default function OrderConfirmationPage() {
   const cartContext = useCart()
-  const cart = cartContext?.cart || { items: [], totalQuantity: 0 }
+  const cart: LocalCart = cartContext?.cart || { lines: [], totalQuantity: 0 }
 
   const [orderNumber, setOrderNumber] = useState("")
 
@@ -18,7 +34,7 @@ export default function OrderConfirmationPage() {
   }, [])
 
   // Calculate subtotal
-  const subtotal = (cart?.items || []).reduce((total: number, item: any) => {
+  const subtotal = (cart?.lines || []).reduce((total: number, item: any) => {
     const price = Number.parseFloat(item.price?.toString().replace("$", "") || "0")
     return total + price * item.quantity
   }, 0)
@@ -48,7 +64,7 @@ export default function OrderConfirmationPage() {
           <SectionTitle>Your order summary</SectionTitle>
 
           <div className="mt-6 divide-y divide-gray-200 border-t border-gray-200">
-            {(cart?.items || []).map((product: any) => (
+            {(cart?.lines || []).map((product: any) => (
               <div key={product.id} className="flex py-6">
                 <div className="flex-shrink-0">
                   <img

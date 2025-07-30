@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
       // Create a new cart
       const newCart: Cart = {
         id: generateId(),
-        items: [],
+        lines: [],
         totalQuantity: 0,
         subtotal: 0,
         tax: 0,
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
     } else {
       cart = await cartsDb.create({
         id: generateId(),
-        items: [],
+        lines: [],
         totalQuantity: 0,
         subtotal: 0,
         tax: 0,
@@ -140,13 +140,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if item already exists in cart
-    const existingItemIndex = cart.items.findIndex(
+    const existingItemIndex = cart.lines.findIndex(
       item => item.productId === productId && item.size === size && item.color === color
     )
 
     if (existingItemIndex >= 0) {
       // Update existing item
-      cart.items[existingItemIndex].quantity += quantity
+      cart.lines[existingItemIndex].quantity += quantity
     } else {
       // Add new item
       const newItem: CartItem = {
@@ -160,12 +160,12 @@ export async function POST(request: NextRequest) {
         color,
         sku: product.sku
       }
-      cart.items.push(newItem)
+      cart.lines.push(newItem)
     }
 
     // Recalculate totals
-    cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0)
-    const totals = calculateCartTotals(cart.items)
+    cart.totalQuantity = cart.lines.reduce((sum, item) => sum + item.quantity, 0)
+    const totals = calculateCartTotals(cart.lines)
     cart.subtotal = totals.subtotal
     cart.tax = totals.tax
     cart.shipping = totals.shipping
@@ -217,18 +217,18 @@ export async function PUT(request: NextRequest) {
 
     if (quantity === 0) {
       // Remove item from cart
-      cart.items = cart.items.filter(item => item.id !== itemId)
+      cart.lines = cart.lines.filter(item => item.id !== itemId)
     } else {
       // Update item quantity
-      const itemIndex = cart.items.findIndex(item => item.id === itemId)
+      const itemIndex = cart.lines.findIndex(item => item.id === itemId)
       if (itemIndex >= 0) {
-        cart.items[itemIndex].quantity = quantity
+        cart.lines[itemIndex].quantity = quantity
       }
     }
 
     // Recalculate totals
-    cart.totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0)
-    const totals = calculateCartTotals(cart.items)
+    cart.totalQuantity = cart.lines.reduce((sum, item) => sum + item.quantity, 0)
+    const totals = calculateCartTotals(cart.lines)
     cart.subtotal = totals.subtotal
     cart.tax = totals.tax
     cart.shipping = totals.shipping
