@@ -75,13 +75,13 @@ export default function Home() {
         </div>
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
           <div className="max-w-md">
-            <span className="inline-block mb-4 text-xs tracking-widest uppercase text-on-image border-b pb-1">
+            <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
               Summer 2023 Issue
             </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-on-image mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
               The Ocean <br /> Edition
             </h1>
-            <p className="text-on-image text-sm sm:text-base md:text-lg mb-8 max-w-sm">
+            <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
               Exploring the intersection of surf culture, sustainable fashion, and coastal living
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -269,7 +269,7 @@ export default function Home() {
                   </div>
                   <div className="mt-6">
                     <span className="text-xs uppercase tracking-widest text-beach-darker mb-3">Trending</span>
-                    <h3 className="text-lg sm:text-xl uppercase tracking-wider text-on-image mt-2 group-hover:opacity-70 transition-opacity leading-tight">
+                    <h3 className="text-lg sm:text-xl uppercase tracking-wider text-gray-900 mt-2 group-hover:opacity-70 transition-opacity leading-tight">
                       {article.title}
                     </h3>
                     <p className="steel-text mt-3 text-sm sm:text-base leading-relaxed">{article.excerpt}</p>
@@ -379,7 +379,7 @@ export default function Home() {
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-on-image mb-3 sm:mb-4 leading-tight">Summer Essentials</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Summer Essentials</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 Discover our curated collection of beach-ready items for the perfect summer.
               </p>
@@ -395,7 +395,7 @@ export default function Home() {
           {/* Row 2: Product Nature */}
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-on-image mb-3 sm:mb-4 leading-tight">Surf Collection</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Surf Collection</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Performance gear designed for those who live for the waves.</p>
               <Link
                 href="/collections/boards"
@@ -415,7 +415,7 @@ export default function Home() {
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-on-image mb-3 sm:mb-4 leading-tight">Coastal Living</h3>
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Coastal Living</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Bring the beach home with our curated home and lifestyle products.</p>
               <Link
                 href="/collections/life"

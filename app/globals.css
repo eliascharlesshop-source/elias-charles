@@ -49,42 +49,42 @@
     --theme-accent: #7ba3c9;
   }
   .dark {
-    --background: 0 0% 3.9%;
+    --background: 210 5% 16%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
+    --card: 210 5% 16%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
+    --popover: 210 5% 16%;
     --popover-foreground: 0 0% 98%;
     --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
+    --primary-foreground: 210 5% 16%;
+    --secondary: 210 5% 20%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
+    --muted: 210 5% 20%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
+    --accent: 210 5% 20%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
+    --border: 210 5% 20%;
+    --input: 210 5% 20%;
     --ring: 0 0% 83.1%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
+    --sidebar-background: 210 5% 16%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent: 210 5% 20%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-border: 210 5% 20%;
     --sidebar-ring: 217.2 91.2% 59.8%;
     
-    /* Custom theme variables - Dark Mode (Slate theme) */
-    --theme-background: #1e293b;
-    --theme-surface: #334155;
+    /* Custom theme variables - Dark Mode using #292A2B */
+    --theme-background: #292A2B;
+    --theme-surface: #292A2B;
     --theme-text-primary: #e2e8f0;
     --theme-text-secondary: #cbd5e1;
     --theme-text-on-image: #ffffff;
@@ -136,6 +136,26 @@
   .product-price {
     @apply text-xs sm:text-sm font-medium steel-text;
   }
+  
+  /* Text on image utilities - always white for readability */
+  .text-on-image {
+    color: var(--theme-text-on-image) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-on-dark-image {
+    color: #ffffff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+  }
+  
+  /* Primary text utilities with proper contrast */
+  .text-primary-contrast {
+    color: var(--theme-text-primary);
+  }
+  
+  .text-secondary-contrast {
+    color: var(--theme-text-secondary);
+  }
 }
 
 @layer utilities {
@@ -165,19 +185,18 @@
   }
 
   /* Steel grey gradient text - responsive to dark mode */
-  .steel-gradient {
-    background: linear-gradient(135deg, #71767b 0%, #414549 100%);
+    .steel-gradient {
+    background: linear-gradient(135deg, #292A2B 0%, #3a3b3c 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
-    display: inline-block;
+    -webkit-text-fill-color: transparent;
   }
-  
-  .dark .steel-gradient {
+
+  .light .steel-gradient {
     background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
   /* Steel grey solid text - responsive to dark mode */
@@ -200,13 +219,13 @@
     background-color: var(--theme-surface);
   }
   
-  /* Theme-specific cream color (tan in light, slate in dark) */
+  /* Theme-specific cream color (tan in light, custom grey in dark) */
   .bg-cream {
     background-color: #fdf4ec;
   }
   
   .dark .bg-cream {
-    background-color: #334155;
+    background-color: #292A2B;
   }
   
   /* Beach accent colors - responsive */

@@ -56,6 +56,16 @@ module.exports = {
           light: "#fdf4ec",
         },
         dark: "#262626",
+        "custom-grey": {
+          DEFAULT: "#292A2B",
+          light: "#3a3b3c", 
+          dark: "#1f2021",
+        },
+        "text-on-image": "#ffffff",
+        "text-contrast": {
+          light: "#1f2937",
+          dark: "#f8fafc",
+        },
         beach: {
           light: "#d0e1f2",
           DEFAULT: "#d0e1f2",

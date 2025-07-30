@@ -143,5 +143,16 @@
     "total": 0,
     "createdAt": "2025-07-30T04:21:10.216Z",
     "updatedAt": "2025-07-30T04:21:10.216Z"
+  },
+  {
+    "id": "mdqjpv537p1z3vh4xrx",
+    "lines": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2025-07-30T22:37:00.519Z",
+    "updatedAt": "2025-07-30T22:37:00.519Z"
   }
 ]
