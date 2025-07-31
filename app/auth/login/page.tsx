@@ -3,75 +3,37 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/components/layout/auth-provider"
-import { Mail, Shield } from "lucide-react"
+import { useAuth } from "@/src/components/layout/auth-provider"
+import { ConnectWallet } from "@thirdweb-dev/react"
+import { Mail, Shield, Wallet } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
-  const { login } = useAuth() || { login: () => {} }
+  const { login, isLoading } = useAuth()
 
-  const handleEmailLogin = async (e) => {
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
     setError("")
 
     try {
-      // Simulate login
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Call the login function from auth context
-      login({ email })
-
-      // Redirect to profile page
+      await login('email', { email, password })
       router.push("/profile")
-    } catch (err) {
-      setError("Invalid email or password. Please try again.")
-    } finally {
-      setIsLoading(false)
+    } catch (err: any) {
+      setError(err.message || "Invalid email or password. Please try again.")
     }
   }
 
   const handleGoogleLogin = async () => {
-    setIsLoading(true)
     setError("")
 
     try {
-      // Simulate Google login
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Call the login function from auth context
-      login({ email: "user@gmail.com" })
-
-      // Redirect to profile page
+      await login('google')
       router.push("/profile")
-    } catch (err) {
-      setError("Google login failed. Please try again.")
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const handleWalletLogin = async () => {
-    setIsLoading(true)
-    setError("")
-
-    try {
-      // Simulate wallet connection
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Call the login function from auth context
-      login({ walletAddress: "0x1234...5678" })
-
-      // Redirect to profile page
-      router.push("/profile")
-    } catch (err) {
-      setError("Wallet connection failed. Please try again.")
-    } finally {
-      setIsLoading(false)
+    } catch (err: any) {
+      setError(err.message || "Google login failed. Please try again.")
     }
   }
 
@@ -92,6 +54,7 @@ export default function LoginPage() {
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">{error}</div>
         )}
 
+        {/* Email Login Form */}
         <form className="mt-8 space-y-6" onSubmit={handleEmailLogin}>
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -105,7 +68,7 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder="Email address (try: demo@example.com)"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -121,7 +84,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Password"
+                placeholder="Password (try: password123)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -152,7 +115,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
             >
               {isLoading ? "Signing in..." : "Sign in with Email"}
               <span className="absolute right-3 inset-y-0 flex items-center pl-3">
@@ -172,29 +135,45 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="mt-6 grid grid-cols-1 gap-3">
+            {/* Google Login */}
             <button
               onClick={handleGoogleLogin}
               disabled={isLoading}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
             >
-              <span className="sr-only">Sign in with Google</span>
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.545 10.239v3.821h5.445c-0.712 2.315-2.647 3.972-5.445 3.972-3.332 0-6.033-2.701-6.033-6.032s2.701-6.032 6.033-6.032c1.498 0 2.866 0.549 3.921 1.453l2.814-2.814c-1.798-1.677-4.198-2.701-6.735-2.701-5.539 0-10.032 4.493-10.032 10.032s4.493 10.032 10.032 10.032c8.445 0 10.283-7.919 9.509-11.73h-9.509z" />
               </svg>
+              Sign in with Google
             </button>
 
-            <button
-              onClick={handleWalletLogin}
-              disabled={isLoading}
-              className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-              <span className="sr-only">Sign in with Crypto Wallet</span>
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 7h-1V6a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-8a3 3 0 0 0-3-3zm-1 11H6a1 1 0 0 1 0-2h12a1 1 0 0 1 0 2zm0-5h-2a1 1 0 0 1-1-1 1 1 0 0 1 1-1h2a1 1 0 0 1 1 1 1 1 0 0 1-1 1z" />
-              </svg>
-            </button>
+            {/* Wallet Connection */}
+            <div className="w-full">
+              <div className="text-center text-sm text-gray-500 mb-2">
+                <Wallet className="inline h-4 w-4 mr-1" />
+                Connect your Web3 wallet
+              </div>
+              <ConnectWallet 
+                theme="light"
+                btnTitle="Connect Wallet"
+                className="!w-full"
+                onConnect={() => {
+                  // User state will be updated automatically via useEffect in AuthProvider
+                  setTimeout(() => router.push("/profile"), 1000)
+                }}
+              />
+            </div>
           </div>
+        </div>
+
+        {/* Demo Credentials Helper */}
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
+          <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials</h3>
+          <p className="text-xs text-blue-700">
+            Email: <code className="bg-blue-100 px-1 rounded">demo@example.com</code><br />
+            Password: <code className="bg-blue-100 px-1 rounded">password123</code>
+          </p>
         </div>
 
         {/* Admin Portal Access */}

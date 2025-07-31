@@ -4,8 +4,7 @@ import "./styles/text-utils.css"
 import { Inter } from "next/font/google"
 import { Header } from "@/src/components/layout/header"
 import { Footer } from "@/src/components/layout/footer"
-import { CartProvider } from "@/components/commerce/cart-provider"
-import { AuthProvider } from "@/components/layout/auth-provider"
+import { Providers } from "@/src/components/providers/providers"
 import { DarkModeToggle } from "@/src/components/ui/dark-mode-toggle"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -27,16 +26,14 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
       </head>
       <body className={`${inter.className} h-full flex flex-col`}>
-        <AuthProvider>
-          <CartProvider>
-            <Header shop={{ name: "EC" }} />
-            <main className="flex-grow bg-cream">
-              {children}
-              <DarkModeToggle />
-            </main>
-            <Footer />
-          </CartProvider>
-        </AuthProvider>
+        <Providers>
+          <Header shop={{ name: "EC" }} />
+          <main className="flex-grow bg-cream">
+            {children}
+            <DarkModeToggle />
+          </main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
