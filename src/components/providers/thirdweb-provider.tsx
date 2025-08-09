@@ -15,6 +15,14 @@ export function ThirdwebProviderWrapper({ children }: ThirdwebProviderWrapperPro
       activeChain={activeChain}
       clientId={process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID}
       supportedChains={[Ethereum, Polygon]}
+      autoConnect={false}
+      dAppMeta={{
+        name: "Elias Charles Store",
+        description: "Luxury lifestyle brand",
+        logoUrl: "/logo.png",
+        url: "https://eliascharles.com",
+        isDarkMode: true,
+      }}
     >
       {children}
     </ThirdwebProvider>

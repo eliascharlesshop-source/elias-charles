@@ -19,9 +19,8 @@ type AuthContextType = {
   isAuthenticated: boolean
   isLoading: boolean
   login: (method: 'email' | 'google' | 'wallet', credentials?: any) => Promise<void>
+  signup: (credentials: { email: string; password: string; name?: string }) => Promise<void>
   logout: () => Promise<void>
-  connectWallet: () => Promise<void>
-  disconnectWallet: () => void
 }
 
 // Create the Auth Context
@@ -44,7 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (session?.user) {
       // User is authenticated via NextAuth (email/Google)
       setUser({
-        id: session.user.id,
+        id: session.user.id || session.user.email || 'unknown',
         email: session.user.email || undefined,
         name: session.user.name || undefined,
         image: session.user.image || undefined,

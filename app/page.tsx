@@ -2,9 +2,9 @@
 
 import { PullQuote } from "@/src/components/layout/pull-quote"
 import { DevNotice } from "@/src/components/ui/dev-notice"
+import { LoadingSkeleton } from "@/src/components/ui/loading-skeleton"
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { shopifyService } from "../lib/shopify-service"
 
 interface Product {
   id: string
@@ -29,100 +29,60 @@ export default function Home() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [collections, setCollections] = useState<Collection[]>([])
   const [newArrivals, setNewArrivals] = useState<Product[]>([])
-  const [loading, setLoading] = useState(true)
-  const [isMounted, setIsMounted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(false)
 
+  // Load Shopify data lazily after component mounts
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    const loadShopifyData = async () => {
+      // Only try to load Shopify data if environment variables are set
+      const hasShopifyConfig = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN && process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
+      
+      if (!hasShopifyConfig) {
+        setDataLoaded(true)
+        return
+      }
 
-  useEffect(() => {
-    if (!isMounted) return
-    
-    const fetchHomeData = async () => {
       try {
         setLoading(true)
+        
+        // Dynamically import shopify service only when needed
+        const { shopifyService } = await import('../lib/shopify-service')
 
-        // Fetch featured products, collections, and new arrivals with GraphQL caching
-        const [featured, collectionsData, arrivals] = await Promise.all([
-          shopifyService.getFeaturedProducts(6).catch(() => []),
-          shopifyService.getCollections(4).catch(() => []),
-          shopifyService.getNewArrivals(4).catch(() => [])
+        // Fetch data with timeout
+        const fetchWithTimeout = (promise: Promise<any>, timeout = 5000) => {
+          return Promise.race([
+            promise,
+            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout))
+          ])
+        }
+
+        const [featured, collectionsData, arrivals] = await Promise.allSettled([
+          fetchWithTimeout(shopifyService.getFeaturedProducts(6)),
+          fetchWithTimeout(shopifyService.getCollections(4)),
+          fetchWithTimeout(shopifyService.getNewArrivals(4))
         ])
 
-        setFeaturedProducts(featured)
-        setCollections(collectionsData)
-        setNewArrivals(arrivals)
+        if (featured.status === 'fulfilled') setFeaturedProducts(featured.value || [])
+        if (collectionsData.status === 'fulfilled') setCollections(collectionsData.value || [])
+        if (arrivals.status === 'fulfilled') setNewArrivals(arrivals.value || [])
 
       } catch (error) {
-        console.warn('Shopify data not available, using fallback content:', error.message)
-        // Set empty arrays as fallback
-        setFeaturedProducts([])
-        setCollections([])
-        setNewArrivals([])
+        console.warn('Shopify data loading failed, using fallback content:', error)
       } finally {
         setLoading(false)
+        setDataLoaded(true)
       }
     }
 
-    fetchHomeData()
-  }, [isMounted])
-
-  // Prevent hydration mismatch by not rendering dynamic content until mounted
-  if (!isMounted) {
-    return (
-      <div className="magazine-layout">
-        {/* Magazine Cover Hero */}
-        <section className="relative h-screen">
-          <div className="absolute inset-0">
-            <img
-              src="/images/ocean-bw-1.jpg"
-              alt="Ocean waves in black and white"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/30"></div>
-          </div>
-          <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
-            <div className="max-w-md">
-              <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
-                Summer 2023 Issue
-              </span>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
-                The Ocean <br /> Edition
-              </h1>
-              <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
-                Exploring the intersection of surf culture, sustainable fashion, and coastal living
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/collections"
-                  className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
-                >
-                  Explore Collections
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Static content during hydration */}
-        <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-6">
-              <div>
-                <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
-                <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    )
-  }
+    // Delay loading by 100ms to ensure smooth initial render
+    const timer = setTimeout(loadShopifyData, 100)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <div className="magazine-layout">
-      {/* Magazine Cover Hero */}
+      {/* Magazine Cover Hero - Always shows immediately */}
       <section className="relative h-screen">
         <div className="absolute inset-0">
           <img
@@ -150,7 +110,7 @@ export default function Home() {
               >
                 Explore Collections
               </Link>
-              {isMounted && !loading && featuredProducts.length > 0 && (
+              {dataLoaded && featuredProducts.length > 0 && (
                 <Link
                   href="/products"
                   className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
@@ -159,41 +119,23 @@ export default function Home() {
                 </Link>
               )}
             </div>
-            {isMounted && loading && (
+            {loading && (
               <div className="mt-4 text-xs text-white/80">
-                Loading real products with GraphQL...
+                Loading products...
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Development Notice for Shopify Configuration */}
-      {isMounted && process.env.NODE_ENV === 'development' && loading && (
-        <DevNotice
-          type="info"
-          message="Loading Shopify data..."
-          details="The site will show fallback content if Shopify is not configured."
-        />
-      )}
-      
-      {/* Only show this warning if explicitly needed for debugging */}
-      {isMounted && process.env.NODE_ENV === 'development' && process.env.SHOW_SHOPIFY_DEBUG === 'true' && !loading && featuredProducts.length === 0 && collections.length === 0 && (
-        <DevNotice
-          type="warning"
-          message="Shopify not configured"
-          details="Add SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN to .env.local to load real products and collections."
-        />
-      )}
-
-      {/* Table of Contents / Issue Navigation */}
+      {/* Table of Contents / Issue Navigation - Always shows */}
       <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-6">
             <div>
               <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
               <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
-              {isMounted && !loading && collections.length > 0 && (
+              {dataLoaded && collections.length > 0 && (
                 <p className="text-xs text-gray-500 mt-1">{collections.length} live collections loaded</p>
               )}
             </div>
@@ -205,7 +147,16 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
-            {collections.length > 0 ? (
+            {loading ? (
+              // Loading skeletons
+              Array(4).fill(0).map((_, index) => (
+                <div key={index} className="space-y-2">
+                  <LoadingSkeleton type="text" className="w-8 h-3" />
+                  <LoadingSkeleton type="text" className="w-full h-5" />
+                  <LoadingSkeleton type="text" className="w-3/4 h-3" />
+                </div>
+              ))
+            ) : collections.length > 0 ? (
               collections.slice(0, 4).map((collection, index) => (
                 <Link key={collection.id} href={`/collections/${collection.handle}`} className="group">
                   <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
@@ -237,14 +188,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pull Quote */}
+      {/* Pull Quote - Always shows */}
       <PullQuote
         quote="If life gives you a break, ride it. Our designs are for those who live for the waves and streets."
         author="EC Design Team"
       />
 
-      {/* Featured Products Section - Real Shopify Data */}
-      {isMounted && featuredProducts.length > 0 && (
+      {/* Featured Products Section - Shows when loaded */}
+      {dataLoaded && featuredProducts.length > 0 && (
         <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
           <div className="max-w-7xl mx-auto">
             <div className="flex justify-between items-end mb-12">
@@ -296,7 +247,26 @@ export default function Home() {
         </section>
       )}
 
-      {/* Editorial Grid - Trending Articles */}
+      {/* Loading state for featured products */}
+      {loading && (
+        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <LoadingSkeleton type="text" className="w-48 h-8 mb-2" />
+                <LoadingSkeleton type="text" className="w-64 h-4" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {Array(3).fill(0).map((_, index) => (
+                <LoadingSkeleton key={index} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Editorial Grid - Always shows */}
       <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-12">Trending Now</h2>
@@ -346,50 +316,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* New Arrivals Section */}
-      {isMounted && newArrivals.length > 0 && (
-        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <span className="text-xs uppercase tracking-widest steel-text mb-6">Fresh Drops</span>
-                <h2 className="text-2xl sm:text-3xl uppercase tracking-wider steel-gradient">
-                  New Arrivals
-                </h2>
-                <p className="text-xs text-gray-500 mt-2">Latest products from our Shopify store</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {newArrivals.map((product) => (
-                <div key={product.id} className="group">
-                  <div className="aspect-square overflow-hidden rounded-lg">
-                    <img
-                      src={product.images[0] || "/placeholder.svg"}
-                      alt={product.title}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <h3 className="text-sm font-medium text-gray-900 group-hover:underline">
-                      <Link href={`/products/${product.handle}`}>
-                        {product.title}
-                      </Link>
-                    </h3>
-                    <p className="mt-1 text-xs text-gray-600">{product.vendor}</p>
-                    <div className="mt-2 flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900">${product.price.toFixed(2)}</span>
-                      {product.compareAtPrice && product.compareAtPrice > product.price && (
-                        <span className="text-sm text-gray-500 line-through">${product.compareAtPrice.toFixed(2)}</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
+      {/* Rest of the static content that always shows */}
       {/* Category Feature */}
       <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
