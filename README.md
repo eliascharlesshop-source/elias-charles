@@ -1,4 +1,5 @@
-# 🏄‍♂️ EC Store - Complete Commerce### **🛍️ E-Commerce Engine**
+# 🏄‍♂️ EC Store - Complete Commerce
+## **🛍️ E-Commerce Engine**
 - **🏪 Shopify Integration** - Real store: `eliascharles-shop.myshopify.com`
 - **💳 Secure Payments** - Shopify's trusted checkout system  
 - **📦 Inventory Management** - Real-time stock tracking
