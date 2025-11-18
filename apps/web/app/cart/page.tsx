@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { Minus, Plus, ShoppingBag } from "lucide-react"
-import { useCart } from "../../components/commerce/cart-provider"
+import { useCart } from "@/components/commerce/cart-provider"
 import { PageTitle, SectionTitle, BodyText, SmallText } from "@/components/layout/typography"
 
 interface CartItem {

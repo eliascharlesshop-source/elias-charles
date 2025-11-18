@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/src/components/layout/auth-provider"
+import { useAuth } from "@/components/layout/auth-provider"
 import { ConnectWallet } from "@thirdweb-dev/react"
 import { Mail, Shield, Wallet } from "lucide-react"
 

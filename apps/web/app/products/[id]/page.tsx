@@ -4,9 +4,9 @@ import { useParams } from "next/navigation"
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { Heart, Share2, ChevronRight } from "lucide-react"
-import { useCart } from "../../../components/commerce/cart-provider"
+import { useCart } from "@/components/commerce/cart-provider"
 import { transformShopifyProduct } from "@/src/lib/shopify"
-import shopifyService from "../../../lib/shopify-service"
+import shopifyService from "@/lib/shopify-service"
 
 interface ProductVariant {
   id: string

@@ -18,10 +18,10 @@
     "tailwind"
   ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "dev": "next dev apps/web",
+    "build": "next build apps/web",
+    "start": "next start apps/web",
+    "lint": "next lint apps/web",
     "type-check": "tsc --noEmit",
     "test:shopify": "node scripts/test-shopify.js",
     "test:api": "node scripts/test-api.js",

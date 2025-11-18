@@ -280,3 +280,9 @@ export class ShopifyDataTransformer {
     }
   }
 }
+
+// Bridge to the advanced GraphQL-based Shopify service defined at the repo root.
+// This allows consumers to use `import shopifyService from "@/lib/shopify-service"`
+// while still preserving the existing named service classes in this file.
+export { default } from "../lib/shopify-service"
+export * from "../lib/shopify-service"

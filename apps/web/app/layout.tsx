@@ -2,10 +2,10 @@ import type React from "react"
 import "./globals.css"
 import "./styles/text-utils.css"
 import { Inter } from "next/font/google"
-import { Header } from "@/src/components/layout/header"
-import { Footer } from "@/src/components/layout/footer"
-import { Providers } from "@/src/components/providers/providers"
-import { DarkModeToggle } from "@/src/components/ui/dark-mode-toggle"
+import { Header } from "@/components/layout/header"
+import { Footer } from "@/components/layout/footer"
+import { Providers } from "@/components/providers/providers"
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle"
 
 const inter = Inter({ subsets: ["latin"] })
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useAuth } from "@/src/components/layout/auth-provider"
+import { useAuth } from "@/components/layout/auth-provider"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Mail, Wallet, User, Settings, LogOut, Shield } from "lucide-react"

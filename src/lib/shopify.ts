@@ -11,7 +11,9 @@ export class ShopifyStorefront {
     this.accessToken = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || ''
     
     if (!shopDomain || !this.accessToken) {
-      throw new Error('Missing Shopify configuration. Please set SHOPIFY_STORE_DOMAIN and SHOPIFY_STOREFRONT_ACCESS_TOKEN')
+      console.warn('ShopifyStorefront disabled: missing SHOPIFY_STORE_DOMAIN or SHOPIFY_STOREFRONT_ACCESS_TOKEN')
+      this.endpoint = ''
+      return
     }
     
     this.endpoint = `https://${shopDomain}/api/2023-10/graphql.json`
@@ -19,6 +21,10 @@ export class ShopifyStorefront {
 
   async query(query: string, variables?: any) {
     try {
+      if (!this.endpoint || !this.accessToken) {
+        throw new Error('Shopify Storefront is not configured')
+      }
+
       const response = await fetch(this.endpoint, {
         method: 'POST',
         headers: {

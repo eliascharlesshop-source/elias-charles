@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import { useEffect, useRef } from 'react'
 
 // Dynamically import three.js to avoid SSR issues
-const ThreeCanvas = dynamic(() => import('@/src/components/visualization/ThreeCanvas'), { ssr: false })
+const ThreeCanvas = dynamic(() => import('@/components/visualization/ThreeCanvas'), { ssr: false })
 
 export default function ARVRVisualizationPage() {
   return (

@@ -1,8 +1,8 @@
 "use client"
 
-import { PullQuote } from "@/src/components/layout/pull-quote"
-import { DevNotice } from "@/src/components/ui/dev-notice"
-import { LoadingSkeleton } from "@/src/components/ui/loading-skeleton"
+import { PullQuote } from "@/components/layout/pull-quote"
+import { DevNotice } from "@/components/ui/dev-notice"
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 
@@ -46,8 +46,8 @@ export default function Home() {
       try {
         setLoading(true)
         
-        // Dynamically import shopify service only when needed
-        const { shopifyService } = await import('../lib/shopify-service')
+        // Dynamically import Shopify service only when needed
+        const shopifyService = (await import('@/lib/shopify-service')).default
 
         // Fetch data with timeout
         const fetchWithTimeout = (promise: Promise<any>, timeout = 5000) => {
