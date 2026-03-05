@@ -1,0 +1,107 @@
+/* Magazine-specific styles */
+
+.magazine-layout {
+  /* Base styles */
+  --magazine-spacing-sm: 1rem;
+  --magazine-spacing-md: 2rem;
+  --magazine-spacing-lg: 4rem;
+
+  /* Typography adjustments for magazine feel */
+  letter-spacing: 0.02em;
+}
+
+/* Magazine grid layouts */
+.magazine-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--magazine-spacing-md);
+}
+
+/* Magazine article styles */
+.magazine-article {
+  margin-bottom: var(--magazine-spacing-lg);
+}
+
+.magazine-article__title {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.magazine-article__excerpt {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+/* Magazine image treatments */
+.magazine-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.magazine-image img {
+  transition: transform 0.7s ease;
+}
+
+.magazine-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Magazine typography */
+.magazine-caption {
+  font-size: 0.875rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+  color: #666;
+}
+
+.magazine-byline {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.magazine-date {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+/* Magazine section dividers */
+.magazine-divider {
+  width: 3rem;
+  height: 2px;
+  background-color: currentColor;
+  margin: 2rem 0;
+}
+
+/* Magazine pull quotes */
+.magazine-pull-quote {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-style: italic;
+  padding: 2rem 0;
+  position: relative;
+}
+
+.magazine-pull-quote::before,
+.magazine-pull-quote::after {
+  content: '"';
+  font-size: 4rem;
+  line-height: 0;
+  position: absolute;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.magazine-pull-quote::before {
+  top: 1rem;
+  left: -1rem;
+}
+
+.magazine-pull-quote::after {
+  bottom: 0;
+  right: -1rem;
+}

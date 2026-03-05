@@ -1,0 +1,14 @@
+node_modules
+.git
+.next
+.vscode
+backup
+docs
+examples
+scripts
+*.log
+*.md
+!README.md
+.env.local
+apps/web
+apps/mobile

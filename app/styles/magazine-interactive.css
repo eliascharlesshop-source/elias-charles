@@ -1,0 +1,148 @@
+/* Interactive magazine-specific styles */
+
+.magazine-hotspot {
+  position: absolute;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+
+.magazine-hotspot:hover {
+  transform: scale(1.2);
+}
+
+.magazine-hotspot-content {
+  position: absolute;
+  z-index: 20;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 250px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.magazine-hotspot:hover .magazine-hotspot-content {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Magazine page transitions */
+.magazine-page-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.magazine-page-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.magazine-page-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.magazine-page-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 500ms, transform 500ms;
+}
+
+/* Magazine parallax effects */
+.magazine-parallax {
+  position: relative;
+  overflow: hidden;
+}
+
+.magazine-parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.magazine-parallax-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Magazine article styling */
+.magazine-article-title {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.magazine-article-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.magazine-article-author {
+  font-weight: 500;
+  margin-right: 1rem;
+}
+
+.magazine-article-date {
+  font-style: italic;
+}
+
+.magazine-article-content {
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+/* Magazine product showcase */
+.magazine-product-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.magazine-product-card {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.magazine-product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Magazine pull quotes */
+.magazine-pull-quote {
+  position: relative;
+  font-size: 1.5rem;
+  line-height: 1.4;
+  font-style: italic;
+  padding: 2rem 0;
+  margin: 3rem 0;
+  text-align: center;
+}
+
+.magazine-pull-quote::before,
+.magazine-pull-quote::after {
+  content: '"';
+  font-size: 4rem;
+  line-height: 0;
+  position: absolute;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.magazine-pull-quote::before {
+  top: 1rem;
+  left: -1rem;
+}
+
+.magazine-pull-quote::after {
+  bottom: 0;
+  right: -1rem;
+}
