@@ -4,7 +4,9 @@ import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Plus, X } from "lucide-react"
+import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Plus, X, Package, Star } from "lucide-react"
+import { BoxCard } from "@/components/boxes/box-card"
+import { IE_BOXES } from "@/data/box-config"
 
 // Interactive product hotspot component
 const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
@@ -872,6 +874,43 @@ export default function InLifePage() {
                   <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
                   <p className="text-sm">$149.00</p>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Box Model Integration */}
+          <div className="my-16">
+            <div className="flex items-center justify-center mb-8">
+              <Package className="w-6 h-6 text-blue-600 mr-2" />
+              <h2 className="text-xl font-bold px-4">CURATED BOXES FOR MOUNTAIN LIVING</h2>
+              <Package className="w-6 h-6 text-blue-600 ml-2" />
+            </div>
+            
+            <div className="bg-blue-50 p-8 rounded-xl mb-8">
+              <p className="text-center text-gray-700 max-w-2xl mx-auto mb-6">
+                Our Inland Empire boxes are designed around seasonal moments and lifestyle needs. 
+                Perfect for mountain adventures, city exploration, and coastal living.
+              </p>
+              <div className="flex justify-center">
+                <Link 
+                  href="/collections"
+                  className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Star className="w-5 h-5" />
+                  Explore All Boxes
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {IE_BOXES.slice(0, 2).map((box) => (
+                <BoxCard
+                  key={box.id}
+                  box={box}
+                  onSubscribe={(boxId) => console.log('Subscribe:', boxId)}
+                  onLearnMore={(boxId) => console.log('Learn more:', boxId)}
+                  progress={0}
+                />
               ))}
             </div>
           </div>

@@ -1,6 +1,5 @@
 import type React from "react"
 import "./globals.css"
-import "./styles/text-utils.css"
 import { Inter } from "next/font/google"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"

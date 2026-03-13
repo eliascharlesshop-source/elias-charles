@@ -4,6 +4,8 @@ import Layout from "@/components/layout/layout"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 import { ShopifyCollectionService, ShopifyDataTransformer } from "@/lib/shopify-services"
+import { BoxShowcase } from "@/components/boxes/box-showcase"
+import { IE_BOXES } from "@/data/box-config"
 
 interface Collection {
   id: string
@@ -122,129 +124,53 @@ async function fetchFeaturedProductsFallback(): Promise<any[]> {
 }
 
 export default function CollectionsPage() {
-  const [collections, setCollections] = useState<Collection[]>([])
-  const [featuredProducts, setFeaturedProducts] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [currentWeek, setCurrentWeek] = useState(1)
 
-  // Fetch collections and featured products using Shopify first, then fallback
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        setError(null)
+  const handleSubscribe = (boxId: string) => {
+    console.log('Subscribe to box:', boxId)
+    // TODO: Implement subscription logic
+  }
 
-        // First, try to fetch from Shopify
-        try {
-          const shopifyCollections = await ShopifyCollectionService.getAllCollections(20)
-          const transformedCollections = shopifyCollections.map(collection => 
-            ShopifyDataTransformer.collectionToAppFormat(collection)
-          )
-          
-          if (transformedCollections.length > 0) {
-            setCollections(transformedCollections)
-            console.log('✅ Loaded collections from Shopify:', transformedCollections.length)
-          } else {
-            throw new Error('No collections found in Shopify')
-          }
-        } catch (shopifyError) {
-          console.warn('Shopify collections failed, trying fallback:', shopifyError)
-          // Try to fetch collections with fallback API
-          const collectionsData = await fetchCollectionsFallback()
-          setCollections(collectionsData)
-        }
-
-        // Try to fetch featured products with fallback
-        const featured = await fetchFeaturedProductsFallback()
-        setFeaturedProducts(featured)
-
-      } catch (err) {
-        console.error('Failed to load collections:', err)
-        setError('Failed to load collections')
-        // Even if there's an error, we can still show static collections
-        setCollections([
-          {
-            id: "1",
-            title: "Boards",
-            description: "Surf and skate boards for every level",
-            handle: "boards",
-            image: "/products/beach-product.png",
-            productCount: 8
-          },
-          {
-            id: "2",
-            title: "Apparel",
-            description: "Clothing and accessories for your active lifestyle",
-            handle: "apparel",
-            image: "/products/men-casual-hoodie.png", 
-            productCount: 12
-          }
-        ])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  // Static collection categories for UI (enhanced with real images)
-  const staticCollections = [
-    {
-      id: "boards",
-      code: "BO",
-      title: "Boards",
-      description: "Surf and skate boards for every level",
-      image: "/products/longboard.png",
-      subcategories: [
-        { id: "surf", code: "BO-SU", title: "Surf" },
-        { id: "skate", code: "BO-SK", title: "Skate" },
-      ],
-    },
-    {
-      id: "apparel",
-      code: "AP",
-      title: "Apparel",
-      description: "Clothing and accessories for your active lifestyle",
-      image: "/products/men-casual-hoodie.png",
-      subcategories: [
-        { id: "hats", code: "AP-HA", title: "Hats" },
-        { id: "sunglasses", code: "AP-SU", title: "Sunglasses" },
-        { id: "tops", code: "AP-TO", title: "Tops" },
-        { id: "bottoms", code: "AP-BO", title: "Bottoms" },
-        { id: "jewelry", code: "AP-JE", title: "Jewelry" },
-      ],
-    },
-    {
-      id: "self-care",
-      code: "SE",
-      title: "Self Care",
-      description: "Products to help you look and feel your best",
-      image: "/products/linen-dress-beach.png",
-      subcategories: [
-        { id: "body", code: "SE-BO", title: "Body" },
-        { id: "nutrition", code: "SE-NU", title: "Nutrition" },
-        { id: "supplements", code: "SE-SU", title: "Supplements" },
-      ],
-    },
-    {
-      id: "life",
-      code: "LI",
-      title: "Life",
-      description: "Everything for your home, car, travel, and family",
-      image: "/products/diverse-beach-fashion.png",
-      subcategories: [
-        { id: "house", code: "LI-HO", title: "House" },
-        { id: "car", code: "LI-CA", title: "Car" },
-        { id: "travel", code: "LI-TR", title: "Travel" },
-        { id: "family", code: "LI-FA", title: "Family" },
-      ],
-    },
-  ]
+  const handleLearnMore = (boxId: string) => {
+    console.log('Learn more about box:', boxId)
+    // TODO: Navigate to box details
+  }
 
   return (
     <Layout>
       <div className="bg-[#fdf4ec]">
+        {/* Header Section */}
+        <div className="text-center py-16 px-6">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+            Inland Empire Boxes
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+            Curated collections around seasonal moments. Simplified decisions, elevated experience.
+          </p>
+          <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+            <span>4 Core Boxes</span>
+            <span>•</span>
+            <span>Seasonal Themes</span>
+            <span>•</span>
+            <span>Limited Editions</span>
+          </div>
+        </div>
+
+        {/* Box Showcase */}
+        <div className="px-6 pb-16">
+          <BoxShowcase 
+            boxes={IE_BOXES}
+            onSubscribe={handleSubscribe}
+            onLearnMore={handleLearnMore}
+            currentWeek={currentWeek}
+          />
+        </div>
+      </div>
+    </Layout>
+  )
+}
+
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">

@@ -3,8 +3,13 @@
 import { PullQuote } from "@/components/layout/pull-quote"
 import { DevNotice } from "@/components/ui/dev-notice"
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
-import Link from "next/link"
-import { useState, useEffect } from "react"
+import { BoxShowcase } from "@/components/boxes/box-showcase"
+import { CryptoSubscriptionPlans } from "@/src/components/crypto/crypto-subscription-plans"
+import { WalletConnector } from "@/src/components/crypto/wallet-connector"
+import { CryptoPaymentFlow } from "@/src/components/crypto/crypto-payment-flow"
+import { useState } from "react"
+import { IE_BOXES } from "@/data/box-config"
+import { Cryptocurrency, Network, CryptoSubscription, PaymentProcessingError } from "@/types/crypto-subscription"
 
 interface Product {
   id: string
@@ -26,59 +31,47 @@ interface Collection {
 }
 
 export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
-  const [collections, setCollections] = useState<Collection[]>([])
-  const [newArrivals, setNewArrivals] = useState<Product[]>([])
+  const [currentWeek, setCurrentWeek] = useState(1)
   const [loading, setLoading] = useState(false)
-  const [dataLoaded, setDataLoaded] = useState(false)
+  const [dataLoaded, setDataLoaded] = useState(true)
+  const [showPaymentFlow, setShowPaymentFlow] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
+  const [selectedCurrency, setSelectedCurrency] = useState<Cryptocurrency>('ETH')
+  const [selectedNetwork, setSelectedNetwork] = useState<Network>('ethereum')
 
-  // Load Shopify data lazily after component mounts
-  useEffect(() => {
-    const loadShopifyData = async () => {
-      // Only try to load Shopify data if environment variables are set
-      const hasShopifyConfig = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN && process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
-      
-      if (!hasShopifyConfig) {
-        setDataLoaded(true)
-        return
-      }
+  const handleSubscribe = (boxId: string) => {
+    console.log('Subscribe to box:', boxId)
+    // TODO: Redirect to box crypto subscription
+  }
 
-      try {
-        setLoading(true)
-        
-        // Dynamically import Shopify service only when needed
-        const shopifyService = (await import('@/lib/shopify-service')).default
+  const handleLearnMore = (boxId: string) => {
+    console.log('Learn more about box:', boxId)
+    // TODO: Navigate to box details
+  }
 
-        // Fetch data with timeout
-        const fetchWithTimeout = (promise: Promise<any>, timeout = 5000) => {
-          return Promise.race([
-            promise,
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), timeout))
-          ])
-        }
+  const handleCryptoSubscribe = (planId: string, currency: Cryptocurrency, network: Network) => {
+    setSelectedPlan(planId)
+    setSelectedCurrency(currency)
+    setSelectedNetwork(network)
+    setShowPaymentFlow(true)
+  }
 
-        const [featured, collectionsData, arrivals] = await Promise.allSettled([
-          fetchWithTimeout(shopifyService.getFeaturedProducts(6)),
-          fetchWithTimeout(shopifyService.getCollections(4)),
-          fetchWithTimeout(shopifyService.getNewArrivals(4))
-        ])
+  const handlePaymentSuccess = (subscription: CryptoSubscription) => {
+    console.log('Payment successful:', subscription)
+    setShowPaymentFlow(false)
+    setSelectedPlan(null)
+    // TODO: Show success message and redirect to subscription management
+  }
 
-        if (featured.status === 'fulfilled') setFeaturedProducts(featured.value || [])
-        if (collectionsData.status === 'fulfilled') setCollections(collectionsData.value || [])
-        if (arrivals.status === 'fulfilled') setNewArrivals(arrivals.value || [])
+  const handlePaymentError = (error: PaymentProcessingError) => {
+    console.error('Payment failed:', error)
+    // TODO: Show error handling
+  }
 
-      } catch (error) {
-        console.warn('Shopify data loading failed, using fallback content:', error)
-      } finally {
-        setLoading(false)
-        setDataLoaded(true)
-      }
-    }
-
-    // Delay loading by 100ms to ensure smooth initial render
-    const timer = setTimeout(loadShopifyData, 100)
-    return () => clearTimeout(timer)
-  }, [])
+  const handlePaymentCancel = () => {
+    setShowPaymentFlow(false)
+    setSelectedPlan(null)
+  }
 
   return (
     <div className="magazine-layout">
@@ -95,175 +88,78 @@ export default function Home() {
         <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
           <div className="max-w-md">
             <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
-              Summer 2023 Issue
+              Spring 2026 Collection
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
-              The Ocean <br /> Edition
+              Inland Empire <br /> Box Model
             </h1>
             <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
-              Exploring the intersection of surf culture, sustainable fashion, and coastal living
+              Curated boxes around seasonal moments. Simplified decisions, elevated experience.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
-                href="/collections"
+                href="#boxes"
                 className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
               >
-                Explore Collections
+                Explore Boxes
               </Link>
-              {dataLoaded && featuredProducts.length > 0 && (
-                <Link
-                  href="/products"
-                  className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
-                >
-                  Shop Featured
-                </Link>
-              )}
+              <Link
+                href="#subscription"
+                className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
+              >
+                Pay with Crypto
+              </Link>
             </div>
-            {loading && (
-              <div className="mt-4 text-xs text-white/80">
-                Loading products...
-              </div>
-            )}
           </div>
         </div>
       </section>
 
-      {/* Table of Contents / Issue Navigation - Always shows */}
-      <section className="bg-cream py-12 px-6 sm:px-12 lg:px-24">
+      {/* Box Model Showcase */}
+      <section id="boxes" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-gray-300 pb-6">
-            <div>
-              <h2 className="text-sm uppercase tracking-widest steel-gradient mb-2">In This Issue</h2>
-              <p className="text-xs steel-text">Volume 03 • Summer 2023</p>
-              {dataLoaded && collections.length > 0 && (
-                <p className="text-xs text-gray-500 mt-1">{collections.length} live collections loaded</p>
-              )}
-            </div>
-            <div className="mt-4 md:mt-0">
-              <Link href="/in-life" className="text-xs uppercase tracking-widest steel-text hover:underline">
-                Subscribe to EC Magazine
-              </Link>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-8">
-            {loading ? (
-              // Loading skeletons
-              Array(4).fill(0).map((_, index) => (
-                <div key={index} className="space-y-2">
-                  <LoadingSkeleton type="text" className="w-8 h-3" />
-                  <LoadingSkeleton type="text" className="w-full h-5" />
-                  <LoadingSkeleton type="text" className="w-3/4 h-3" />
-                </div>
-              ))
-            ) : collections.length > 0 ? (
-              collections.slice(0, 4).map((collection, index) => (
-                <Link key={collection.id} href={`/collections/${collection.handle}`} className="group">
-                  <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
-                  <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
-                    {collection.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-1 truncate">{collection.description}</p>
-                  <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
-                </Link>
-              ))
-            ) : (
-              // Fallback static content
-              [
-                { title: "Surf Culture", link: "/collections/boards/surf" },
-                { title: "Summer Apparel", link: "/collections/apparel" },
-                { title: "Coastal Living", link: "/collections/life" },
-                { title: "Self Care", link: "/collections/self-care" },
-              ].map((item, index) => (
-                <Link key={index} href={item.link} className="group">
-                  <span className="text-xs text-gray-400">{(index + 1).toString().padStart(2, "0")}</span>
-                  <h3 className="text-base sm:text-lg uppercase tracking-wider steel-gradient group-hover:opacity-70 transition-opacity">
-                    {item.title}
-                  </h3>
-                  <span className="block mt-2 w-8 h-0.5 bg-beach-darker group-hover:w-12 transition-all duration-300"></span>
-                </Link>
-              ))
-            )}
-          </div>
+          <BoxShowcase 
+            boxes={IE_BOXES}
+            onSubscribe={handleSubscribe}
+            onLearnMore={handleLearnMore}
+            currentWeek={currentWeek}
+          />
         </div>
       </section>
 
-      {/* Pull Quote - Always shows */}
+      {/* Pull Quote */}
       <PullQuote
-        quote="If life gives you a break, ride it. Our designs are for those who live for the waves and streets."
-        author="EC Design Team"
+        quote="Perfect move. An IE Box model will raise AOV, simplify decisions, and make the drop feel collectible."
+        author="IE Strategy Team"
       />
 
-      {/* Featured Products Section - Shows when loaded */}
-      {dataLoaded && featuredProducts.length > 0 && (
-        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient">Featured Products</h2>
-                <p className="text-xs text-gray-500 mt-2">Powered by GraphQL • Real-time Shopify data</p>
-              </div>
-              <Link
-                href="/products"
-                className="text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
-              >
-                View All Products
-              </Link>
-            </div>
+      {/* Crypto Subscription Plans */}
+      <section id="subscription" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
+        <div className="max-w-7xl mx-auto">
+          <CryptoSubscriptionPlans onSubscribe={handleCryptoSubscribe} />
+        </div>
+      </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredProducts.slice(0, 3).map((product, index) => (
-                <div key={product.id} className="group">
-                  <div className="aspect-[4/3] overflow-hidden rounded-lg">
-                    <img
-                      src={product.images[0] || "/placeholder.svg"}
-                      alt={product.title}
-                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="mt-6">
-                    <span className="text-xs uppercase tracking-widest text-beach-darker mb-3">{product.vendor}</span>
-                    <h3 className="text-lg uppercase tracking-wider steel-gradient mt-2 group-hover:opacity-70 transition-opacity">
-                      {product.title}
-                    </h3>
-                    <p className="steel-text mt-3 line-clamp-2">{product.description}</p>
-                    <div className="mt-4 flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900">${product.price.toFixed(2)}</span>
-                      {product.compareAtPrice && product.compareAtPrice > product.price && (
-                        <span className="text-sm text-gray-500 line-through">${product.compareAtPrice.toFixed(2)}</span>
-                      )}
-                    </div>
-                    <Link
-                      href={`/products/${product.handle}`}
-                      className="inline-block mt-4 text-xs uppercase tracking-widest steel-text border-b border-gray-400 pb-1 hover:border-beach-darker"
-                    >
-                      Shop Now
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Wallet Connector */}
+      <section className="py-8 px-6 sm:px-12 lg:px-24 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <WalletConnector />
+        </div>
+      </section>
 
-      {/* Loading state for featured products */}
-      {loading && (
-        <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex justify-between items-end mb-12">
-              <div>
-                <LoadingSkeleton type="text" className="w-48 h-8 mb-2" />
-                <LoadingSkeleton type="text" className="w-64 h-4" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array(3).fill(0).map((_, index) => (
-                <LoadingSkeleton key={index} />
-              ))}
-            </div>
+      {/* Payment Flow Modal */}
+      {showPaymentFlow && selectedPlan && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <CryptoPaymentFlow
+              planId={selectedPlan}
+              currency={selectedCurrency}
+              network={selectedNetwork}
+              onSuccess={handlePaymentSuccess}
+              onError={handlePaymentError}
+              onCancel={handlePaymentCancel}
+            />
           </div>
-        </section>
+        </div>
       )}
 
       {/* Editorial Grid - Always shows */}
