@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { adminMiddleware, SessionManager, AccessControlService, RateLimiter, addSecurityHeaders } from '@/lib/admin-middleware'
 
-// Middleware to block fiat payment endpoints and redirect to crypto
+// Enhanced middleware with admin authentication and access control
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone()
   const pathname = request.nextUrl.pathname
@@ -41,6 +42,37 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 301)
   }
 
+  // Apply admin middleware for admin routes
+  const adminResponse = await adminMiddleware(request)
+  if (adminResponse) {
+    return adminResponse
+  }
+
+  // Rate limiting for API routes
+  if (pathname.startsWith('/api/')) {
+    const session = SessionManager.validateSession(request)
+    if (session) {
+      const isRateLimited = RateLimiter.isRateLimited(session.userId)
+      if (isRateLimited) {
+        return new NextResponse(
+          JSON.stringify({
+            error: 'Rate limit exceeded',
+            message: 'Too many requests. Please try again later.'
+          }),
+          {
+            status: 429,
+            headers: {
+              'Content-Type': 'application/json',
+              'X-RateLimit-Limit': '100',
+              'X-RateLimit-Remaining': '0',
+              'X-RateLimit-Reset': Math.ceil(Date.now() / 1000 + 900).toString()
+            }
+          }
+        )
+      }
+    }
+  }
+
   // Add security headers
   const response = NextResponse.next()
   
@@ -51,17 +83,24 @@ export async function middleware(request: NextRequest) {
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
   response.headers.set('Permissions-Policy', 'payment=*')
   
-  // CSP headers to block external payment scripts
-  response.headers.set(
-    'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.coingecko.com https://mainnet.infura.io https://polygon-rpc.com https://arb1.arbitrum.io https://api.mainnet-beta.solana.com; frame-src 'none';"
-  )
+  // Enhanced CSP headers for admin routes
+  if (pathname.startsWith('/admin')) {
+    return addSecurityHeaders(response)
+  } else {
+    // Regular CSP headers
+    response.headers.set(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.coingecko.com https://mainnet.infura.io https://polygon-rpc.com https://arb1.arbitrum.io https://api.mainnet-beta.solana.com; frame-src 'none';"
+    )
+  }
 
   return response
 }
 
 export const config = {
   matcher: [
+    '/admin/:path*',
+    '/api/admin/:path*',
     '/api/checkout/:path*',
     '/api/payments/:path*',
     '/api/stripe/:path*',

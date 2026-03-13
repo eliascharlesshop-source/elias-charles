@@ -127,6 +127,7 @@ export interface ApiResponse<T = any> {
   data?: T
   error?: string
   message?: string
+  details?: string | string[]
 }
 
 export interface PaginatedResponse<T> extends ApiResponse<T[]> {
