@@ -512,7 +512,7 @@ export default function InLifePage() {
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
-            <Image src="/lifestyle/images/ocean-wave-1.jpeg" alt="Beach lifestyle" fill className="object-cover" />
+            <Image src="/lifestyle/images/ocean-wave-1.png" alt="Beach lifestyle" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 md:p-12 text-white max-w-3xl">
                 <p className="text-sm uppercase tracking-wider mb-4">Featured Story</p>
@@ -531,7 +531,7 @@ export default function InLifePage() {
           <MagazineArticle
             title="Morning Rituals: Sunrise Surf Sessions"
             excerpt="The early morning hours offer the most pristine surf conditions, with offshore winds creating glassy waves perfect for long rides. We explore the ritual of dawn patrol and how it sets the tone for a day lived in harmony with the ocean."
-            image="/lifestyle/images/ocean-wave-2.jpeg"
+            image="/lifestyle/images/ocean-wave-2.png"
           >
             <Link
               href="/collections/boards/surf"
@@ -650,7 +650,7 @@ export default function InLifePage() {
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
-            <Image src="/lifestyle/images/night-highway-1.jpeg" alt="City lifestyle" fill className="object-cover" />
+            <Image src="/lifestyle/images/night-highway-1.png" alt="City lifestyle" fill className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
               <div className="p-6 md:p-12 text-white max-w-3xl">
                 <p className="text-sm uppercase tracking-wider mb-4">Urban Living</p>
@@ -669,7 +669,7 @@ export default function InLifePage() {
           <MagazineArticle
             title="Urban Movement: The Rise of City Skating"
             excerpt="Skateboarding has evolved from counterculture to mainstream urban transportation. We explore how modern city dwellers are embracing skateboards and longboards as sustainable, efficient ways to navigate urban environments while expressing personal style."
-            image="/lifestyle/images/night-highway-2.jpeg"
+            image="/lifestyle/images/night-highway-2.png"
             reverse={true}
           >
             <Link
