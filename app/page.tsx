@@ -2,41 +2,14 @@
 
 import Link from "next/link"
 import { PullQuote } from "@/components/layout/pull-quote"
+import { HeroCarousel } from "@/components/home/hero-carousel"
 
 export default function Home() {
 
   return (
     <div className="magazine-layout">
-      {/* Magazine Cover Hero - Always shows immediately */}
-      <section className="relative h-screen">
-        <div className="absolute inset-0">
-          <img
-            src="/images/ocean-bw-1.jpg"
-            alt="Ocean waves in black and white"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30"></div>
-        </div>
-        <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
-          <div className="max-w-md">
-            <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
-              Spring 2026 Collection
-            </span>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
-              Inland Empire <br /> Box Model
-            </h1>
-            <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
-              Curated collections for every lifestyle. Discover Inland Empire and Isla Vista.
-            </p>
-            <Link
-              href="/boxes"
-              className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
-            >
-              Explore Collections
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Hero Carousel */}
+      <HeroCarousel />
 
 
 
