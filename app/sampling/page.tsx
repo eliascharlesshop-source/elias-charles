@@ -77,9 +77,13 @@ export default function SamplingDashboard() {
   }
 
   const DeviceCard = ({ device }: { device: WearableDevice }) => (
-    <div className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-      selectedDevice === device.id ? 'border-gray-400 hover:border-gray-300' : 'border-gray-200 hover:border-gray-300'`} style={{ backgroundColor: selectedDevice === device.id ? '#D0E1F2' : 'transparent'
-    }`} onClick={() => setSelectedDevice(device.id)}>
+    <div 
+      className={`p-4 border rounded-lg cursor-pointer transition-colors ${
+        selectedDevice === device.id ? 'border-gray-400 hover:border-gray-300' : 'border-gray-200 hover:border-gray-300'
+      }`}
+      style={{ backgroundColor: selectedDevice === device.id ? '#D0E1F2' : 'transparent' }}
+      onClick={() => setSelectedDevice(device.id)}
+    >
       <div className="flex items-center justify-between mb-2">
         <h3 className="font-medium">{device.name}</h3>
         <div className={`w-3 h-3 rounded-full ${device.connected ? 'bg-green-500' : 'bg-red-500'}`} />
