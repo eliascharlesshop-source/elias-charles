@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/components/layout/auth-provider"
-import { Mail, Shield } from "lucide-react"
+import { Mail } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -67,7 +67,7 @@ export default function LoginPage() {
                 autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Email address (try: demo@example.com)"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -83,7 +83,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
-                placeholder="Password (try: password123)"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -149,26 +149,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Demo Credentials Helper */}
-        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-md">
-          <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials</h3>
-          <p className="text-xs text-blue-700">
-            Email: <code className="bg-blue-100 px-1 rounded">demo@example.com</code><br />
-            Password: <code className="bg-blue-100 px-1 rounded">password123</code>
-          </p>
-        </div>
 
-        {/* Admin Portal Access */}
-        <div className="text-center">
-          <Link
-            href="/admin"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors duration-200"
-          >
-            <Shield className="h-4 w-4 mr-2" />
-            Admin Portal
-          </Link>
-          <p className="mt-1 text-xs text-gray-500">For authorized personnel only</p>
-        </div>
       </div>
     </div>
   )
