@@ -33,7 +33,7 @@ export function MagazineImageGallery({ images }: MagazineImageGalleryProps) {
       </div>
 
       {images[currentIndex].caption && (
-        <p className="mt-2 text-sm text-gray-500 italic">{images[currentIndex].caption}</p>
+        <p className="mt-2 text-sm text-white italic">{images[currentIndex].caption}</p>
       )}
 
       {images.length > 1 && (
