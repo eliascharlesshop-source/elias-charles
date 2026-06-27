@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { PullQuote } from "@/components/layout/pull-quote"
 import { DevNotice } from "@/components/ui/dev-notice"
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
