@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/layout"
 import Link from "next/link"
+import { GlassmorphicButton } from "@/components/ui/glassmorphic-button"
 
 export default function TermsPage() {
   return (
@@ -304,12 +305,7 @@ export default function TermsPage() {
             <div className="mt-12 text-center">
               <p className="text-primary">Have questions about our terms of service?</p>
               <div className="mt-6">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center rounded-md border border-primary px-4 py-2 text-sm font-medium text-primary hover:bg-primary hover:text-white"
-                >
-                  Contact Us
-                </Link>
+                <GlassmorphicButton href="/contact">Contact Us</GlassmorphicButton>
               </div>
             </div>
           </div>

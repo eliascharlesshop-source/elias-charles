@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { PullQuote } from "@/components/layout/pull-quote"
 import { HeroCarousel } from "@/components/home/hero-carousel"
+import { GlassmorphicButton } from "@/components/ui/glassmorphic-button"
 
 export default function Home() {
 
@@ -88,12 +89,9 @@ export default function Home() {
                   <p className="text-sm steel-text leading-relaxed">Designed by skaters for skaters with coastal influences</p>
                 </div>
               </div>
-              <Link
-                href="/collections/boards"
-                className="inline-block bg-white border border-gray-300 text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-50 transition-colors"
-              >
+              <GlassmorphicButton href="/collections/boards">
                 Explore Collection
-              </Link>
+              </GlassmorphicButton>
             </div>
             <div>
               <div className="aspect-[4/5] overflow-hidden">
@@ -117,12 +115,7 @@ export default function Home() {
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 Discover our curated collection of beach-ready items for the perfect summer.
               </p>
-              <Link
-                href="/collections"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Shop Now
-              </Link>
+              <GlassmorphicButton href="/collections">Shop Now</GlassmorphicButton>
             </div>
           </div>
 
@@ -131,12 +124,7 @@ export default function Home() {
             <div className="text-center max-w-xs lg:max-w-sm">
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Surf Collection</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Performance gear designed for those who live for the waves.</p>
-              <Link
-                href="/collections/boards"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Explore
-              </Link>
+              <GlassmorphicButton href="/collections/boards">Explore</GlassmorphicButton>
             </div>
           </div>
           <div className="aspect-square">
@@ -151,12 +139,7 @@ export default function Home() {
             <div className="text-center max-w-xs lg:max-w-sm">
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Coastal Living</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Bring the beach home with our curated home and lifestyle products.</p>
-              <Link
-                href="/collections/life"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Discover
-              </Link>
+              <GlassmorphicButton href="/collections/life">Discover</GlassmorphicButton>
             </div>
           </div>
         </div>
