@@ -1,5 +1,74 @@
 import { IEBox, BoxAddOn, SubscriptionPlan, BoxCategory } from '@/types/box-model'
 
+export const IV_BOXES: IEBox[] = [
+  {
+    id: 'iv-starter',
+    name: 'IV Starter Box',
+    description: 'Your introduction to the Isla Vista collection. Coastal essentials with island vibes.',
+    targetPrice: { min: 59, max: 69 },
+    positioning: 'Entry box / giftable',
+    contents: [
+      { id: 'linen-tee', name: 'Linen Tee', category: 'apparel', retailValue: 38 },
+      { id: 'sea-salt-spray', name: 'Sea Salt Spray', category: 'accessories', retailValue: 18 },
+      { id: 'palm-sticker-card', name: 'Palm Sticker Card', category: 'accessories', retailValue: 8 }
+    ],
+    margin: 0.68,
+    availability: 'available',
+    launchWeek: 1,
+    theme: 'Coastal'
+  },
+  {
+    id: 'iv-beach',
+    name: 'IV Beach Box',
+    description: 'Everything you need for island living. Premium beach wear and accessories.',
+    targetPrice: { min: 119, max: 139 },
+    positioning: 'Core bestseller',
+    contents: [
+      { id: 'linen-shirt', name: 'Linen Shirt', category: 'apparel', retailValue: 52 },
+      { id: 'straw-hat', name: 'Straw Hat', category: 'accessories', retailValue: 35 },
+      { id: 'linen-shorts', name: 'Linen Shorts', category: 'apparel', retailValue: 48 }
+    ],
+    margin: 0.67,
+    availability: 'available',
+    launchWeek: 1,
+    theme: 'Coastal'
+  },
+  {
+    id: 'iv-tropical',
+    name: 'IV Tropical Box',
+    description: 'Premium island collection with organic materials. The ultimate coastal experience.',
+    targetPrice: { min: 179, max: 219 },
+    positioning: 'Premium island fit',
+    contents: [
+      { id: 'linen-jacket', name: 'Linen Jacket', category: 'apparel', retailValue: 95 },
+      { id: 'linen-pants', name: 'Linen Pants', category: 'apparel', retailValue: 88 },
+      { id: 'socks', name: 'Socks', category: 'accessories', retailValue: 14 }
+    ],
+    margin: 0.66,
+    availability: 'available',
+    launchWeek: 2,
+    theme: 'Coastal'
+  },
+  {
+    id: 'iv-paradise',
+    name: 'IV Paradise Box',
+    description: 'Limited edition luxury island collection. The epitome of coastal lifestyle.',
+    targetPrice: { min: 249, max: 299 },
+    positioning: 'Limited edition',
+    contents: [
+      { id: 'linen-resort-wear', name: 'Linen Resort Wear', category: 'apparel', retailValue: 120 },
+      { id: 'silk-shirt', name: 'Silk Shirt', category: 'apparel', retailValue: 85 },
+      { id: 'canvas-shorts', name: 'Canvas Shorts', category: 'apparel', retailValue: 65 },
+      { id: 'luxury-hat', name: 'Luxury Hat', category: 'accessories', retailValue: 45 }
+    ],
+    margin: 0.65,
+    availability: 'limited',
+    launchWeek: 3,
+    theme: 'Coastal',
+    isLimited: true
+  }
+]
+
 export const IE_BOXES: IEBox[] = [
   {
     id: 'ie-starter',

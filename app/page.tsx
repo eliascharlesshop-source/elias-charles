@@ -2,77 +2,8 @@
 
 import Link from "next/link"
 import { PullQuote } from "@/components/layout/pull-quote"
-import { DevNotice } from "@/components/ui/dev-notice"
-import { LoadingSkeleton } from "@/components/ui/loading-skeleton"
-import { BoxShowcase } from "@/components/boxes/box-showcase"
-import { CryptoSubscriptionPlans } from "@/src/components/crypto/crypto-subscription-plans"
-import { WalletConnector } from "@/src/components/crypto/wallet-connector"
-import { CryptoPaymentFlow } from "@/src/components/crypto/crypto-payment-flow"
-import { useState } from "react"
-import { IE_BOXES } from "@/data/box-config"
-import { Cryptocurrency, Network, CryptoSubscription, PaymentProcessingError } from "@/types/crypto-subscription"
-
-interface Product {
-  id: string
-  title: string
-  handle: string
-  price: number
-  compareAtPrice?: number
-  images: string[]
-  vendor: string
-  description: string
-}
-
-interface Collection {
-  id: string
-  title: string
-  handle: string
-  description: string
-  image?: string
-}
 
 export default function Home() {
-  const [currentWeek, setCurrentWeek] = useState(1)
-  const [loading, setLoading] = useState(false)
-  const [dataLoaded, setDataLoaded] = useState(true)
-  const [showPaymentFlow, setShowPaymentFlow] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<Cryptocurrency>('ETH')
-  const [selectedNetwork, setSelectedNetwork] = useState<Network>('ethereum')
-
-  const handleSubscribe = (boxId: string) => {
-    console.log('Subscribe to box:', boxId)
-    // TODO: Redirect to box crypto subscription
-  }
-
-  const handleLearnMore = (boxId: string) => {
-    console.log('Learn more about box:', boxId)
-    // TODO: Navigate to box details
-  }
-
-  const handleCryptoSubscribe = (planId: string, currency: Cryptocurrency, network: Network) => {
-    setSelectedPlan(planId)
-    setSelectedCurrency(currency)
-    setSelectedNetwork(network)
-    setShowPaymentFlow(true)
-  }
-
-  const handlePaymentSuccess = (subscription: CryptoSubscription) => {
-    console.log('Payment successful:', subscription)
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
-    // TODO: Show success message and redirect to subscription management
-  }
-
-  const handlePaymentError = (error: PaymentProcessingError) => {
-    console.error('Payment failed:', error)
-    // TODO: Show error handling
-  }
-
-  const handlePaymentCancel = () => {
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
-  }
 
   return (
     <div className="magazine-layout">
@@ -95,73 +26,19 @@ export default function Home() {
               Inland Empire <br /> Box Model
             </h1>
             <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
-              Curated boxes around seasonal moments. Simplified decisions, elevated experience.
+              Curated collections for every lifestyle. Discover Inland Empire and Isla Vista.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link
-                href="#boxes"
-                className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
-              >
-                Explore Boxes
-              </Link>
-              <Link
-                href="#subscription"
-                className="inline-block border border-white text-white px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-white hover:text-beach-darker transition-colors text-center"
-              >
-                Pay with Crypto
-              </Link>
-            </div>
+            <Link
+              href="/boxes"
+              className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
+            >
+              Explore Collections
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Box Model Showcase */}
-      <section id="boxes" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <BoxShowcase 
-            boxes={IE_BOXES}
-            onSubscribe={handleSubscribe}
-            onLearnMore={handleLearnMore}
-            currentWeek={currentWeek}
-          />
-        </div>
-      </section>
 
-      {/* Pull Quote */}
-      <PullQuote
-        quote="Perfect move. An IE Box model will raise AOV, simplify decisions, and make the drop feel collectible."
-        author="IE Strategy Team"
-      />
-
-      {/* Crypto Subscription Plans */}
-      <section id="subscription" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <CryptoSubscriptionPlans onSubscribe={handleCryptoSubscribe} />
-        </div>
-      </section>
-
-      {/* Wallet Connector */}
-      <section className="py-8 px-6 sm:px-12 lg:px-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <WalletConnector />
-        </div>
-      </section>
-
-      {/* Payment Flow Modal */}
-      {showPaymentFlow && selectedPlan && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <CryptoPaymentFlow
-              planId={selectedPlan}
-              currency={selectedCurrency}
-              network={selectedNetwork}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-              onCancel={handlePaymentCancel}
-            />
-          </div>
-        </div>
-      )}
 
       {/* Editorial Grid - Always shows */}
       <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
