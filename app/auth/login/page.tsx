@@ -4,8 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/components/layout/auth-provider"
-import { ConnectWallet } from "@thirdweb-dev/react"
-import { Mail, Shield, Wallet } from "lucide-react"
+import { Mail, Shield } from "lucide-react"
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -135,7 +134,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-3">
+          <div className="mt-6">
             {/* Google Login */}
             <button
               onClick={handleGoogleLogin}
@@ -147,23 +146,6 @@ export default function LoginPage() {
               </svg>
               Sign in with Google
             </button>
-
-            {/* Wallet Connection */}
-            <div className="w-full">
-              <div className="text-center text-sm text-gray-500 mb-2">
-                <Wallet className="inline h-4 w-4 mr-1" />
-                Connect your Web3 wallet
-              </div>
-              <ConnectWallet 
-                theme="light"
-                btnTitle="Connect Wallet"
-                className="!w-full"
-                onConnect={() => {
-                  // User state will be updated automatically via useEffect in AuthProvider
-                  setTimeout(() => router.push("/profile"), 1000)
-                }}
-              />
-            </div>
           </div>
         </div>
 
