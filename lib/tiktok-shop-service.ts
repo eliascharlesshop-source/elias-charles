@@ -1,290 +1,269 @@
-// TikTok Shop Integration Service
-// Manages syncing products with TikTok Shop Feed
+import { getAllProducts, getProductBySku } from '@/data/tiktok-products'
 
-import { TikTokProduct, getAllProducts, getProductBySku } from '@/data/tiktok-products'
-
-export interface TikTokShopSyncResult {
+export interface SyncResult {
   success: boolean
   synced: number
   failed: number
   errors: string[]
-  lastSync: string
 }
 
-export interface TikTokShopProduct {
-  external_product_id: string // SKU
-  title: string
-  description: string
-  price_info: {
-    original_price: string
-    currency: string
-  }
-  image_url: string
-  status: 'ACTIVE' | 'INACTIVE'
-  category: string
+export interface CheckoutSession {
+  id: string
   sku: string
+  quantity: number
+  price: number
+  createdAt: Date
+  expiresAt: Date
 }
 
 class TikTokShopService {
-  private accessToken: string | null = null
-  private shopId: string | null = null
-  private baseUrl = 'https://shop-api.tiktok.com/v1'
+  private apiKey: string
+  private shopId: string
+  private baseUrl: string
 
   constructor() {
-    this.accessToken = process.env.TIKTOK_SHOP_ACCESS_TOKEN || null
-    this.shopId = process.env.TIKTOK_SHOP_ID || null
+    this.apiKey = process.env.TIKTOK_SHOP_API_KEY || ''
+    this.shopId = process.env.TIKTOK_SHOP_ID || ''
+    this.baseUrl = process.env.TIKTOK_SHOP_API_URL || 'https://open-api.tiktokshop.com'
   }
 
   /**
-   * Convert EC product to TikTok Shop format
+   * Fetch all products from TikTok Shop
    */
-  private convertToTikTokFormat(product: TikTokProduct): TikTokShopProduct {
-    return {
-      external_product_id: product.sku,
-      title: product.name,
-      description: product.description,
-      price_info: {
-        original_price: product.price.toFixed(2),
-        currency: 'USD'
-      },
-      image_url: product.image || 'https://placeholder.com/500x500?text=' + encodeURIComponent(product.name),
-      status: product.status === 'active' ? 'ACTIVE' : 'INACTIVE',
-      category: product.category,
-      sku: product.sku
-    }
-  }
-
-  /**
-   * Sync single product to TikTok Shop
-   */
-  async syncProduct(sku: string): Promise<{ success: boolean; error?: string }> {
-    if (!this.accessToken || !this.shopId) {
-      return {
-        success: false,
-        error: 'TikTok Shop credentials not configured'
-      }
-    }
-
+  async fetchAllProducts(limit?: number) {
     try {
+      if (!this.isConfigured()) {
+        const products = getAllProducts()
+        return limit ? products.slice(0, limit) : products
+      }
+
+      const response = await fetch(`${this.baseUrl}/products?limit=${limit || 100}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'x-tiktok-shop-id': this.shopId
+        }
+      })
+
+      if (!response.ok) throw new Error(`TikTok API error: ${response.status}`)
+      const data = await response.json()
+      return data.products || []
+    } catch (error) {
+      console.error('Error fetching products from TikTok Shop:', error)
+      return getAllProducts()
+    }
+  }
+
+  /**
+   * Fetch products by category
+   */
+  async fetchProductsByCategory(category: string) {
+    try {
+      if (!this.isConfigured()) {
+        const products = getAllProducts().filter(p => p.category === category)
+        return products
+      }
+
+      const response = await fetch(`${this.baseUrl}/products?category=${category}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'x-tiktok-shop-id': this.shopId
+        }
+      })
+
+      if (!response.ok) throw new Error(`TikTok API error: ${response.status}`)
+      const data = await response.json()
+      return data.products || []
+    } catch (error) {
+      console.error('Error fetching category products:', error)
+      return getAllProducts().filter(p => p.category === category)
+    }
+  }
+
+  /**
+   * Fetch a single product by SKU with full details
+   */
+  async fetchProductBySku(sku: string) {
+    try {
+      if (!this.isConfigured()) {
+        const product = getProductBySku(sku)
+        return product || null
+      }
+
+      const response = await fetch(`${this.baseUrl}/products/${sku}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'x-tiktok-shop-id': this.shopId
+        }
+      })
+
+      if (!response.ok) {
+        if (response.status === 404) return null
+        throw new Error(`TikTok API error: ${response.status}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching product:', error)
       const product = getProductBySku(sku)
+      return product || null
+    }
+  }
+
+  /**
+   * Fetch related products for recommendations
+   */
+  async fetchRelatedProducts(sku: string, limit: number = 4) {
+    try {
+      const product = await this.fetchProductBySku(sku)
+      if (!product) return []
+
+      const allProducts = getAllProducts()
+      return allProducts
+        .filter(p => p.sku !== sku && p.category === product.category)
+        .slice(0, limit)
+    } catch (error) {
+      console.error('Error fetching related products:', error)
+      return []
+    }
+  }
+
+  /**
+   * Create a TikTok Shop checkout session
+   */
+  async createCheckoutSession(sku: string, quantity: number = 1) {
+    try {
+      const product = await this.fetchProductBySku(sku)
       if (!product) {
+        throw new Error(`Product ${sku} not found`)
+      }
+
+      if (!this.isConfigured()) {
+        // Return mock checkout for development
+        const sessionId = `session_${Date.now()}`
         return {
-          success: false,
-          error: `Product with SKU ${sku} not found`
+          id: sessionId,
+          checkoutUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout?session=${sessionId}`,
+          total: product.price * quantity
         }
       }
 
-      const tiktokProduct = this.convertToTikTokFormat(product)
+      // Call TikTok Shop checkout API
+      const response = await fetch(`${this.baseUrl}/checkout/sessions`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'x-tiktok-shop-id': this.shopId
+        },
+        body: JSON.stringify({
+          items: [{ sku, quantity, price: product.price }],
+          successUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout/success`,
+          cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout/cancel`
+        })
+      })
 
-      // In production, this would call the TikTok Shop API
-      // For now, we'll log and store locally
-      console.log('[TikTok Shop] Syncing product:', tiktokProduct)
-
-      // Store sync metadata locally
-      await this.storeSyncMetadata(sku, 'synced')
-
-      return { success: true }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      if (!response.ok) throw new Error(`Checkout creation failed: ${response.status}`)
+      const data = await response.json()
       return {
-        success: false,
-        error: errorMessage
+        id: data.sessionId,
+        checkoutUrl: data.checkoutUrl,
+        total: product.price * quantity
       }
+    } catch (error) {
+      console.error('Error creating checkout session:', error)
+      const sessionId = `session_${Date.now()}`
+      return {
+        id: sessionId,
+        checkoutUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/checkout?session=${sessionId}`,
+        total: 0
+      }
+    }
+  }
+
+  /**
+   * Sync product to TikTok Shop
+   */
+  async syncProduct(sku: string): Promise<SyncResult> {
+    try {
+      if (!this.isConfigured()) {
+        return { success: false, synced: 0, failed: 1, errors: ['TikTok Shop not configured'] }
+      }
+
+      const product = getProductBySku(sku)
+      if (!product) {
+        return { success: false, synced: 0, failed: 1, errors: [`Product ${sku} not found`] }
+      }
+
+      const payload = this.prepareProductPayload(product)
+      const response = await fetch(`${this.baseUrl}/products`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
+          'Content-Type': 'application/json',
+          'x-tiktok-shop-id': this.shopId
+        },
+        body: JSON.stringify(payload)
+      })
+
+      if (!response.ok) {
+        const error = await response.text()
+        throw new Error(`TikTok API error: ${error}`)
+      }
+
+      return { success: true, synced: 1, failed: 0, errors: [] }
+    } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error'
+      return { success: false, synced: 0, failed: 1, errors: [errorMsg] }
     }
   }
 
   /**
    * Sync all products to TikTok Shop
    */
-  async syncAllProducts(): Promise<TikTokShopSyncResult> {
-    const allProducts = getAllProducts()
-    const results: TikTokShopSyncResult = {
-      success: true,
-      synced: 0,
-      failed: 0,
-      errors: [],
-      lastSync: new Date().toISOString()
-    }
-
-    for (const product of allProducts) {
-      const result = await this.syncProduct(product.sku)
-      if (result.success) {
-        results.synced++
-      } else {
-        results.failed++
-        results.errors.push(`${product.sku}: ${result.error}`)
-        results.success = false
-      }
-    }
-
-    // Store overall sync result
-    await this.storeSyncResult(results)
-
-    return results
-  }
-
-  /**
-   * Sync products by category to specific collection
-   */
-  async syncCategoryToCollection(category: string, collectionHandle: string): Promise<TikTokShopSyncResult> {
-    const { getAllProductsByCategory } = await import('@/data/tiktok-products')
-    const products = getAllProductsByCategory(category as any)
-
-    const results: TikTokShopSyncResult = {
-      success: true,
-      synced: 0,
-      failed: 0,
-      errors: [],
-      lastSync: new Date().toISOString()
-    }
+  async syncAllProducts(): Promise<SyncResult> {
+    const products = getAllProducts()
+    const results: SyncResult = { success: true, synced: 0, failed: 0, errors: [] }
 
     for (const product of products) {
       const result = await this.syncProduct(product.sku)
-      if (result.success) {
-        results.synced++
-      } else {
-        results.failed++
-        results.errors.push(`${product.sku}: ${result.error}`)
-        results.success = false
-      }
+      results.synced += result.synced
+      results.failed += result.failed
+      results.errors.push(...result.errors)
     }
-
-    // Store collection mapping
-    await this.storeCollectionMapping(category, collectionHandle, results)
 
     return results
   }
 
   /**
-   * Get sync status for a product
+   * Check if TikTok Shop is properly configured
    */
-  async getSyncStatus(sku: string): Promise<{ synced: boolean; lastSync?: string; error?: string }> {
-    try {
-      // In production, check against TikTok Shop API
-      // For now, return mock status
-      const product = getProductBySku(sku)
-      if (!product) {
-        return {
-          synced: false,
-          error: 'Product not found'
-        }
-      }
+  isConfigured(): boolean {
+    return !!(this.apiKey && this.shopId)
+  }
 
-      return {
-        synced: product.status === 'active',
-        lastSync: new Date().toISOString()
-      }
-    } catch (error) {
-      return {
-        synced: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }
+  /**
+   * Prepare product data for TikTok Shop API
+   */
+  private prepareProductPayload(product: any) {
+    return {
+      title: product.name,
+      description: product.description,
+      sku: product.sku,
+      price: product.price,
+      originalPrice: product.compareAtPrice,
+      quantity: product.inventory,
+      category: product.category,
+      tags: product.tags,
+      images: product.image ? [product.image] : [],
+      collections: product.collections,
+      status: product.status
     }
-  }
-
-  /**
-   * Update product price on TikTok Shop
-   */
-  async updateProductPrice(sku: string, newPrice: number): Promise<{ success: boolean; error?: string }> {
-    if (!this.accessToken || !this.shopId) {
-      return {
-        success: false,
-        error: 'TikTok Shop credentials not configured'
-      }
-    }
-
-    try {
-      const product = getProductBySku(sku)
-      if (!product) {
-        return {
-          success: false,
-          error: `Product with SKU ${sku} not found`
-        }
-      }
-
-      // Update price locally
-      product.price = newPrice
-
-      // In production, call TikTok Shop API to update price
-      console.log(`[TikTok Shop] Updated price for ${sku}: $${newPrice}`)
-
-      return { success: true }
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }
-    }
-  }
-
-  /**
-   * Update product inventory on TikTok Shop
-   */
-  async updateProductInventory(sku: string, quantity: number): Promise<{ success: boolean; error?: string }> {
-    if (!this.accessToken || !this.shopId) {
-      return {
-        success: false,
-        error: 'TikTok Shop credentials not configured'
-      }
-    }
-
-    try {
-      const product = getProductBySku(sku)
-      if (!product) {
-        return {
-          success: false,
-          error: `Product with SKU ${sku} not found`
-        }
-      }
-
-      // Update inventory locally
-      product.inventory = quantity
-
-      // In production, call TikTok Shop API
-      console.log(`[TikTok Shop] Updated inventory for ${sku}: ${quantity}`)
-
-      return { success: true }
-    } catch (error) {
-      return {
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }
-    }
-  }
-
-  /**
-   * Get all products with sync status
-   */
-  async getAllProductsWithStatus(): Promise<(TikTokProduct & { syncStatus: string })[]> {
-    const allProducts = getAllProducts()
-    return allProducts.map(product => ({
-      ...product,
-      syncStatus: product.status === 'active' ? 'synced' : 'draft'
-    }))
-  }
-
-  /**
-   * Store sync metadata locally (in production, use database)
-   */
-  private async storeSyncMetadata(sku: string, status: string) {
-    // This would store in database
-    console.log(`[TikTok Shop] Stored sync metadata: ${sku} - ${status}`)
-  }
-
-  /**
-   * Store overall sync result
-   */
-  private async storeSyncResult(result: TikTokShopSyncResult) {
-    // This would store in database
-    console.log('[TikTok Shop] Sync result:', result)
-  }
-
-  /**
-   * Store collection mapping
-   */
-  private async storeCollectionMapping(category: string, collectionHandle: string, result: TikTokShopSyncResult) {
-    // This would store in database
-    console.log(`[TikTok Shop] Collection mapping: ${category} -> ${collectionHandle}`)
   }
 }
 
