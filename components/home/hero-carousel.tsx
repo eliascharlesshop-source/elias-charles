@@ -85,15 +85,15 @@ export function HeroCarousel() {
       ))}
 
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 lg:px-24">
-        <div className="max-w-md">
+      <div className="absolute inset-0 flex flex-col justify-center items-center px-6 sm:px-12 lg:px-24">
+        <div className="max-w-md text-center">
           <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
             {slides[currentSlide].subtitle}
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
             {slides[currentSlide].title}
           </h1>
-          <p className="text-white text-sm sm:text-base md:text-lg mb-8 max-w-sm">
+          <p className="text-white text-sm sm:text-base md:text-lg mb-8">
             {slides[currentSlide].description}
           </p>
           <Link
