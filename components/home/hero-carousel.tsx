@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import { GlassmorphicButton } from "@/components/ui/glassmorphic-button"
 
 interface CarouselSlide {
   image: string
@@ -96,12 +97,9 @@ export function HeroCarousel() {
           <p className="text-white text-sm sm:text-base md:text-lg mb-8">
             {slides[currentSlide].description}
           </p>
-          <Link
-            href={slides[currentSlide].ctaLink}
-            className="inline-block bg-white text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-100 transition-colors text-center"
-          >
+          <GlassmorphicButton href={slides[currentSlide].ctaLink}>
             {slides[currentSlide].cta}
-          </Link>
+          </GlassmorphicButton>
         </div>
       </div>
 
