@@ -78,7 +78,7 @@ export default function SamplingDashboard() {
 
   const DeviceCard = ({ device }: { device: WearableDevice }) => (
     <div className={`p-4 border rounded-lg cursor-pointer transition-colors ${
-      selectedDevice === device.id ? 'border-blue-500 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+      selectedDevice === device.id ? 'border-gray-400 hover:border-gray-300' : 'border-gray-200 hover:border-gray-300'`} style={{ backgroundColor: selectedDevice === device.id ? '#D0E1F2' : 'transparent'
     }`} onClick={() => setSelectedDevice(device.id)}>
       <div className="flex items-center justify-between mb-2">
         <h3 className="font-medium">{device.name}</h3>
@@ -136,7 +136,7 @@ export default function SamplingDashboard() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6" style={{ backgroundColor: '#F5E6D3' }}>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">World Sampling Dashboard</h1>
@@ -144,7 +144,7 @@ export default function SamplingDashboard() {
         </div>
 
         {/* Device Selection */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
+        <div className="rounded-lg shadow p-6 mb-6" style={{ backgroundColor: '#FFFEF9' }}>
           <h2 className="text-xl font-semibold mb-4">Connected Devices</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {devices.map(device => (
@@ -159,8 +159,12 @@ export default function SamplingDashboard() {
               className={`px-6 py-3 rounded-lg font-medium ${
                 isCollecting || !selectedDevice
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'text-white hover:opacity-90'
               }`}
+              style={{
+                backgroundColor: isCollecting || !selectedDevice ? undefined : '#D0E1F2',
+                color: isCollecting || !selectedDevice ? undefined : '#1a1a1a'
+              }}
             >
               {isCollecting ? 'Collecting Data...' : 'Start Sampling'}
             </button>
@@ -171,8 +175,12 @@ export default function SamplingDashboard() {
               className={`px-6 py-3 rounded-lg font-medium ${
                 samples.length < 5
                   ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-green-600 text-white hover:bg-green-700'
+                  : 'text-white hover:opacity-90'
               }`}
+              style={{
+                backgroundColor: samples.length < 5 ? undefined : '#D0E1F2',
+                color: samples.length < 5 ? undefined : '#1a1a1a'
+              }}
             >
               Analyze Patterns
             </button>
@@ -181,7 +189,7 @@ export default function SamplingDashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Samples */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="rounded-lg shadow p-6" style={{ backgroundColor: '#FFFEF9' }}>
             <h2 className="text-xl font-semibold mb-4">Recent Samples ({samples.length})</h2>
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {samples.slice(-10).reverse().map(sample => (
@@ -194,11 +202,11 @@ export default function SamplingDashboard() {
           </div>
 
           {/* Pattern Analysis */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="rounded-lg shadow p-6" style={{ backgroundColor: '#FFFEF9' }}>
             <h2 className="text-xl font-semibold mb-4">Pattern Analysis</h2>
             <div className="space-y-4">
               {patterns.map((pattern, index) => (
-                <div key={index} className="p-4 bg-gray-50 rounded-lg">
+                <div key={index} className="p-4 rounded-lg" style={{ backgroundColor: '#F5E6D3' }}>
                   <div className="flex justify-between items-start mb-2">
                     <span className="font-medium capitalize">{pattern.type} Pattern</span>
                     <span className="text-sm text-gray-500">
@@ -221,11 +229,11 @@ export default function SamplingDashboard() {
 
         {/* Live Stats */}
         {samples.length > 0 && (
-          <div className="mt-6 bg-white rounded-lg shadow p-6">
+          <div className="mt-6 rounded-lg shadow p-6" style={{ backgroundColor: '#FFFEF9' }}>
             <h2 className="text-xl font-semibold mb-4">Live Environment Stats</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="text-center">
-                <p className="text-2xl font-bold text-blue-600">
+                <p className="text-2xl font-bold" style={{ color: '#D0E1F2' }}>
                   {samples[samples.length - 1]?.weather.temperature.toFixed(1)}°C
                 </p>
                 <p className="text-sm text-gray-600">Temperature</p>
