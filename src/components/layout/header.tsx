@@ -126,7 +126,7 @@ export function Header({ shop }) {
               </button>
               <Link href="/" className="flex items-center">
                 <img
-                  className="h-20 w-auto"
+                  className="h-10 w-auto"
                   src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/EC_Logo-bgxGEWuMynVfb5FBtDj4k0kcx59kdZ.png"
                   alt="EC"
                 />
@@ -301,7 +301,7 @@ export function Header({ shop }) {
                 <Link href="/">
                   <span className="sr-only">EC</span>
                   <img
-                    className="h-14 w-auto sm:h-16 md:h-20"
+                    className="h-8 w-auto sm:h-10"
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/EC_Logo-bgxGEWuMynVfb5FBtDj4k0kcx59kdZ.png"
                     alt="EC"
                   />

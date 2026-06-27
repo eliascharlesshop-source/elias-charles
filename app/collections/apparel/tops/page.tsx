@@ -1,53 +1,42 @@
 "use client"
 
 import Layout from "@/components/layout/layout"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronDown, Filter, X } from "lucide-react"
 import Link from "next/link"
+
+interface Product {
+  sku: string
+  name: string
+  price: number
+  image?: string
+  category: string
+  tags: string[]
+}
 
 export default function TopsCollection() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectedSort, setSelectedSort] = useState("featured")
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Placeholder products data
-  const mockProducts = [
-    {
-      id: 1,
-      title: "Classic T-Shirt",
-      price: "$45",
-      image: "/icons/placeholder.svg",
-    },
-    {
-      id: 2,
-      title: "Relaxed Fit Hoodie",
-      price: "$85",
-      image: "/icons/placeholder.svg",
-    },
-    {
-      id: 3,
-      title: "Long Sleeve Tee",
-      price: "$55",
-      image: "/icons/placeholder.svg",
-    },
-    {
-      id: 4,
-      title: "Surf Logo Sweatshirt",
-      price: "$75",
-      image: "/icons/placeholder.svg",
-    },
-    {
-      id: 5,
-      title: "Vintage Wash Tee",
-      price: "$48",
-      image: "/icons/placeholder.svg",
-    },
-    {
-      id: 6,
-      title: "Lightweight Jacket",
-      price: "$95",
-      image: "/icons/placeholder.svg",
-    },
-  ]
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products?category=tops')
+        const data = await response.json()
+        if (data.success) {
+          setProducts(data.data)
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchProducts()
+  }, [])
 
   // Filter options
   const filters = [
@@ -233,31 +222,43 @@ export default function TopsCollection() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
-                  {mockProducts.map((product) => (
-                    <div key={product.id} className="group relative">
-                      <div className="aspect-square w-full overflow-hidden bg-gray-100">
-                        <img
-                          src={product.image || "/icons/placeholder.svg"}
-                          alt={product.title}
-                          className="h-full w-full object-cover object-center group-hover:opacity-75"
-                        />
-                      </div>
-                      <div className="mt-3 sm:mt-4 flex justify-between">
-                        <div>
-                          <h3 className="text-xs sm:text-sm text-primary">
-                            <Link href={`/products/${product.id}`}>
-                              <span aria-hidden="true" className="absolute inset-0" />
-                              {product.title}
-                            </Link>
-                          </h3>
-                        </div>
-                        <p className="text-xs sm:text-sm font-medium text-primary">{product.price}</p>
-                      </div>
+                {loading ? (
+                  <div className="flex justify-center items-center h-64">
+                    <div className="text-center">
+                      <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                      <p className="mt-4 text-primary">Loading products...</p>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
+                ) : products.length === 0 ? (
+                  <div className="text-center py-12">
+                    <p className="text-primary">No products found in this category.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-6">
+                    {products.map((product) => (
+                      <div key={product.sku} className="group relative">
+                        <div className="aspect-square w-full overflow-hidden bg-gray-100 rounded-lg">
+                          <img
+                            src={product.image || "/icons/placeholder.svg"}
+                            alt={product.name}
+                            className="h-full w-full object-cover object-center group-hover:opacity-75 transition-opacity"
+                          />
+                        </div>
+                        <div className="mt-3 sm:mt-4 flex justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-xs sm:text-sm text-primary">
+                              <Link href={`/products/${product.sku}`} className="hover:text-gray-600">
+                                <span aria-hidden="true" className="absolute inset-0" />
+                                {product.name}
+                              </Link>
+                            </h3>
+                          </div>
+                          <p className="text-xs sm:text-sm font-medium text-primary ml-2">${product.price.toFixed(2)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
             </div>
           </section>
         </main>
