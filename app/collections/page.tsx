@@ -182,8 +182,7 @@ export default function CollectionsPage() {
               <div className="mb-6 text-xs uppercase tracking-widest text-white opacity-80">Summer 2023 • Issue 03</div>
               <h1 className="text-3xl font-light tracking-tight text-white sm:text-4xl md:text-5xl">Collections</h1>
               <p className="mt-4 text-base leading-7 text-white">
-                Don't react, wait for the pullback. Explore our curated collections of quality products for your
-                lifestyle.
+                {"Don't react, wait for the pullback. Explore our curated collections of quality products for your lifestyle."}
               </p>
               {loading && (
                 <div className="mt-4 text-sm text-white/80">
