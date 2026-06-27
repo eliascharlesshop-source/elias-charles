@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { ProductGenerationService, CreateProductRequest } from '@/lib/product-generation-service'
+import { getAllProducts } from '@/data/tiktok-products'
 
 interface ProductFormData extends CreateProductRequest {
   // Additional form-specific fields
@@ -30,6 +31,9 @@ export default function AdminProductsPage() {
   })
   const [validationErrors, setValidationErrors] = useState<string[]>([])
   const [validationWarnings, setValidationWarnings] = useState<string[]>([])
+  const [tiktokProducts, setTiktokProducts] = useState<any[]>([])
+  const [syncingTikTok, setSyncingTikTok] = useState(false)
+  const [syncStatus, setSyncStatus] = useState<string>('')
 
   useEffect(() => {
     // Check authentication on client side
@@ -41,6 +45,7 @@ export default function AdminProductsPage() {
           return
         }
         await fetchProducts()
+        loadTikTokProducts()
       } catch (error) {
         console.error('Auth check failed:', error)
         router.push('/login')
@@ -61,6 +66,52 @@ export default function AdminProductsPage() {
       }
     } catch (error) {
       console.error('Failed to fetch products:', error)
+    }
+  }
+
+  const loadTikTokProducts = () => {
+    const products = getAllProducts()
+    setTiktokProducts(products)
+  }
+
+  const handleSyncAllToTikTok = async () => {
+    setSyncingTikTok(true)
+    setSyncStatus('Syncing products to TikTok Shop...')
+    
+    try {
+      const response = await fetch('/api/admin/tiktok/sync-all', {
+        method: 'POST'
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        setSyncStatus(`✓ Successfully synced ${data.synced} products to TikTok Shop`)
+      } else {
+        setSyncStatus(`✗ Sync failed: ${data.error}`)
+      }
+    } catch (error) {
+      setSyncStatus(`✗ Error: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    } finally {
+      setSyncingTikTok(false)
+    }
+  }
+
+  const handleSyncProductToTikTok = async (sku: string) => {
+    try {
+      const response = await fetch(`/api/admin/tiktok/sync?sku=${sku}`, {
+        method: 'POST'
+      })
+      
+      const data = await response.json()
+      
+      if (data.success) {
+        setSyncStatus(`✓ Product ${sku} synced to TikTok Shop`)
+      } else {
+        setSyncStatus(`✗ Failed to sync ${sku}`)
+      }
+    } catch (error) {
+      setSyncStatus(`✗ Error: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 
@@ -213,6 +264,81 @@ export default function AdminProductsPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* TikTok Shop Integration Section */}
+        <div className="bg-white rounded-lg shadow mb-8 p-6 border-l-4 border-black">
+          <div className="flex justify-between items-start mb-4">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">TikTok Shop Integration</h2>
+              <p className="text-sm text-gray-600 mt-1">Sync your product catalog with TikTok Shop Feed</p>
+            </div>
+            <button
+              onClick={handleSyncAllToTikTok}
+              disabled={syncingTikTok}
+              className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50"
+            >
+              {syncingTikTok ? 'Syncing...' : 'Sync All to TikTok'}
+            </button>
+          </div>
+
+          {syncStatus && (
+            <div className={`p-3 rounded-md mb-4 text-sm ${
+              syncStatus.includes('✓') ? 'bg-green-50 text-green-800 border border-green-200' : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              {syncStatus}
+            </div>
+          )}
+
+          <div className="mb-4">
+            <h3 className="text-sm font-medium text-gray-900 mb-3">Product Catalog ({tiktokProducts.length} products)</h3>
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">SKU</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Product</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Stock</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Collections</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {tiktokProducts.slice(0, 10).map((product: any) => (
+                    <tr key={product.sku} className="hover:bg-gray-50">
+                      <td className="px-4 py-2 text-xs font-mono text-gray-700">{product.sku}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900">{product.name}</td>
+                      <td className="px-4 py-2 text-xs text-gray-500">{product.category}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900">${product.price}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900">{product.inventory}</td>
+                      <td className="px-4 py-2 text-xs">
+                        {product.collections.length > 0 ? (
+                          <span className="inline-block bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {product.collections.length} collections
+                          </span>
+                        ) : (
+                          <span className="text-gray-400">—</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2">
+                        <button
+                          onClick={() => handleSyncProductToTikTok(product.sku)}
+                          className="text-blue-600 hover:text-blue-900 text-xs font-medium"
+                        >
+                          Sync
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {tiktokProducts.length > 10 && (
+              <p className="text-xs text-gray-500 mt-2">Showing 10 of {tiktokProducts.length} products</p>
+            )}
+          </div>
+        </div>
+
         {showCreateForm && (
           <div className="bg-white rounded-lg shadow mb-8 p-6">
             <h2 className="text-xl font-semibold mb-6">Create New Product</h2>

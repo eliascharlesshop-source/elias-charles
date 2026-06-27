@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { productsDb, initializeDatabase } from '@/src/lib/database'
 // @ts-ignore
 import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/src/lib/types'
+import { getAllProducts, getAllProductsByCategory, getProductsByMiniCollection } from '@/data/tiktok-products'
 
 // Shopify integration
 const USE_SHOPIFY = process.env.NEXT_PUBLIC_USE_SHOPIFY === 'true'
@@ -19,56 +20,67 @@ async function ensureInitialized() {
 
 export async function GET(request: NextRequest) {
   try {
-    // If Shopify is enabled, try Shopify API first
-    if (USE_SHOPIFY) {
-      try {
-        const shopifyUrl = new URL('/api/shopify/products', request.url)
-        shopifyUrl.search = new URL(request.url).search
-        
-        const shopifyResponse = await fetch(shopifyUrl.toString())
-        const shopifyData = await shopifyResponse.json()
-        
-        // If Shopify returns success, use it
-        if (shopifyResponse.ok && shopifyData.success) {
-          return NextResponse.json(shopifyData, { status: shopifyResponse.status })
-        }
-        
-        // If Shopify fails, log error and fall back to mock data
-        console.warn('Shopify API unavailable, falling back to mock data:', shopifyData.error)
-      } catch (shopifyError) {
-        console.warn('Shopify connection failed, falling back to mock data:', shopifyError)
-      }
-    }
-
-    // Use mock data (either Shopify disabled or Shopify failed)
-    await ensureInitialized()
-    
     const { searchParams } = new URL(request.url)
     const page = parseInt(searchParams.get('page') || '1')
     const limit = parseInt(searchParams.get('limit') || '12')
     const category = searchParams.get('category')
+    const collection = searchParams.get('collection')
     const tag = searchParams.get('tag')
     const search = searchParams.get('search')
+    const source = searchParams.get('source') || 'all' // all, tiktok, shopify
 
-    let products = await productsDb.findAll()
+    let products: any[] = []
 
-    // Apply filters
-    if (category) {
-      products = products.filter(p => p.category.toLowerCase() === category.toLowerCase())
+    // Fetch TikTok products if requested
+    if (source === 'tiktok' || source === 'all') {
+      if (collection) {
+        products.push(...getProductsByMiniCollection(collection as any))
+      } else if (category) {
+        products.push(...getAllProductsByCategory(category as any))
+      } else {
+        products.push(...getAllProducts())
+      }
     }
 
-    if (tag) {
-      products = products.filter(p => p.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+    // Fetch Shopify products if requested
+    if ((source === 'shopify' || source === 'all') && USE_SHOPIFY) {
+      try {
+        await ensureInitialized()
+        const shopifyProducts = await productsDb.findAll()
+        
+        // Filter Shopify products
+        let filtered = shopifyProducts
+        if (category) {
+          filtered = filtered.filter(p => p.category.toLowerCase() === category.toLowerCase())
+        }
+        if (tag) {
+          filtered = filtered.filter(p => p.tags.some(t => t.toLowerCase() === tag.toLowerCase()))
+        }
+        
+        products.push(...filtered)
+      } catch (error) {
+        console.warn('Failed to fetch Shopify products:', error)
+      }
     }
 
+    // Apply additional filters
     if (search) {
       const searchLower = search.toLowerCase()
       products = products.filter(p => 
-        p.title.toLowerCase().includes(searchLower) ||
-        p.description.toLowerCase().includes(searchLower) ||
-        p.tags.some(t => t.toLowerCase().includes(searchLower))
+        (p.title || p.name || '').toLowerCase().includes(searchLower) ||
+        (p.description || '').toLowerCase().includes(searchLower) ||
+        (p.tags || []).some((t: string) => t.toLowerCase().includes(searchLower))
       )
     }
+
+    // Remove duplicates by SKU/ID
+    const seen = new Set()
+    products = products.filter(p => {
+      const key = p.sku || p.id
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
 
     // Paginate results
     const total = products.length
@@ -84,6 +96,12 @@ export async function GET(request: NextRequest) {
         limit,
         total,
         totalPages
+      },
+      filters: {
+        category: category || null,
+        collection: collection || null,
+        source,
+        search: search || null
       }
     }
 
