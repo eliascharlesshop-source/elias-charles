@@ -90,7 +90,7 @@ export function HeroCarousel() {
           <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
             {slides[currentSlide].subtitle}
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6 drop-shadow-lg" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}>
             {slides[currentSlide].title}
           </h1>
           <p className="text-white text-sm sm:text-base md:text-lg mb-8">
