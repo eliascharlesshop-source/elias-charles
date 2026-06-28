@@ -352,7 +352,7 @@ export default function InLifePage() {
     {
       title: "Sun Protection Hat",
       price: "$89",
-      image: "/products/linen-dress-beach.png",
+      image: "/products/sun-hat-monochrome.png",
       url: "/products/sun-hat",
       description:
         "Wide-brimmed hat offering UPF 50+ protection. Made from breathable, quick-drying materials perfect for long days at the beach.",
