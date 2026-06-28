@@ -231,5 +231,16 @@
     "total": 0,
     "createdAt": "2026-06-28T00:36:18.004Z",
     "updatedAt": "2026-06-28T00:36:18.004Z"
+  },
+  {
+    "id": "mqyb9trqj0ulsw4sksd",
+    "lines": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2026-06-28T21:38:55.096Z",
+    "updatedAt": "2026-06-28T21:38:55.096Z"
   }
 ]
