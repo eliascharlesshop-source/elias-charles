@@ -220,5 +220,16 @@
     "total": 0,
     "createdAt": "2026-06-28T00:15:53.437Z",
     "updatedAt": "2026-06-28T00:15:53.437Z"
+  },
+  {
+    "id": "mqx26383vc71gpezt8",
+    "lines": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2026-06-28T00:36:18.004Z",
+    "updatedAt": "2026-06-28T00:36:18.004Z"
   }
 ]

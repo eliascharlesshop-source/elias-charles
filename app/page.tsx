@@ -95,7 +95,7 @@ export default function Home() {
             </div>
             <div>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover" />
+                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </div>
@@ -106,8 +106,8 @@ export default function Home() {
       <section className="bg-cream">
         <div className="grid grid-cols-2 md:grid-cols-2">
           {/* Row 1: Nature Product */}
-          <div className="aspect-square">
-            <img src="/images/ocean-bw-4.jpg" alt="Ocean waves" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/ocean-bw-4.jpg" alt="Ocean waves" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
@@ -127,13 +127,13 @@ export default function Home() {
               <GlassmorphicButton href="/collections/boards">Explore</GlassmorphicButton>
             </div>
           </div>
-          <div className="aspect-square">
-            <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Ocean landscape" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Ocean landscape" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
 
           {/* Row 3: Nature Product */}
-          <div className="aspect-square">
-            <img src="/images/ocean-bw-5.jpg" alt="Beach sunset" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/ocean-bw-5.jpg" alt="Beach sunset" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
@@ -154,7 +154,7 @@ export default function Home() {
                 <img
                   src="/images/brand/highway-lights-1.jpg"
                   alt="Night highway with streaking lights"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>
