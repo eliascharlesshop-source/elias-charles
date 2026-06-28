@@ -393,7 +393,7 @@ export default function InLifePage() {
     {
       title: "Urban Commuter Backpack",
       price: "$189",
-      image: "/products/men-surf-style.png",
+      image: "/products/urban-commuter-backpack-monochrome.png",
       url: "/products/urban-backpack",
       description:
         "Designed for the modern city dweller, this backpack features multiple compartments, water-resistant materials, and a sleek profile.",
@@ -402,7 +402,7 @@ export default function InLifePage() {
     {
       title: "City Skateboard",
       price: "$249",
-      image: "/products/cruiser-skateboard.png",
+      image: "/products/city-skateboard-monochrome.png",
       url: "/products/city-skateboard",
       description:
         "Our city skateboard is perfect for navigating urban environments with a durable deck and smooth-rolling wheels designed for concrete surfaces.",
@@ -411,7 +411,7 @@ export default function InLifePage() {
     {
       title: "Minimalist Watch",
       price: "$159",
-      image: "/products/fashion-workshop.png",
+      image: "/products/minimalist-watch-monochrome.png",
       url: "/products/minimalist-watch",
       description:
         "A sleek timepiece with a clean design that complements any outfit. Features Japanese movement and scratch-resistant glass.",
