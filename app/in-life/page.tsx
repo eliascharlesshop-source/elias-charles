@@ -332,30 +332,33 @@ export default function InLifePage() {
   // Sample beach products data
   const beachProducts = [
     {
-      title: "Sunset Surf Board",
-      price: "$599",
+      sku: "EC-IV-SND",
+      title: "Sandals",
+      price: "$48",
       image: "/products/beach-product.png",
-      url: "/products/sunset-surf-board",
+      url: "/products/EC-IV-SND",
       description:
-        "Our signature surfboard designed for both beginners and experienced surfers. Features a durable epoxy construction with a versatile shape that performs well in various conditions.",
+        "Comfortable everyday sandals perfect for beach days. Features a durable sole and easy-to-wear design for all-day comfort.",
       colors: ["bg-blue-400", "bg-orange-400", "bg-green-400"],
     },
     {
-      title: "Beach Tote Bag",
-      price: "$129",
+      sku: "EC-IV-BAG",
+      title: "Beach Tote",
+      price: "$58",
       image: "/products/beach-tote-monochrome.png",
-      url: "/products/beach-tote",
+      url: "/products/EC-IV-BAG",
       description:
-        "Handwoven from sustainable materials, our beach tote is spacious enough for all your essentials while remaining lightweight and stylish.",
+        "Spacious tote for beach essentials. Perfect for carrying all your beach day must-haves with style.",
       colors: ["bg-stone-200", "bg-stone-400", "bg-stone-600"],
     },
     {
-      title: "Sun Protection Hat",
-      price: "$89",
+      sku: "EC-IV-BKT",
+      title: "Bucket Hat",
+      price: "$45",
       image: "/products/sun-hat-monochrome.png",
-      url: "/products/sun-hat",
+      url: "/products/EC-IV-BKT",
       description:
-        "Wide-brimmed hat offering UPF 50+ protection. Made from breathable, quick-drying materials perfect for long days at the beach.",
+        "Sun protection bucket hat with UPF protection. Made from breathable, quick-drying materials perfect for long days at the beach.",
       colors: ["bg-stone-200", "bg-blue-200", "bg-black"],
     },
   ]
@@ -365,56 +368,62 @@ export default function InLifePage() {
     {
       x: 30,
       y: 20,
-      title: "Linen Beach Shirt",
-      price: "$129",
+      sku: "EC-IV-SSD",
+      title: "Short Sleeve Button Down",
+      price: "$72",
       image: "/products/linen-beach-shirt-monochrome.png",
-      url: "/products/linen-shirt",
+      url: "/products/EC-IV-SSD",
     },
     {
       x: 70,
       y: 40,
-      title: "Woven Beach Hat",
-      price: "$89",
+      sku: "EC-IV-BKT",
+      title: "Bucket Hat",
+      price: "$45",
       image: "/products/woven-beach-hat-monochrome.png",
-      url: "/products/beach-hat",
+      url: "/products/EC-IV-BKT",
     },
     {
       x: 50,
       y: 70,
-      title: "Canvas Beach Shorts",
-      price: "$99",
+      sku: "EC-IV-SHO",
+      title: "Casual Shorts",
+      price: "$54",
       image: "/products/canvas-beach-shorts-monochrome.png",
-      url: "/products/beach-shorts",
+      url: "/products/EC-IV-SHO",
     },
   ]
 
   // City products data
   const cityProducts = [
     {
-      title: "Urban Commuter Backpack",
-      price: "$189",
+      sku: "EC-IV-LPT",
+      title: "Laptop Backpack",
+      price: "$88",
       image: "/products/urban-commuter-backpack-monochrome.png",
-      url: "/products/urban-backpack",
+      url: "/products/EC-IV-LPT",
       description:
-        "Designed for the modern city dweller, this backpack features multiple compartments, water-resistant materials, and a sleek profile.",
+        "Protective laptop backpack with multiple compartments and water-resistant materials for the modern city dweller.",
       colors: ["bg-black", "bg-gray-400", "bg-blue-900"],
     },
     {
-      title: "City Skateboard",
-      price: "$249",
+      sku: "EC-IV-DPK",
+      title: "Day Pack",
+      price: "$65",
       image: "/products/city-skateboard-monochrome.png",
-      url: "/products/city-skateboard",
+      url: "/products/EC-IV-DPK",
       description:
-        "Our city skateboard is perfect for navigating urban environments with a durable deck and smooth-rolling wheels designed for concrete surfaces.",
+        "Lightweight day backpack perfect for navigating urban environments with durable construction and smooth functionality.",
       colors: ["bg-red-500", "bg-black", "bg-white"],
     },
     {
-      title: "Minimalist Watch",
-      price: "$159",
+      sku: "EC-IV-SGL",
+      title: "Sunglasses",
+      price: "$68",
       image: "/products/minimalist-watch-monochrome.png",
-      url: "/products/minimalist-watch",
+      url: "/products/EC-IV-SGL",
       description:
-        "A sleek timepiece with a clean design that complements any outfit. Features Japanese movement and scratch-resistant glass.",
+        "UV protection sunglasses with a sleek design that complements any outfit. High-quality lenses with scratch-resistant coating.",
       colors: ["bg-black", "bg-white", "bg-brown-400"],
     },
   ]
@@ -422,30 +431,33 @@ export default function InLifePage() {
   // Mountain products data
   const mountainProducts = [
     {
-      title: "Alpine Backpack",
-      price: "$249",
+      sku: "EC-IV-DPK",
+      title: "Day Pack",
+      price: "$65",
       image: "/products/men-urban-style.png",
-      url: "/products/alpine-backpack",
+      url: "/products/EC-IV-DPK",
       description:
-        "Engineered for mountain adventures, this backpack offers 35L of storage, weather-resistant materials, and ergonomic support for all-day comfort.",
+        "Lightweight day backpack engineered for mountain adventures with weather-resistant materials and ergonomic support for all-day comfort.",
       colors: ["bg-green-700", "bg-blue-700", "bg-black"],
     },
     {
-      title: "Insulated Water Bottle",
-      price: "$49",
+      sku: "EC-IV-WTB",
+      title: "Stainless Water Bottle",
+      price: "$35",
       image: "/products/sustainable-fashion-collage.png",
-      url: "/products/water-bottle",
+      url: "/products/EC-IV-WTB",
       description:
         "Keeps beverages cold for 24 hours or hot for 12 hours. Made from durable stainless steel with a leak-proof cap design.",
       colors: ["bg-blue-500", "bg-black", "bg-white"],
     },
     {
-      title: "Merino Wool Beanie",
-      price: "$59",
+      sku: "EC-IV-BNI",
+      title: "Beanie",
+      price: "$28",
       image: "/products/diverse-beach-fashion.png",
-      url: "/products/wool-beanie",
+      url: "/products/EC-IV-BNI",
       description:
-        "Crafted from premium merino wool that regulates temperature and wicks moisture. Stylish enough for the city, functional enough for the mountains.",
+        "Warm beanie crafted for comfort and style. Perfect for cool weather whether you're in the city or on the mountains.",
       colors: ["bg-gray-700", "bg-red-700", "bg-blue-700"],
     },
   ]
