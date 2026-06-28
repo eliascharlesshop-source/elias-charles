@@ -367,7 +367,7 @@ export default function InLifePage() {
       y: 20,
       title: "Linen Beach Shirt",
       price: "$129",
-      image: "/products/men-casual-hoodie.png",
+      image: "/products/linen-beach-shirt-monochrome.png",
       url: "/products/linen-shirt",
     },
     {
@@ -375,7 +375,7 @@ export default function InLifePage() {
       y: 40,
       title: "Woven Beach Hat",
       price: "$89",
-      image: "/products/diverse-beach-fashion.png",
+      image: "/products/woven-beach-hat-monochrome.png",
       url: "/products/beach-hat",
     },
     {
@@ -383,7 +383,7 @@ export default function InLifePage() {
       y: 70,
       title: "Canvas Beach Shorts",
       price: "$99",
-      image: "/products/men-urban-style.png",
+      image: "/products/canvas-beach-shorts-monochrome.png",
       url: "/products/beach-shorts",
     },
   ]
