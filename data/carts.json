@@ -242,5 +242,16 @@
     "total": 0,
     "createdAt": "2026-06-28T21:38:55.096Z",
     "updatedAt": "2026-06-28T21:38:55.096Z"
+  },
+  {
+    "id": "mqybot0woroaxle1r4",
+    "lines": [],
+    "totalQuantity": 0,
+    "subtotal": 0,
+    "tax": 0,
+    "shipping": 0,
+    "total": 0,
+    "createdAt": "2026-06-28T21:50:33.973Z",
+    "updatedAt": "2026-06-28T21:50:33.973Z"
   }
 ]
