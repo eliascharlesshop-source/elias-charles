@@ -343,7 +343,7 @@ export default function InLifePage() {
     {
       title: "Beach Tote Bag",
       price: "$129",
-      image: "/products/woven-beach-tote.png",
+      image: "/products/beach-tote-monochrome.png",
       url: "/products/beach-tote",
       description:
         "Handwoven from sustainable materials, our beach tote is spacious enough for all your essentials while remaining lightweight and stylish.",
