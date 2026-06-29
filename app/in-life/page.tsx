@@ -90,164 +90,6 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
   )
 }
 
-// Interactive product carousel
-const ProductCarousel = ({ products }) => {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isMounted, setIsMounted] = useState(false)
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  const handleNext = () => {
-    setActiveIndex((prev) => (prev === products.length - 1 ? 0 : prev + 1))
-  }
-
-  const handlePrev = () => {
-    setActiveIndex((prev) => (prev === 0 ? products.length - 1 : prev - 1))
-  }
-
-  if (!isMounted) {
-    return (
-      <div className="relative my-12">
-        <div className="overflow-hidden" ref={containerRef}>
-          <div className="flex">
-            <div className="min-w-full px-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="relative aspect-square">
-                  <Image
-                    src={products[0]?.image || "/icons/placeholder.svg"}
-                    alt={products[0]?.title || "Product"}
-                    fill
-                    className="object-cover rounded-sm"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{products[0]?.title}</h3>
-                  <p className="text-lg mb-2">{products[0]?.price}</p>
-                  <p className="text-sm mb-4">{products[0]?.description}</p>
-                  <div className="flex gap-2 mb-4">
-                    {products[0]?.colors?.map((color, i) => (
-                      <div
-                        key={i}
-                        className={`w-6 h-6 rounded-full border ${color}`}
-                      />
-                    ))}
-                  </div>
-                  <Link
-                    href={products[0]?.url || "#"}
-                    className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
-                  >
-                    Shop Now
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className="relative my-12">
-      <div className="overflow-hidden" ref={containerRef}>
-        <div
-          className="flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-        >
-          {products.map((product, idx) => (
-            <div key={idx} className="min-w-full px-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                <div className="relative aspect-square">
-                  <Image
-                    src={product.image || "/icons/placeholder.svg"}
-                    alt={product.title}
-                    fill
-                    className="object-cover rounded-sm"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{product.title}</h3>
-                  <p className="text-lg mb-2">{product.price}</p>
-                  <p className="text-sm mb-4">{product.description}</p>
-                  <div className="flex gap-2 mb-4">
-                    {product.colors?.map((color, i) => (
-                      <button
-                        key={i}
-                        className={`w-6 h-6 rounded-full border ${color} transition hover:scale-110`}
-                        aria-label={`Select ${color.replace("bg-", "")}`}
-                      />
-                    ))}
-                  </div>
-                  <Link
-                    href={product.url}
-                    className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
-                  >
-                    Shop Now
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <button
-        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white transition"
-        onClick={handlePrev}
-        aria-label="Previous product"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m15 18-6-6 6-6" />
-        </svg>
-      </button>
-
-      <button
-        className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white transition"
-        onClick={handleNext}
-        aria-label="Next product"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="m9 18 6-6-6-6" />
-        </svg>
-      </button>
-
-      <div className="flex justify-center mt-4 gap-2">
-        {products.map((_, idx) => (
-          <button
-            key={idx}
-            className={`w-2 h-2 rounded-full ${idx === activeIndex ? "bg-black" : "bg-gray-300"}`}
-            onClick={() => setActiveIndex(idx)}
-            aria-label={`Go to product ${idx + 1}`}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 // Pull quote component
 const PullQuote = ({ quote, author }) => {
   return (
@@ -295,32 +137,6 @@ const LifestyleSection = ({ title, image, children }) => {
   )
 }
 
-// Shop the look component
-const ShopTheLook = ({ image, products }) => {
-  return (
-    <div className="relative my-16">
-      <div className="aspect-[3/4] relative">
-        <Image src={image || "/icons/placeholder.svg"} alt="Shop the look" fill className="object-cover" />
-
-        {products.map((product, idx) => (
-          <ProductHotspot key={idx} x={product.x} y={product.y} product={product} />
-        ))}
-      </div>
-
-      <div className="mt-4 text-center">
-        <p className="text-sm font-medium uppercase tracking-wider mb-4">Shop The Look</p>
-        <div className="flex flex-wrap justify-center gap-4">
-          {products.map((product, idx) => (
-            <Link key={idx} href={product.url} className="text-xs underline hover:no-underline">
-              {product.title}
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 export default function InLifePage() {
   const [activeTab, setActiveTab] = useState("beach")
   const [isMounted, setIsMounted] = useState(false)
@@ -328,139 +144,6 @@ export default function InLifePage() {
   useEffect(() => {
     setIsMounted(true)
   }, [])
-
-  // Sample beach products data
-  const beachProducts = [
-    {
-      sku: "EC-IV-SND",
-      title: "Sandals",
-      price: "$48",
-      image: "/products/beach-product.png",
-      url: "/products/EC-IV-SND",
-      description:
-        "Comfortable everyday sandals perfect for beach days. Features a durable sole and easy-to-wear design for all-day comfort.",
-      colors: ["bg-blue-400", "bg-orange-400", "bg-green-400"],
-    },
-    {
-      sku: "EC-IV-BAG",
-      title: "Beach Tote",
-      price: "$58",
-      image: "/products/beach-tote-monochrome.png",
-      url: "/products/EC-IV-BAG",
-      description:
-        "Spacious tote for beach essentials. Perfect for carrying all your beach day must-haves with style.",
-      colors: ["bg-stone-200", "bg-stone-400", "bg-stone-600"],
-    },
-    {
-      sku: "EC-IV-BKT",
-      title: "Bucket Hat",
-      price: "$45",
-      image: "/products/sun-hat-monochrome.png",
-      url: "/products/EC-IV-BKT",
-      description:
-        "Sun protection bucket hat with UPF protection. Made from breathable, quick-drying materials perfect for long days at the beach.",
-      colors: ["bg-stone-200", "bg-blue-200", "bg-black"],
-    },
-  ]
-
-  // Shop the look data
-  const beachLookProducts = [
-    {
-      x: 30,
-      y: 20,
-      sku: "EC-IV-SSD",
-      title: "Short Sleeve Button Down",
-      price: "$72",
-      image: "/products/linen-beach-shirt-monochrome.png",
-      url: "/products/EC-IV-SSD",
-    },
-    {
-      x: 70,
-      y: 40,
-      sku: "EC-IV-BKT",
-      title: "Bucket Hat",
-      price: "$45",
-      image: "/products/woven-beach-hat-monochrome.png",
-      url: "/products/EC-IV-BKT",
-    },
-    {
-      x: 50,
-      y: 70,
-      sku: "EC-IV-SHO",
-      title: "Casual Shorts",
-      price: "$54",
-      image: "/products/canvas-beach-shorts-monochrome.png",
-      url: "/products/EC-IV-SHO",
-    },
-  ]
-
-  // City products data
-  const cityProducts = [
-    {
-      sku: "EC-IV-LPT",
-      title: "Laptop Backpack",
-      price: "$88",
-      image: "/products/urban-commuter-backpack-monochrome.png",
-      url: "/products/EC-IV-LPT",
-      description:
-        "Protective laptop backpack with multiple compartments and water-resistant materials for the modern city dweller.",
-      colors: ["bg-black", "bg-gray-400", "bg-blue-900"],
-    },
-    {
-      sku: "EC-IV-DPK",
-      title: "Day Pack",
-      price: "$65",
-      image: "/products/city-skateboard-monochrome.png",
-      url: "/products/EC-IV-DPK",
-      description:
-        "Lightweight day backpack perfect for navigating urban environments with durable construction and smooth functionality.",
-      colors: ["bg-red-500", "bg-black", "bg-white"],
-    },
-    {
-      sku: "EC-IV-SGL",
-      title: "Sunglasses",
-      price: "$68",
-      image: "/products/minimalist-watch-monochrome.png",
-      url: "/products/EC-IV-SGL",
-      description:
-        "UV protection sunglasses with a sleek design that complements any outfit. High-quality lenses with scratch-resistant coating.",
-      colors: ["bg-black", "bg-white", "bg-brown-400"],
-    },
-  ]
-
-  // Mountain products data
-  const mountainProducts = [
-    {
-      sku: "EC-IV-DPK",
-      title: "Day Pack",
-      price: "$65",
-      image: "/products/men-urban-style.png",
-      url: "/products/EC-IV-DPK",
-      description:
-        "Lightweight day backpack engineered for mountain adventures with weather-resistant materials and ergonomic support for all-day comfort.",
-      colors: ["bg-green-700", "bg-blue-700", "bg-black"],
-    },
-    {
-      sku: "EC-IV-WTB",
-      title: "Stainless Water Bottle",
-      price: "$35",
-      image: "/products/sustainable-fashion-collage.png",
-      url: "/products/EC-IV-WTB",
-      description:
-        "Keeps beverages cold for 24 hours or hot for 12 hours. Made from durable stainless steel with a leak-proof cap design.",
-      colors: ["bg-blue-500", "bg-black", "bg-white"],
-    },
-    {
-      sku: "EC-IV-BNI",
-      title: "Beanie",
-      price: "$28",
-      image: "/products/diverse-beach-fashion.png",
-      url: "/products/EC-IV-BNI",
-      description:
-        "Warm beanie crafted for comfort and style. Perfect for cool weather whether you're in the city or on the mountains.",
-      colors: ["bg-gray-700", "bg-red-700", "bg-blue-700"],
-    },
-  ]
 
   return (
     <div className="bg-fdf4ec">
@@ -553,11 +236,7 @@ export default function InLifePage() {
             </Link>
           </MagazineArticle>
 
-          {/* Product carousel */}
-          <div className="my-16">
-            <h2 className="text-2xl font-bold mb-8 text-center">Beach Essentials</h2>
-            <ProductCarousel products={beachProducts} />
-          </div>
+
 
           {/* Pull quote */}
           <PullQuote
@@ -584,10 +263,6 @@ export default function InLifePage() {
                 Shop Beach Collection
               </Link>
             </div>
-            <ShopTheLook
-              image="/products/beach-product.png"
-              products={beachLookProducts}
-            />
           </div>
 
           {/* Lifestyle section with parallax */}
@@ -629,31 +304,7 @@ export default function InLifePage() {
             </div>
           </LifestyleSection>
 
-          {/* Editor's picks */}
-          <div className="my-16">
-            <div className="flex items-center justify-center mb-8">
-              <div className="h-px bg-gray-300 w-16"></div>
-              <h2 className="text-xl font-bold px-4">EDITOR'S PICKS</h2>
-              <div className="h-px bg-gray-300 w-16"></div>
-            </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="group">
-                  <div className="relative aspect-square mb-3 overflow-hidden">
-                    <Image
-                      src={`/products/beach-product.png`}
-                      alt={`Editor's pick ${item}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-sm font-medium">Beach Essential {item}</h3>
-                  <p className="text-sm">$99.00</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       )}
 
@@ -692,11 +343,7 @@ export default function InLifePage() {
             </Link>
           </MagazineArticle>
 
-          {/* Product carousel */}
-          <div className="my-16">
-            <h2 className="text-2xl font-bold mb-8 text-center">City Essentials</h2>
-            <ProductCarousel products={cityProducts} />
-          </div>
+
 
           {/* Pull quote */}
           <PullQuote quote="The city is not a concrete jungle, it is a human zoo." author="Desmond Morris" />
@@ -745,31 +392,7 @@ export default function InLifePage() {
             </div>
           </LifestyleSection>
 
-          {/* Editor's picks */}
-          <div className="my-16">
-            <div className="flex items-center justify-center mb-8">
-              <div className="h-px bg-gray-300 w-16"></div>
-              <h2 className="text-xl font-bold px-4">URBAN SELECTIONS</h2>
-              <div className="h-px bg-gray-300 w-16"></div>
-            </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="group">
-                  <div className="relative aspect-square mb-3 overflow-hidden">
-                    <Image
-                      src={`/products/placeholder-ju3jl.png`}
-                      alt={`Urban pick ${item}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-sm font-medium">City Essential {item}</h3>
-                  <p className="text-sm">$129.00</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       )}
 
@@ -812,11 +435,7 @@ export default function InLifePage() {
             </Link>
           </MagazineArticle>
 
-          {/* Product carousel */}
-          <div className="my-16">
-            <h2 className="text-2xl font-bold mb-8 text-center">Mountain Essentials</h2>
-            <ProductCarousel products={mountainProducts} />
-          </div>
+
 
           {/* Pull quote */}
           <PullQuote quote="The mountains are calling and I must go." author="John Muir" />
@@ -864,13 +483,7 @@ export default function InLifePage() {
             </div>
           </LifestyleSection>
 
-          {/* Editor's picks */}
-          <div className="my-16">
-            <div className="flex items-center justify-center mb-8">
-              <div className="h-px bg-gray-300 w-16"></div>
-              <h2 className="text-xl font-bold px-4">MOUNTAIN SELECTIONS</h2>
-              <div className="h-px bg-gray-300 w-16"></div>
-            </div>
+
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((item) => (
