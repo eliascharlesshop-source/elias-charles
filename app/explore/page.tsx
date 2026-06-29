@@ -88,8 +88,8 @@ export default function ExplorePage() {
     <Layout>
       <div className="bg-cream min-h-screen">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary to-dark text-white">
-          <div className="absolute inset-0 bg-black/20" />
+        <div className="relative bg-cover bg-center text-white" style={{ backgroundImage: 'url(/images/explore-banner.png)' }}>
+          <div className="absolute inset-0 bg-black/40" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <div className="text-center">
               <h1 className="text-4xl md:text-6xl font-light tracking-wider mb-6">
