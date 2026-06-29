@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { PullQuote } from "@/components/layout/pull-quote"
 import { HeroCarousel } from "@/components/home/hero-carousel"
+import { GlassmorphicButton } from "@/components/ui/glassmorphic-button"
 
 export default function Home() {
 
@@ -88,16 +89,13 @@ export default function Home() {
                   <p className="text-sm steel-text leading-relaxed">Designed by skaters for skaters with coastal influences</p>
                 </div>
               </div>
-              <Link
-                href="/collections/boards"
-                className="inline-block bg-white border border-gray-300 text-beach-darker px-6 py-3 text-sm uppercase tracking-widest font-bold hover:bg-gray-50 transition-colors"
-              >
+              <GlassmorphicButton href="/collections/boards">
                 Explore Collection
-              </Link>
+              </GlassmorphicButton>
             </div>
             <div>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover" />
+                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </div>
@@ -108,8 +106,8 @@ export default function Home() {
       <section className="bg-cream">
         <div className="grid grid-cols-2 md:grid-cols-2">
           {/* Row 1: Nature Product */}
-          <div className="aspect-square">
-            <img src="/images/ocean-bw-4.jpg" alt="Ocean waves" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/ocean-bw-4.jpg" alt="Ocean waves" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
@@ -117,12 +115,7 @@ export default function Home() {
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 Discover our curated collection of beach-ready items for the perfect summer.
               </p>
-              <Link
-                href="/collections"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Shop Now
-              </Link>
+              <GlassmorphicButton href="/collections">Shop Now</GlassmorphicButton>
             </div>
           </div>
 
@@ -131,32 +124,22 @@ export default function Home() {
             <div className="text-center max-w-xs lg:max-w-sm">
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Surf Collection</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Performance gear designed for those who live for the waves.</p>
-              <Link
-                href="/collections/boards"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Explore
-              </Link>
+              <GlassmorphicButton href="/collections/boards">Explore</GlassmorphicButton>
             </div>
           </div>
-          <div className="aspect-square">
-            <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Ocean landscape" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Ocean landscape" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
 
           {/* Row 3: Nature Product */}
-          <div className="aspect-square">
-            <img src="/images/ocean-bw-5.jpg" alt="Beach sunset" className="h-full w-full object-cover" />
+          <div className="aspect-square overflow-hidden">
+            <img src="/images/ocean-bw-5.jpg" alt="Beach sunset" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
           <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
               <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">Coastal Living</h3>
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Bring the beach home with our curated home and lifestyle products.</p>
-              <Link
-                href="/collections/life"
-                className="inline-block border border-gray-300 text-beach-darker px-3 sm:px-4 py-2 text-xs sm:text-sm uppercase tracking-widest font-bold hover:bg-white transition-colors"
-              >
-                Discover
-              </Link>
+              <GlassmorphicButton href="/collections/life">Discover</GlassmorphicButton>
             </div>
           </div>
         </div>
@@ -171,7 +154,7 @@ export default function Home() {
                 <img
                   src="/images/brand/highway-lights-1.jpg"
                   alt="Night highway with streaking lights"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>

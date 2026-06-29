@@ -184,7 +184,7 @@ export default function ExplorePage() {
         </div>
 
         {/* Quick Access Section */}
-        <div className="bg-white">
+        <div className="bg-cream">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-light text-gray-900 mb-4">
