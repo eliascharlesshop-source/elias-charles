@@ -2,13 +2,14 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Menu, X as XIcon } from 'lucide-react'
 import Layout from '@/src/components/layout/layout'
 import { CategoryRail } from '@/components/wardrobe/category-rail'
 import { ItemCard } from '@/components/wardrobe/item-card'
 import { Mannequin } from '@/components/wardrobe/mannequin'
 import { BoxHUD } from '@/components/wardrobe/box-hud'
-import { WARDROBE_ITEMS, CATEGORIES, ItemCategory, getItemsByCategory } from '@/data/wardrobe-items'
+import { ItemDetailsDrawer } from '@/components/wardrobe/item-details-drawer'
+import { WARDROBE_ITEMS, CATEGORIES, ItemCategory, getItemsByCategory, WardrobeItem } from '@/data/wardrobe-items'
 
 interface SelectedItem {
   item: typeof WARDROBE_ITEMS[0]
@@ -22,12 +23,23 @@ export default function WardroobeBuilderPage() {
   const [showSizeSelector, setShowSizeSelector] = useState<string | null>(null)
   const [leftPanelOpen, setLeftPanelOpen] = useState(true)
   const [rightPanelOpen, setRightPanelOpen] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerItem, setDrawerItem] = useState<WardrobeItem | null>(null)
 
   const categoryItems = getItemsByCategory(selectedCategory)
 
-  const handleSelectItem = (item: typeof WARDROBE_ITEMS[0]) => {
-    // Show size selector modal
-    setShowSizeSelector(item.id)
+  const handleSelectItem = (item: WardrobeItem) => {
+    // Open drawer with item details
+    setDrawerItem(item)
+    setDrawerOpen(true)
+  }
+
+  const handleAddToBox = (size: string) => {
+    if (drawerItem) {
+      setSelectedItems([...selectedItems, { item: drawerItem, size }])
+      setDrawerOpen(false)
+      setDrawerItem(null)
+    }
   }
 
   const handleConfirmSize = (itemId: string, size: string) => {
@@ -67,9 +79,9 @@ export default function WardroobeBuilderPage() {
         </div>
 
         {/* 3-Panel Builder Layout */}
-        <div className="relative h-full py-8 px-4 sm:px-6">
-          <div className="flex gap-4 h-full">
-            {/* Left Panel - Categories */}
+        <div className="relative h-full py-6 px-3 sm:px-4 lg:px-6">
+          <div className="flex gap-2 lg:gap-4 h-full">
+            {/* Left Panel - Thin Categories */}
             <AnimatePresence mode="wait">
               {leftPanelOpen && (
                 <motion.div
@@ -78,9 +90,9 @@ export default function WardroobeBuilderPage() {
                   animate={{ opacity: 1, x: 0, width: 'auto' }}
                   exit={{ opacity: 0, x: -300, width: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 hidden sm:block"
                 >
-                  <div className="bg-white rounded-lg border border-gray-200 p-6 h-fit sticky top-8">
+                  <div className="bg-white rounded-lg border border-gray-200 p-3 lg:p-4 h-fit sticky top-8 w-48 lg:w-56">
                     <CategoryRail 
                       selectedCategory={selectedCategory}
                       onSelectCategory={setSelectedCategory}
@@ -93,14 +105,14 @@ export default function WardroobeBuilderPage() {
             {/* Collapse Left Toggle */}
             <motion.button
               onClick={() => setLeftPanelOpen(!leftPanelOpen)}
-              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors"
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors hidden sm:flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {leftPanelOpen ? (
-                <ChevronLeft className="w-5 h-5 text-gray-700" />
+                <ChevronLeft className="w-4 h-4 text-gray-700" />
               ) : (
-                <ChevronRight className="w-5 h-5 text-gray-700" />
+                <ChevronRight className="w-4 h-4 text-gray-700" />
               )}
             </motion.button>
 
@@ -112,11 +124,11 @@ export default function WardroobeBuilderPage() {
               transition={{ delay: 0.1, duration: 0.3 }}
             >
               {/* Closet Rack Section */}
-              <div className="space-y-6 mb-12">
+              <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12">
                 <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
                   {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
                   {categoryItems.map((item, idx) => (
                     <motion.div
                       key={item.id}
@@ -135,7 +147,7 @@ export default function WardroobeBuilderPage() {
               </div>
 
               {/* Avatar Display Section */}
-              <div className="space-y-6 pt-8 border-t border-gray-300">
+              <div className="space-y-4 lg:space-y-6 pt-6 lg:pt-8 border-t border-gray-300">
                 <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
                 <Mannequin selectedItems={selectedItems} />
               </div>
@@ -144,18 +156,18 @@ export default function WardroobeBuilderPage() {
             {/* Collapse Right Toggle */}
             <motion.button
               onClick={() => setRightPanelOpen(!rightPanelOpen)}
-              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors"
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors hidden lg:flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               {rightPanelOpen ? (
-                <ChevronRight className="w-5 h-5 text-gray-700" />
+                <ChevronRight className="w-4 h-4 text-gray-700" />
               ) : (
-                <ChevronLeft className="w-5 h-5 text-gray-700" />
+                <ChevronLeft className="w-4 h-4 text-gray-700" />
               )}
             </motion.button>
 
-            {/* Right Panel - Box HUD */}
+            {/* Right Panel - Box HUD (always visible on desktop, collapsible) */}
             <AnimatePresence mode="wait">
               {rightPanelOpen && (
                 <motion.div
@@ -164,9 +176,9 @@ export default function WardroobeBuilderPage() {
                   animate={{ opacity: 1, x: 0, width: 'auto' }}
                   exit={{ opacity: 0, x: 300, width: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="flex-shrink-0"
+                  className="flex-shrink-0 hidden lg:block"
                 >
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-fit sticky top-8">
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-fit sticky top-8 w-80">
                     <BoxHUD
                       selectedItems={selectedItems}
                       totalPrice={totalPrice}
@@ -178,6 +190,18 @@ export default function WardroobeBuilderPage() {
             </AnimatePresence>
           </div>
         </div>
+
+        {/* Item Details Drawer */}
+        <ItemDetailsDrawer
+          item={drawerItem}
+          isOpen={drawerOpen}
+          onClose={() => {
+            setDrawerOpen(false)
+            setDrawerItem(null)
+          }}
+          onAddToBox={handleAddToBox}
+          isSelected={drawerItem ? selectedItems.some(s => s.item.id === drawerItem.id) : false}
+        />
 
         {/* Size Selector Modal */}
         {showSizeSelector && (
