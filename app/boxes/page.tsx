@@ -123,11 +123,55 @@ export default function WardroobeBuilderPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.1, duration: 0.3 }}
             >
-              {/* Closet Rack Section */}
+              {/* Avatar Display Section - TOP */}
               <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12">
-                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
-                  {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
-                </h2>
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
+                <Mannequin selectedItems={selectedItems} />
+              </div>
+
+              {/* Featured Product Preview */}
+              <div className="space-y-4 lg:space-y-6 p-6 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-200 mb-8 lg:mb-12">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <p className="text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Featured Pick</p>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {categoryItems[0]?.name || 'Classic Linen Shirt'}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      {categoryItems[0]?.description || 'A timeless essential perfect for any wardrobe'}
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <span className="text-lg font-bold text-black">${categoryItems[0]?.price || '45'}</span>
+                      <motion.button
+                        onClick={() => handleSelectItem(categoryItems[0])}
+                        className="px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Add to Box
+                      </motion.button>
+                    </div>
+                  </div>
+                  <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden border border-gray-200">
+                    <img
+                      src={categoryItems[0]?.image || '/products/linen-shirt.png'}
+                      alt={categoryItems[0]?.name || 'Featured item'}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Closet Rack Section */}
+              <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12 pt-6 lg:pt-8 border-t border-gray-300">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                    Browse {CATEGORIES.find(c => c.id === selectedCategory)?.label}
+                  </h2>
+                  <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
+                    {categoryItems.length} items
+                  </span>
+                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
                   {categoryItems.map((item, idx) => (
                     <motion.div
@@ -146,17 +190,16 @@ export default function WardroobeBuilderPage() {
                 </div>
               </div>
 
-              {/* Avatar Display Section */}
-              <div className="space-y-4 lg:space-y-6 pt-6 lg:pt-8 border-t border-gray-300">
-                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
-                <Mannequin selectedItems={selectedItems} />
-              </div>
-
               {/* Footwear Section */}
-              <div className="space-y-4 lg:space-y-6 mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-gray-300">
-                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
-                  Footwear ({getItemsByCategory('footwear').length})
-                </h2>
+              <div className="space-y-4 lg:space-y-6 pt-6 lg:pt-8 border-t border-gray-300">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                    Complete the Look
+                  </h2>
+                  <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
+                    {getItemsByCategory('footwear').length} shoes
+                  </span>
+                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
                   {getItemsByCategory('footwear').map((item, idx) => (
                     <motion.div
