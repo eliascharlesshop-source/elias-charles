@@ -71,44 +71,105 @@ const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
 
 // Magazine article component
 const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.8", "start 0.2"],
+  })
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1])
+  const y = useTransform(scrollYProgress, [0, 1], [40, 0])
+
   return (
-    <div
+    <motion.div
+      ref={ref}
+      style={{ opacity, y }}
       className={`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center my-16 ${reverse ? "md:grid-flow-col-dense" : ""}`}
     >
       <div className={reverse ? "md:col-start-2" : ""}>
-        <h3 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">{title}</h3>
-        <div className="prose prose-sm max-w-none mb-6">
+        <motion.h3 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl md:text-3xl font-bold mb-4 tracking-tight"
+        >
+          {title}
+        </motion.h3>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="prose prose-sm max-w-none mb-6"
+        >
           <p>{excerpt}</p>
-        </div>
-        {children}
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {children}
+        </motion.div>
       </div>
 
-      <div className={`relative aspect-[4/5] ${reverse ? "md:col-start-1" : ""}`}>
-        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover" />
-      </div>
-    </div>
+      <motion.div 
+        className={`relative aspect-[4/5] overflow-hidden rounded-lg ${reverse ? "md:col-start-1" : ""}`}
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover hover:scale-105 transition-transform duration-500" />
+      </motion.div>
+    </motion.div>
   )
 }
 
 // Pull quote component
 const PullQuote = ({ quote, author }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.8", "start 0.2"],
+  })
+
+  const scale = useTransform(scrollYProgress, [0, 1], [0.9, 1])
+
   return (
-    <blockquote className="relative my-16 mx-auto max-w-2xl px-4 text-center">
-      <svg
+    <motion.blockquote 
+      ref={ref}
+      style={{ scale }}
+      className="relative my-16 mx-auto max-w-2xl px-4 text-center"
+    >
+      <motion.svg
         className="absolute top-0 left-0 transform -translate-x-6 -translate-y-8 h-16 w-16 text-gray-100"
         fill="currentColor"
         viewBox="0 0 32 32"
         aria-hidden="true"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
       >
         <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-      </svg>
-      <p className="relative text-xl md:text-2xl font-medium italic">{quote}</p>
+      </motion.svg>
+      <motion.p 
+        className="relative text-xl md:text-2xl font-medium italic"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {quote}
+      </motion.p>
       {author && (
-        <footer className="mt-4">
+        <motion.footer 
+          className="mt-4"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <p className="text-base font-semibold">— {author}</p>
-        </footer>
+        </motion.footer>
       )}
-    </blockquote>
+    </motion.blockquote>
   )
 }
 
@@ -268,7 +329,13 @@ export default function InLifePage() {
           {/* Lifestyle section with parallax */}
           <LifestyleSection title="Beach Living, Day to Night" image="/products/surfboard-on-beach.png">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Sunrise className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Morning</h3>
                 <p className="text-sm">
@@ -278,9 +345,15 @@ export default function InLifePage() {
                 <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Morning Essentials
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Sun className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Day</h3>
                 <p className="text-sm">
@@ -289,9 +362,15 @@ export default function InLifePage() {
                 <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Daytime Collection
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Sunset className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Evening</h3>
                 <p className="text-sm">
@@ -300,9 +379,34 @@ export default function InLifePage() {
                 <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Evening Selection
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </LifestyleSection>
+
+          {/* Editor's picks section */}
+          <motion.div 
+            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <Star className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Editor's Pick</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">Why Beach Culture Matters</h3>
+                <p className="text-lg mb-6">
+                  The beach is more than just a destination—it&apos;s a lifestyle philosophy. In our latest editorial, we explore how coastal living shapes our design philosophy and influences every product we create.
+                </p>
+                <Link
+                  href="/collections/apparel"
+                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                >
+                  Read Full Feature
+                </Link>
+              </div>
+            </div>
+          </motion.div>
 
 
         </div>
@@ -354,7 +458,13 @@ export default function InLifePage() {
             image="/products/men-urban-style.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Coffee className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Morning</h3>
                 <p className="text-sm">
@@ -364,9 +474,15 @@ export default function InLifePage() {
                 <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Morning Commute
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Building className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Day</h3>
                 <p className="text-sm">
@@ -376,9 +492,15 @@ export default function InLifePage() {
                 <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Workday Essentials
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Music className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Evening</h3>
                 <p className="text-sm">
@@ -388,9 +510,34 @@ export default function InLifePage() {
                 <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Night Out Collection
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </LifestyleSection>
+
+          {/* Urban editorial feature */}
+          <motion.div 
+            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <Package className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Urban Dispatch</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">The Future of Sustainable City Living</h3>
+                <p className="text-lg mb-6">
+                  As cities evolve, so do the demands we place on our wardrobes and gear. Discover how EC is pioneering sustainable urban fashion for the next generation of city dwellers.
+                </p>
+                <Link
+                  href="/collections/boards/skate"
+                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                >
+                  Explore Urban Collection
+                </Link>
+              </div>
+            </div>
+          </motion.div>
 
 
         </div>
@@ -446,7 +593,13 @@ export default function InLifePage() {
             image="/products/sustainable-fashion-collage.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Mountain className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Morning</h3>
                 <p className="text-sm">
@@ -456,9 +609,15 @@ export default function InLifePage() {
                 <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Alpine Mornings
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Compass className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Day</h3>
                 <p className="text-sm">
@@ -469,7 +628,30 @@ export default function InLifePage() {
                 </Link>
               </div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{ scale: 1.02 }}
+              >
+                <Compass className="w-8 h-8 mb-6 text-white" />
+                <h3 className="text-xl font-bold mb-2">Day</h3>
+                <p className="text-sm">
+                  Our technical apparel and adventure equipment are engineered for long days exploring rugged terrain.
+                </p>
+                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
+                  Trail Essentials
+                </Link>
+              </motion.div>
+
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Tent className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Evening</h3>
                 <p className="text-sm">
@@ -479,11 +661,34 @@ export default function InLifePage() {
                 <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Fireside Collection
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </LifestyleSection>
 
-
+          {/* Alpine editorial feature */}
+          <motion.div 
+            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <Compass className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Alpine Chronicle</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">Designing for Elevation: The Mountain Philosophy</h3>
+                <p className="text-lg mb-6">
+                  High altitude demands uncompromising performance. Learn how our design team engineers every product with the mountains in mind, merging technical innovation with timeless style.
+                </p>
+                <Link
+                  href="/collections/life"
+                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                >
+                  Read the Full Story
+                </Link>
+              </div>
+            </div>
+          </motion.div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((item) => (
