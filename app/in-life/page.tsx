@@ -538,8 +538,6 @@ export default function InLifePage() {
               </div>
             </div>
           </motion.div>
-
-
         </div>
       )}
 
