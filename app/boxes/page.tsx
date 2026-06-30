@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Layout from '@/src/components/layout/layout'
 import { CategoryRail } from '@/components/wardrobe/category-rail'
 import { ItemCard } from '@/components/wardrobe/item-card'
@@ -19,6 +20,8 @@ export default function WardroobeBuilderPage() {
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([])
   const [selectedSize, setSelectedSize] = useState<string>('M')
   const [showSizeSelector, setShowSizeSelector] = useState<string | null>(null)
+  const [leftPanelOpen, setLeftPanelOpen] = useState(true)
+  const [rightPanelOpen, setRightPanelOpen] = useState(true)
 
   const categoryItems = getItemsByCategory(selectedCategory)
 
@@ -63,30 +66,57 @@ export default function WardroobeBuilderPage() {
           </motion.div>
         </div>
 
-        {/* Builder Layout */}
-        <motion.div 
-          className="max-w-7xl mx-auto px-6 sm:px-12 py-12"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Left: Category Rail */}
-            <div className="lg:col-span-1 h-fit">
-              <CategoryRail 
-                selectedCategory={selectedCategory}
-                onSelectCategory={setSelectedCategory}
-              />
-            </div>
+        {/* 3-Panel Builder Layout */}
+        <div className="relative h-full py-8 px-4 sm:px-6">
+          <div className="flex gap-4 h-full">
+            {/* Left Panel - Categories */}
+            <AnimatePresence mode="wait">
+              {leftPanelOpen && (
+                <motion.div
+                  key="left-panel"
+                  initial={{ opacity: 0, x: -300, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: 'auto' }}
+                  exit={{ opacity: 0, x: -300, width: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-shrink-0"
+                >
+                  <div className="bg-white rounded-lg border border-gray-200 p-6 h-fit sticky top-8">
+                    <CategoryRail 
+                      selectedCategory={selectedCategory}
+                      onSelectCategory={setSelectedCategory}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            {/* Center: Items Grid + Mannequin */}
-            <div className="lg:col-span-2 space-y-10">
+            {/* Collapse Left Toggle */}
+            <motion.button
+              onClick={() => setLeftPanelOpen(!leftPanelOpen)}
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {leftPanelOpen ? (
+                <ChevronLeft className="w-5 h-5 text-gray-700" />
+              ) : (
+                <ChevronRight className="w-5 h-5 text-gray-700" />
+              )}
+            </motion.button>
+
+            {/* Center Panel - Content */}
+            <motion.div
+              className="flex-1 min-w-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+            >
               {/* Closet Rack Section */}
-              <div className="space-y-4">
+              <div className="space-y-6 mb-12">
                 <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
                   {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                   {categoryItems.map((item, idx) => (
                     <motion.div
                       key={item.id}
@@ -105,22 +135,49 @@ export default function WardroobeBuilderPage() {
               </div>
 
               {/* Avatar Display Section */}
-              <div className="space-y-4 pt-8 border-t border-gray-300">
+              <div className="space-y-6 pt-8 border-t border-gray-300">
                 <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
                 <Mannequin selectedItems={selectedItems} />
               </div>
-            </div>
+            </motion.div>
 
-            {/* Right: Box HUD */}
-            <div className="lg:col-span-1">
-              <BoxHUD
-                selectedItems={selectedItems}
-                totalPrice={totalPrice}
-                onRemoveItem={handleRemoveItem}
-              />
-            </div>
+            {/* Collapse Right Toggle */}
+            <motion.button
+              onClick={() => setRightPanelOpen(!rightPanelOpen)}
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {rightPanelOpen ? (
+                <ChevronRight className="w-5 h-5 text-gray-700" />
+              ) : (
+                <ChevronLeft className="w-5 h-5 text-gray-700" />
+              )}
+            </motion.button>
+
+            {/* Right Panel - Box HUD */}
+            <AnimatePresence mode="wait">
+              {rightPanelOpen && (
+                <motion.div
+                  key="right-panel"
+                  initial={{ opacity: 0, x: 300, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: 'auto' }}
+                  exit={{ opacity: 0, x: 300, width: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-shrink-0"
+                >
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-fit sticky top-8">
+                    <BoxHUD
+                      selectedItems={selectedItems}
+                      totalPrice={totalPrice}
+                      onRemoveItem={handleRemoveItem}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </motion.div>
+        </div>
 
         {/* Size Selector Modal */}
         {showSizeSelector && (
