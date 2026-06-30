@@ -1,131 +1,172 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { BoxShowcase } from "@/components/boxes/box-showcase"
-import { RegionSelector } from "@/components/boxes/region-selector"
-import { PullQuote } from "@/components/layout/pull-quote"
-import { CryptoSubscriptionPlans } from "@/src/components/crypto/crypto-subscription-plans"
-import { WalletConnector } from "@/src/components/crypto/wallet-connector"
-import { CryptoPaymentFlow } from "@/src/components/crypto/crypto-payment-flow"
-import { IE_BOXES, IV_BOXES } from "@/data/box-config"
-import { Cryptocurrency, Network, CryptoSubscription, PaymentProcessingError } from "@/types/crypto-subscription"
+import { useState } from 'react'
+import Layout from '@/src/components/layout/layout'
+import { CategoryRail } from '@/components/wardrobe/category-rail'
+import { ItemCard } from '@/components/wardrobe/item-card'
+import { Mannequin } from '@/components/wardrobe/mannequin'
+import { BoxHUD } from '@/components/wardrobe/box-hud'
+import { WARDROBE_ITEMS, CATEGORIES, ItemCategory, getItemsByCategory } from '@/data/wardrobe-items'
 
-type Region = 'ie' | 'iv'
+interface SelectedItem {
+  item: typeof WARDROBE_ITEMS[0]
+  size: string
+}
 
-export default function BoxesPage() {
-  const [region, setRegion] = useState<Region>('ie')
-  const [currentWeek, setCurrentWeek] = useState(1)
-  const [showPaymentFlow, setShowPaymentFlow] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<Cryptocurrency>('ETH')
-  const [selectedNetwork, setSelectedNetwork] = useState<Network>('ethereum')
+export default function WardroobeBuilderPage() {
+  const [selectedCategory, setSelectedCategory] = useState<ItemCategory>('tops')
+  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([])
+  const [selectedSize, setSelectedSize] = useState<string>('M')
+  const [showSizeSelector, setShowSizeSelector] = useState<string | null>(null)
 
-  const boxes = region === 'ie' ? IE_BOXES : IV_BOXES
-  const regionTitle = region === 'ie' ? 'Inland Empire' : 'Isla Vista'
-  const regionDescription = region === 'ie' 
-    ? 'Street culture meets curated drops. Essential basics with signature style.' 
-    : 'Coastal living essentials. Island vibes with premium materials.'
+  const categoryItems = getItemsByCategory(selectedCategory)
 
-  const handleSubscribe = (boxId: string) => {
-    console.log('Subscribe to box:', boxId)
+  const handleSelectItem = (item: typeof WARDROBE_ITEMS[0]) => {
+    // Show size selector modal
+    setShowSizeSelector(item.id)
   }
 
-  const handleLearnMore = (boxId: string) => {
-    console.log('Learn more about box:', boxId)
+  const handleConfirmSize = (itemId: string, size: string) => {
+    const item = WARDROBE_ITEMS.find(i => i.id === itemId)
+    if (item) {
+      setSelectedItems([...selectedItems, { item, size }])
+      setShowSizeSelector(null)
+    }
   }
 
-  const handleCryptoSubscribe = (planId: string, currency: Cryptocurrency, network: Network) => {
-    setSelectedPlan(planId)
-    setSelectedCurrency(currency)
-    setSelectedNetwork(network)
-    setShowPaymentFlow(true)
+  const handleRemoveItem = (itemId: string) => {
+    setSelectedItems(selectedItems.filter(s => s.item.id !== itemId))
   }
 
-  const handlePaymentSuccess = (subscription: CryptoSubscription) => {
-    console.log('Payment successful:', subscription)
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
+  const handleClearAll = () => {
+    setSelectedItems([])
   }
 
-  const handlePaymentError = (error: PaymentProcessingError) => {
-    console.error('Payment failed:', error)
-  }
-
-  const handlePaymentCancel = () => {
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
-  }
+  const totalPrice = selectedItems.reduce((sum, s) => sum + s.item.price, 0)
 
   return (
-    <div className="magazine-layout">
-      {/* Page Hero */}
-      <section className="py-12 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto text-center">
-          <span className="inline-block mb-4 text-xs tracking-widest uppercase text-beach-darker border-b pb-1">
-            Spring 2026 Collection
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-widest uppercase text-gray-900 mb-4">
-            {regionTitle} Boxes
-          </h1>
-          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-            {regionDescription}
-          </p>
-          
-          {/* Region Selector */}
-          <RegionSelector selectedRegion={region} onRegionChange={setRegion} />
-        </div>
-      </section>
-
-      {/* Box Showcase */}
-      <section id="boxes" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <BoxShowcase 
-            boxes={boxes}
-            onSubscribe={handleSubscribe}
-            onLearnMore={handleLearnMore}
-            currentWeek={currentWeek}
-          />
-        </div>
-      </section>
-
-      {/* Pull Quote */}
-      <PullQuote
-        quote={region === 'ie' 
-          ? "Perfect move. An IE Box model will raise AOV, simplify decisions, and make the drop feel collectible."
-          : "Island living made simple. Curated pieces that bring coastal elegance to everyday style."
-        }
-        author={region === 'ie' ? "IE Strategy Team" : "IV Design Team"}
-      />
-
-      {/* Crypto Subscription Plans */}
-      <section id="subscription" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <CryptoSubscriptionPlans onSubscribe={handleCryptoSubscribe} />
-        </div>
-      </section>
-
-      {/* Wallet Connector */}
-      <section className="py-8 px-6 sm:px-12 lg:px-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <WalletConnector />
-        </div>
-      </section>
-
-      {/* Payment Flow Modal */}
-      {showPaymentFlow && selectedPlan && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <CryptoPaymentFlow
-              planId={selectedPlan}
-              currency={selectedCurrency}
-              network={selectedNetwork}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-              onCancel={handlePaymentCancel}
-            />
+    <Layout>
+      <div className="min-h-screen bg-white">
+        {/* Header */}
+        <div className="border-b border-gray-200 py-12 px-6 sm:px-12">
+          <div className="max-w-7xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">Build Your Box</h1>
+            <p className="text-lg text-gray-600">Curate your perfect collection. Select items from each category to build your personalized box.</p>
           </div>
         </div>
-      )}
-    </div>
+
+        {/* Builder Layout */}
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            {/* Left: Category Rail */}
+            <div className="lg:col-span-1 h-fit">
+              <CategoryRail 
+                selectedCategory={selectedCategory}
+                onSelectCategory={setSelectedCategory}
+              />
+            </div>
+
+            {/* Center: Items Grid */}
+            <div className="lg:col-span-2">
+              <div className="space-y-4">
+                <p className="text-sm text-gray-600 uppercase tracking-wider font-semibold">
+                  {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {categoryItems.map(item => (
+                    <ItemCard
+                      key={item.id}
+                      item={item}
+                      isSelected={selectedItems.some(s => s.item.id === item.id)}
+                      onSelect={handleSelectItem}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              {/* Mannequin Display */}
+              <div className="mt-12">
+                <p className="text-sm text-gray-600 uppercase tracking-wider font-semibold mb-4">Your Outfit</p>
+                <Mannequin selectedItems={selectedItems} />
+              </div>
+            </div>
+
+            {/* Right: Box HUD */}
+            <div className="lg:col-span-1">
+              <BoxHUD
+                selectedItems={selectedItems}
+                totalPrice={totalPrice}
+                onRemoveItem={handleRemoveItem}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Size Selector Modal */}
+        {showSizeSelector && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold">Select Size</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {WARDROBE_ITEMS.find(i => i.id === showSizeSelector)?.name}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-4 gap-2">
+                {WARDROBE_ITEMS.find(i => i.id === showSizeSelector)?.sizes.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => handleConfirmSize(showSizeSelector, size)}
+                    className={`py-2 rounded font-medium text-sm transition-colors ${
+                      selectedSize === size
+                        ? 'bg-black text-white'
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowSizeSelector(null)}
+                  className="flex-1 py-2 border border-gray-300 rounded font-medium hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleConfirmSize(showSizeSelector, selectedSize)}
+                  className="flex-1 py-2 bg-black text-white rounded font-medium hover:bg-gray-800"
+                >
+                  Add to Box
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Info Section */}
+        <div className="bg-gray-50 border-t border-gray-200 py-12 px-6 sm:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h3 className="font-semibold mb-2">How It Works</h3>
+                <p className="text-sm text-gray-600">Select items from each category. Mix and match to create your perfect wardrobe. We'll assemble your personalized box.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Flexible Plans</h3>
+                <p className="text-sm text-gray-600">Choose one-time, monthly, or annual subscription. Customize your box before each delivery. Cancel anytime.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Curated Quality</h3>
+                <p className="text-sm text-gray-600">Every item is hand-selected by our stylists. Premium sustainable materials. Perfect for any lifestyle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
   )
 }
