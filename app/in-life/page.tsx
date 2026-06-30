@@ -109,9 +109,91 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
           {children}
         </motion.div>
         </div>
-      )}
+      )
+    </motion.div>
+  )
+}
 
-      {/* City Style Content */}
+// Pull quote component
+const PullQuote = ({ quote, author }) => {
+  return (
+    <blockquote className="relative my-16 mx-auto max-w-2xl px-4 text-center">
+      <svg
+        className="absolute top-0 left-0 transform -translate-x-6 -translate-y-8 h-16 w-16 text-gray-100"
+        fill="currentColor"
+        viewBox="0 0 32 32"
+        aria-hidden="true"
+      >
+        <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+      </svg>
+      <p className="relative text-xl md:text-2xl font-medium italic">Give Life A Break.</p>
+      <footer className="mt-4">
+        <p className="text-base font-semibold">— Elias Charles</p>
+      </footer>
+    </blockquote>
+  )
+}
+
+export default function InLifePage() {
+  const [activeTab, setActiveTab] = useState("beach")
+
+  return (
+    <Layout>
+      <div className="min-h-screen bg-white">
+        {/* Header */}
+        <div className="border-b border-gray-200 py-8">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">In Life</h1>
+            <p className="text-lg text-gray-600">Stories from the EC Community</p>
+          </div>
+        </div>
+
+        {/* Tab Navigation */}
+        <div className="border-b border-gray-200 sticky top-0 bg-white z-40">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex gap-8">
+              <button
+                onClick={() => setActiveTab("beach")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "beach"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
+              >
+                Beach Living
+              </button>
+              <button
+                onClick={() => setActiveTab("city")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "city"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
+              >
+                City Style
+              </button>
+              <button
+                onClick={() => setActiveTab("mountain")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "mountain"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
+              >
+                Mountain Living
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Beach Content */}
+        {activeTab === "beach" && (
+          <div className="container mx-auto px-4">
+            {/* Beach content here */}
+          </div>
+        )}
+
+        {/* City Style Content */}
       {activeTab === "city" && (
         <div className="container mx-auto px-4">
           {/* Hero feature */}
