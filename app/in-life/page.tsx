@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star, Plus, X } from "lucide-react"
+import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star, Plus, X, Package } from "lucide-react"
 import Layout from "@/components/layout/layout"
 
 // Interactive product hotspot component
@@ -349,7 +349,7 @@ export default function InLifePage() {
       )}
 
       {/* Mountain Escape Content */}
-      {activeTab === "mountains" && (
+      {activeTab === "mountain" && (
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
