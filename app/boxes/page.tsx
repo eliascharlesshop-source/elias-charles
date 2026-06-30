@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import Layout from '@/src/components/layout/layout'
 import { CategoryRail } from '@/components/wardrobe/category-rail'
 import { ItemCard } from '@/components/wardrobe/item-card'
@@ -46,53 +47,116 @@ export default function WardroobeBuilderPage() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
         {/* Header */}
-        <div className="border-b border-gray-200 py-12 px-6 sm:px-12">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-3">Build Your Box</h1>
-            <p className="text-lg text-gray-600">Curate your perfect collection. Select items from each category to build your personalized box.</p>
-          </div>
+        <div className="border-b border-gray-200 py-16 px-6 sm:px-12 bg-white">
+          <motion.div 
+            className="max-w-7xl mx-auto text-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.h1 
+              className="text-5xl md:text-6xl font-bold mb-4 tracking-tight"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.5 }}
+            >
+              Build Your Box
+            </motion.h1>
+            <motion.p 
+              className="text-lg text-gray-600 max-w-2xl mx-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
+              Select items from our curated closet rack to create your perfect personalized box.
+            </motion.p>
+          </motion.div>
         </div>
 
         {/* Builder Layout */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Left: Category Rail */}
-            <div className="lg:col-span-1 h-fit">
+            <motion.div 
+              className="lg:col-span-1 h-fit"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+            >
               <CategoryRail 
                 selectedCategory={selectedCategory}
                 onSelectCategory={setSelectedCategory}
               />
-            </div>
+            </motion.div>
 
-            {/* Center: Items Grid */}
-            <div className="lg:col-span-2">
-              <div className="space-y-4">
-                <p className="text-sm text-gray-600 uppercase tracking-wider font-semibold">
-                  {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
-                </p>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {categoryItems.map(item => (
-                    <ItemCard
+            {/* Center: Items Grid + Mannequin */}
+            <motion.div 
+              className="lg:col-span-2 space-y-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              {/* Closet Rack Section */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex-1 h-px bg-gray-300" />
+                  <p className="text-sm text-gray-600 uppercase tracking-wider font-bold px-4 whitespace-nowrap">
+                    Closet Rack
+                  </p>
+                  <div className="flex-1 h-px bg-gray-300" />
+                </div>
+
+                <div className="inline-block text-sm font-semibold text-gray-700 mb-4">
+                  <span className="text-2xl">👕 </span>
+                  {CATEGORIES.find(c => c.id === selectedCategory)?.label}
+                  <span className="ml-2 text-gray-500">({categoryItems.length} items)</span>
+                </div>
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                  {categoryItems.map((item, idx) => (
+                    <motion.div
                       key={item.id}
-                      item={item}
-                      isSelected={selectedItems.some(s => s.item.id === item.id)}
-                      onSelect={handleSelectItem}
-                    />
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                    >
+                      <ItemCard
+                        item={item}
+                        isSelected={selectedItems.some(s => s.item.id === item.id)}
+                        onSelect={handleSelectItem}
+                      />
+                    </motion.div>
                   ))}
                 </div>
               </div>
 
-              {/* Mannequin Display */}
-              <div className="mt-12">
-                <p className="text-sm text-gray-600 uppercase tracking-wider font-semibold mb-4">Your Outfit</p>
+              {/* Avatar Display Section */}
+              <motion.div 
+                className="space-y-6 pt-8 border-t-2 border-gray-200"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="flex-1 h-px bg-gray-300" />
+                  <p className="text-sm text-gray-600 uppercase tracking-wider font-bold px-4 whitespace-nowrap">
+                    Your Avatar
+                  </p>
+                  <div className="flex-1 h-px bg-gray-300" />
+                </div>
                 <Mannequin selectedItems={selectedItems} />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Right: Box HUD */}
-            <div className="lg:col-span-1">
+            <motion.div 
+              className="lg:col-span-1"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+            >
               <BoxHUD
                 selectedItems={selectedItems}
                 totalPrice={totalPrice}

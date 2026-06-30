@@ -2,6 +2,7 @@
 
 import { WardrobeItem } from '@/data/wardrobe-items'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 interface SelectedItem {
   item: WardrobeItem
@@ -21,76 +22,145 @@ export function Mannequin({ selectedItems }: MannequinProps) {
   const accessories = selectedItems.filter(s => s.item.category === 'accessories')
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-50 rounded-lg p-8 min-h-96">
+    <div className="flex flex-col items-center justify-center bg-gradient-to-b from-white to-gray-50 rounded-2xl p-8 min-h-96 border border-gray-200">
       {selectedItems.length === 0 ? (
-        <div className="text-center">
-          <div className="text-6xl mb-4">👤</div>
-          <p className="text-gray-600 text-sm">Select items to build your outfit</p>
-        </div>
+        <motion.div 
+          className="text-center"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* SVG Avatar Silhouette */}
+          <svg className="w-24 h-32 mx-auto mb-6 text-gray-400" viewBox="0 0 100 140" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <circle cx="50" cy="24" r="14" />
+            <path d="M 50 40 L 50 80" />
+            <path d="M 50 50 L 30 65 M 50 50 L 70 65" />
+            <path d="M 50 80 L 35 110 M 50 80 L 65 110" />
+          </svg>
+          <p className="text-gray-600 text-sm font-medium">Your Outfit Awaits</p>
+          <p className="text-gray-400 text-xs mt-1">Select items to preview</p>
+        </motion.div>
       ) : (
-        <div className="w-full space-y-4">
-          <div className="aspect-square relative bg-white rounded-lg overflow-hidden flex items-center justify-center">
-            {/* Simplified outfit display showing selected items as a grid */}
-            <div className="grid grid-cols-3 gap-2 w-full h-full p-4">
-              {selectedItems.map((selected, idx) => (
-                <div
-                  key={idx}
-                  className="relative aspect-square rounded bg-gray-100 overflow-hidden group"
+        <motion.div 
+          className="w-full space-y-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* 3D Avatar Display */}
+          <div className="relative mx-auto w-40 h-56 bg-white rounded-xl overflow-hidden shadow-md border border-gray-100">
+            {/* Body zones */}
+            <svg className="absolute inset-0 w-full h-full text-gray-200" viewBox="0 0 100 140" fill="none" stroke="currentColor" strokeWidth="0.5">
+              <circle cx="50" cy="20" r="12" opacity="0.3" />
+              <rect x="35" y="35" width="30" height="40" opacity="0.2" rx="4" />
+              <rect x="35" y="80" width="30" height="50" opacity="0.2" rx="4" />
+            </svg>
+
+            {/* Layered items */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 p-2">
+              {outerwearItem && (
+                <motion.div 
+                  className="relative w-32 h-16 rounded bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.05 }}
                 >
-                  <Image
-                    src={selected.item.image}
-                    alt={selected.item.name}
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
-                    <div className="w-full bg-black/80 text-white p-2 text-xs">
-                      {selected.size}
-                    </div>
-                  </div>
-                </div>
-              ))}
+                  <Image src={outerwearItem.item.image} alt={outerwearItem.item.name} fill className="object-cover" />
+                  <div className="absolute bottom-1 right-1 text-xs bg-black/70 text-white px-1.5 py-0.5 rounded">Outer</div>
+                </motion.div>
+              )}
+              
+              {topItem && (
+                <motion.div 
+                  className="relative w-28 h-12 rounded bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <Image src={topItem.item.image} alt={topItem.item.name} fill className="object-cover" />
+                  <div className="absolute bottom-0.5 right-0.5 text-xs bg-black/70 text-white px-1 py-0.5 rounded">Top</div>
+                </motion.div>
+              )}
+              
+              {bottomItem && (
+                <motion.div 
+                  className="relative w-24 h-14 rounded bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.15 }}
+                >
+                  <Image src={bottomItem.item.image} alt={bottomItem.item.name} fill className="object-cover" />
+                  <div className="absolute bottom-0.5 right-0.5 text-xs bg-black/70 text-white px-1 py-0.5 rounded">Bot</div>
+                </motion.div>
+              )}
+              
+              {shoeItem && (
+                <motion.div 
+                  className="relative w-20 h-8 rounded bg-gray-50 overflow-hidden flex items-center justify-center border border-gray-100"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Image src={shoeItem.item.image} alt={shoeItem.item.name} fill className="object-cover" />
+                </motion.div>
+              )}
             </div>
           </div>
 
-          {/* Item summary */}
-          <div className="space-y-2">
+          {/* Item summary - Detailed breakdown */}
+          <div className="space-y-2 bg-white rounded-lg p-4 border border-gray-100">
+            <h4 className="text-xs uppercase tracking-wider font-semibold text-gray-600 mb-3">Outfit Summary</h4>
+            
             {topItem && (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded">Top</span>
-                <span className="text-gray-700">{topItem.item.name}</span>
-                <span className="text-gray-500 text-xs">({topItem.size})</span>
-              </div>
+              <motion.div className="flex items-center justify-between text-xs" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-blue-400 rounded-full" />
+                  <span className="text-gray-700 font-medium">{topItem.item.name}</span>
+                </div>
+                <span className="text-gray-500">{topItem.size}</span>
+              </motion.div>
             )}
+            
             {bottomItem && (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded">Bottom</span>
-                <span className="text-gray-700">{bottomItem.item.name}</span>
-                <span className="text-gray-500 text-xs">({bottomItem.size})</span>
-              </div>
+              <motion.div className="flex items-center justify-between text-xs" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 }}>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-green-400 rounded-full" />
+                  <span className="text-gray-700 font-medium">{bottomItem.item.name}</span>
+                </div>
+                <span className="text-gray-500">{bottomItem.size}</span>
+              </motion.div>
             )}
+            
             {outerwearItem && (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded">Layer</span>
-                <span className="text-gray-700">{outerwearItem.item.name}</span>
-                <span className="text-gray-500 text-xs">({outerwearItem.size})</span>
-              </div>
+              <motion.div className="flex items-center justify-between text-xs" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-purple-400 rounded-full" />
+                  <span className="text-gray-700 font-medium">{outerwearItem.item.name}</span>
+                </div>
+                <span className="text-gray-500">{outerwearItem.size}</span>
+              </motion.div>
             )}
+            
             {shoeItem && (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded">Shoes</span>
-                <span className="text-gray-700">{shoeItem.item.name}</span>
-                <span className="text-gray-500 text-xs">({shoeItem.size})</span>
-              </div>
+              <motion.div className="flex items-center justify-between text-xs" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 }}>
+                <div className="flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-amber-400 rounded-full" />
+                  <span className="text-gray-700 font-medium">{shoeItem.item.name}</span>
+                </div>
+                <span className="text-gray-500">{shoeItem.size}</span>
+              </motion.div>
             )}
+            
             {accessories.length > 0 && (
-              <div className="flex items-center gap-2 text-sm">
-                <span className="text-xs bg-gray-200 px-2 py-1 rounded">Acc</span>
-                <span className="text-gray-700">{accessories.map(a => a.item.name).join(', ')}</span>
-              </div>
+              <motion.div className="flex items-start justify-between text-xs pt-2 border-t border-gray-100" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="inline-block w-2 h-2 bg-rose-400 rounded-full" />
+                  <span className="text-gray-700 font-medium">{accessories.length} accessories</span>
+                </div>
+              </motion.div>
             )}
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   )
