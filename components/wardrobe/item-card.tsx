@@ -28,14 +28,6 @@ export function ItemCard({ item, isSelected, onSelect, onPreview }: ItemCardProp
       role="button"
       tabIndex={0}
     >
-      className={`relative group rounded-xl overflow-hidden transition-all duration-300 ${
-        isSelected 
-          ? 'ring-2 ring-black shadow-xl scale-105' 
-          : 'hover:shadow-lg hover:scale-102'
-      }`}
-      whileHover={{ y: -4 }}
-      whileTap={{ scale: 0.98 }}
-    >
       <div className="aspect-square bg-gray-100 relative overflow-hidden">
         <Image
           src={item.image}
