@@ -11,8 +11,8 @@ export default function BoardsCollection() {
         {/* Hero section */}
         <div className="relative">
           <div className="absolute inset-0">
-            <img src="/images/ocean-wave-1.jpeg" alt="Boards Collection" className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-[#373737] mix-blend-multiply opacity-30" />
+            <img src="/images/boards-header.png" alt="Boards Collection" className="h-full w-full object-cover" />
+            <div className="absolute inset-0 bg-black mix-blend-multiply opacity-20" />
           </div>
           <div className="relative px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
             <div className="mx-auto max-w-2xl text-center">
