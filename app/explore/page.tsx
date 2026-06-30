@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import Layout from "@/components/layout/layout"
 import { 
   ShoppingBag, 
@@ -87,19 +88,39 @@ export default function ExplorePage() {
   return (
     <Layout>
       <div className="bg-cream min-h-screen">
-        {/* Hero Section */}
-        <div className="relative bg-cover bg-center text-white" style={{ backgroundImage: 'url(/images/explore-banner.png)' }}>
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-light tracking-wider mb-6">
-                EXPLORE
-              </h1>
-              <p className="text-xl md:text-2xl font-light opacity-90 max-w-3xl mx-auto">
-                Discover innovative features, tools, and experiences that define the EC lifestyle
-              </p>
-            </div>
+        {/* Premium Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 py-16 sm:py-24 px-6 sm:px-12 border-b-4 border-indigo-700">
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
+            <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-4000" />
           </div>
+
+          <motion.div 
+            className="relative max-w-7xl mx-auto text-center z-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="inline-block mb-6"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <span className="text-sm uppercase tracking-widest font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40">
+                Discover New Possibilities
+              </span>
+            </motion.div>
+
+            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-4 text-white drop-shadow-lg tracking-tight">
+              EXPLORE
+            </h1>
+            <p className="text-lg sm:text-xl text-indigo-100 max-w-3xl mx-auto drop-shadow">
+              Discover innovative features, tools, and experiences that define the EC lifestyle
+            </p>
+          </motion.div>
         </div>
 
         {/* Tabs Navigation */}
