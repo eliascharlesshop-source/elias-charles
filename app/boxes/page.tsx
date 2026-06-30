@@ -47,80 +47,52 @@ export default function WardroobeBuilderPage() {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+      <div className="min-h-screen bg-cream">
         {/* Header */}
-        <div className="border-b border-gray-200 py-16 px-6 sm:px-12 bg-white">
+        <div className="border-b border-gray-200 py-12 px-6 sm:px-12">
           <motion.div 
             className="max-w-7xl mx-auto text-center"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           >
-            <motion.h1 
-              className="text-5xl md:text-6xl font-bold mb-4 tracking-tight"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.5 }}
-            >
-              Build Your Box
-            </motion.h1>
-            <motion.p 
-              className="text-lg text-gray-600 max-w-2xl mx-auto"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-            >
+            <h1 className="text-5xl md:text-6xl font-bold mb-3">Build Your Box</h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Select items from our curated closet rack to create your perfect personalized box.
-            </motion.p>
+            </p>
           </motion.div>
         </div>
 
         {/* Builder Layout */}
-        <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16">
+        <motion.div 
+          className="max-w-7xl mx-auto px-6 sm:px-12 py-12"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1, duration: 0.3 }}
+        >
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
             {/* Left: Category Rail */}
-            <motion.div 
-              className="lg:col-span-1 h-fit"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-            >
+            <div className="lg:col-span-1 h-fit">
               <CategoryRail 
                 selectedCategory={selectedCategory}
                 onSelectCategory={setSelectedCategory}
               />
-            </motion.div>
+            </div>
 
             {/* Center: Items Grid + Mannequin */}
-            <motion.div 
-              className="lg:col-span-2 space-y-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-            >
+            <div className="lg:col-span-2 space-y-10">
               {/* Closet Rack Section */}
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-1 h-px bg-gray-300" />
-                  <p className="text-sm text-gray-600 uppercase tracking-wider font-bold px-4 whitespace-nowrap">
-                    Closet Rack
-                  </p>
-                  <div className="flex-1 h-px bg-gray-300" />
-                </div>
-
-                <div className="inline-block text-sm font-semibold text-gray-700 mb-4">
-                  <span className="text-2xl">👕 </span>
-                  {CATEGORIES.find(c => c.id === selectedCategory)?.label}
-                  <span className="ml-2 text-gray-500">({categoryItems.length} items)</span>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="space-y-4">
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                  {CATEGORIES.find(c => c.id === selectedCategory)?.label} ({categoryItems.length})
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {categoryItems.map((item, idx) => (
                     <motion.div
                       key={item.id}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: idx * 0.05 }}
+                      transition={{ delay: idx * 0.03 }}
                     >
                       <ItemCard
                         item={item}
@@ -133,38 +105,22 @@ export default function WardroobeBuilderPage() {
               </div>
 
               {/* Avatar Display Section */}
-              <motion.div 
-                className="space-y-6 pt-8 border-t-2 border-gray-200"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 h-px bg-gray-300" />
-                  <p className="text-sm text-gray-600 uppercase tracking-wider font-bold px-4 whitespace-nowrap">
-                    Your Avatar
-                  </p>
-                  <div className="flex-1 h-px bg-gray-300" />
-                </div>
+              <div className="space-y-4 pt-8 border-t border-gray-300">
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
                 <Mannequin selectedItems={selectedItems} />
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Right: Box HUD */}
-            <motion.div 
-              className="lg:col-span-1"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.4 }}
-            >
+            <div className="lg:col-span-1">
               <BoxHUD
                 selectedItems={selectedItems}
                 totalPrice={totalPrice}
                 onRemoveItem={handleRemoveItem}
               />
-            </motion.div>
+            </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Size Selector Modal */}
         {showSizeSelector && (
@@ -212,7 +168,7 @@ export default function WardroobeBuilderPage() {
         )}
 
         {/* Info Section */}
-        <div className="bg-gray-50 border-t border-gray-200 py-12 px-6 sm:px-12">
+        <div className="border-t border-gray-200 py-12 px-6 sm:px-12">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
