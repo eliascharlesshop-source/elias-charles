@@ -324,6 +324,7 @@ export default function InLifePage() {
                 Shop Beach Collection
               </Link>
             </div>
+            <div></div>
           </div>
 
           {/* Lifestyle section with parallax */}
