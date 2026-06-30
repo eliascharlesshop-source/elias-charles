@@ -109,7 +109,7 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           {children}
-          </motion.div>
+        </motion.div>
         </div>
       )}
 
@@ -464,7 +464,7 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
           </div>
         </div>
       </div>
-      </React.Fragment>)}
+      )}
     </div>
   )
 }
