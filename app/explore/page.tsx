@@ -136,7 +136,7 @@ export default function ExplorePage() {
                   <div
                     key={tab.id}
                     onClick={() => handleTabClick(tab)}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer group"
+                    className="backdrop-blur-md bg-white/30 rounded-lg shadow-lg border border-white/50 p-6 hover:shadow-xl hover:bg-white/40 transition-all duration-200 cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-2 bg-primary/10 rounded-lg">
@@ -159,7 +159,7 @@ export default function ExplorePage() {
           {/* Individual Tab Content for other tabs would go here */}
           {tabs.slice(1).map((tab) => (
             activeTab === tab.id && (
-              <div key={tab.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+              <div key={tab.id} className="backdrop-blur-md bg-white/30 rounded-lg shadow-lg border border-white/50 p-8">
                 <div className="text-center">
                   <div className="p-4 bg-primary/10 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <tab.icon className="h-8 w-8 text-primary" />
@@ -198,33 +198,33 @@ export default function ExplorePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Link 
                 href="/collections/sale"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-red-500/20 border border-red-300/50 rounded-lg hover:shadow-lg hover:bg-red-500/30 transition-all duration-200"
               >
-                <Percent className="h-8 w-8 text-red-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Percent className="h-8 w-8 text-red-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">Sale Items</span>
               </Link>
               
               <Link 
                 href="/arvr"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-blue-500/20 border border-blue-300/50 rounded-lg hover:shadow-lg hover:bg-blue-500/30 transition-all duration-200"
               >
-                <Camera className="h-8 w-8 text-blue-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Camera className="h-8 w-8 text-blue-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">AR/VR</span>
               </Link>
               
               <Link 
                 href="/voice"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-green-500/20 border border-green-300/50 rounded-lg hover:shadow-lg hover:bg-green-500/30 transition-all duration-200"
               >
-                <Mic className="h-8 w-8 text-green-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Mic className="h-8 w-8 text-green-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">Voice Control</span>
               </Link>
               
               <Link 
                 href="/status"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-purple-500/20 border border-purple-300/50 rounded-lg hover:shadow-lg hover:bg-purple-500/30 transition-all duration-200"
               >
-                <Activity className="h-8 w-8 text-purple-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Activity className="h-8 w-8 text-purple-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">System Status</span>
               </Link>
             </div>
