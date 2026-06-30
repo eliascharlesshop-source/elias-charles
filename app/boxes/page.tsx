@@ -151,6 +151,29 @@ export default function WardroobeBuilderPage() {
                 <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
                 <Mannequin selectedItems={selectedItems} />
               </div>
+
+              {/* Footwear Section */}
+              <div className="space-y-4 lg:space-y-6 mt-8 lg:mt-12 pt-6 lg:pt-8 border-t border-gray-300">
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                  Footwear ({getItemsByCategory('footwear').length})
+                </h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
+                  {getItemsByCategory('footwear').map((item, idx) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.03 }}
+                    >
+                      <ItemCard
+                        item={item}
+                        isSelected={selectedItems.some(s => s.item.id === item.id)}
+                        onSelect={handleSelectItem}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
 
             {/* Collapse Right Toggle */}
