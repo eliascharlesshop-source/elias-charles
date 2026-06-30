@@ -69,17 +69,36 @@ export default function WardroobeBuilderPage() {
   return (
     <Layout>
       <div className="min-h-screen bg-cream">
-        {/* Header */}
-        <div className="border-b border-gray-200 py-12 px-6 sm:px-12">
+        {/* Header with Banner */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-black via-gray-900 to-black py-16 sm:py-20 px-6 sm:px-12 border-b-4 border-black">
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gray-400 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
+          </div>
+
           <motion.div 
-            className="max-w-7xl mx-auto text-center"
-            initial={{ opacity: 0, y: -10 }}
+            className="relative max-w-7xl mx-auto text-center z-10"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-3">Build Your Box</h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Select items from our curated closet rack to create your perfect personalized box.
+            <motion.div
+              className="inline-block mb-4"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <span className="text-sm uppercase tracking-widest font-bold text-white bg-black/50 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/20">
+                ✨ Personalized Shopping
+              </span>
+            </motion.div>
+
+            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-4 text-white drop-shadow-lg tracking-tight">
+              Build Your Box
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto drop-shadow">
+              Curate your perfect wardrobe. Select, preview, and customize your personal style box.
             </p>
           </motion.div>
         </div>
