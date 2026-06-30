@@ -280,7 +280,7 @@ export default function WardroobeBuilderPage() {
               )}
             </AnimatePresence>
 
-            {/* Mobile Box HUD - Fixed Bottom Sheet */}
+            {/* Mobile Box HUD - Responsive Bottom Sheet */}
             <AnimatePresence mode="wait">
               {rightPanelOpen && (
                 <motion.div
@@ -288,18 +288,23 @@ export default function WardroobeBuilderPage() {
                   initial={{ opacity: 0, y: 400 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 400 }}
-                  transition={{ duration: 0.3 }}
-                  className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-200 rounded-t-2xl shadow-2xl overflow-hidden z-40"
+                  transition={{ duration: 0.3, type: 'spring', damping: 30, stiffness: 300 }}
+                  className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t-2 border-gray-200 rounded-t-3xl shadow-2xl overflow-hidden z-40 max-h-[85vh] sm:max-h-[75vh]"
                 >
-                  <div className="max-h-96 overflow-y-auto">
-                    <div className="flex justify-center pt-2 pb-2">
-                      <div className="h-1 w-12 bg-gray-300 rounded-full" />
+                  <div className="flex flex-col h-full">
+                    {/* Handle */}
+                    <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
+                      <div className="h-1.5 w-10 bg-gray-400 rounded-full" />
                     </div>
-                    <BoxHUD
-                      selectedItems={selectedItems}
-                      totalPrice={totalPrice}
-                      onRemoveItem={handleRemoveItem}
-                    />
+                    
+                    {/* Scrollable Content */}
+                    <div className="overflow-y-auto flex-1 px-4 sm:px-6 pb-6">
+                      <BoxHUD
+                        selectedItems={selectedItems}
+                        totalPrice={totalPrice}
+                        onRemoveItem={handleRemoveItem}
+                      />
+                    </div>
                   </div>
                 </motion.div>
               )}
