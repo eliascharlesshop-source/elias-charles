@@ -4,9 +4,7 @@ import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Plus, X, Package, Star } from "lucide-react"
-import { BoxCard } from "@/components/boxes/box-card"
-import { IE_BOXES } from "@/data/box-config"
+import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star } from "lucide-react"
 
 // Interactive product hotspot component
 const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
