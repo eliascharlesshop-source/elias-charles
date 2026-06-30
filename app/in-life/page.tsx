@@ -1,10 +1,10 @@
 "use client"
 
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star } from "lucide-react"
+import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star, Plus, X } from "lucide-react"
 import Layout from "@/components/layout/layout"
 
 // Interactive product hotspot component
