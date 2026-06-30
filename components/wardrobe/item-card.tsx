@@ -9,13 +9,25 @@ interface ItemCardProps {
   item: WardrobeItem
   isSelected: boolean
   onSelect: (item: WardrobeItem) => void
+  onPreview?: (item: WardrobeItem) => void
   onSizeSelect?: (size: string) => void
 }
 
-export function ItemCard({ item, isSelected, onSelect, onSizeSelect }: ItemCardProps) {
+export function ItemCard({ item, isSelected, onSelect, onPreview }: ItemCardProps) {
   return (
-    <motion.button
+    <motion.div
+      onMouseEnter={() => onPreview?.(item)}
+      className={`relative group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ${
+        isSelected 
+          ? 'ring-2 ring-black shadow-xl scale-105' 
+          : 'hover:shadow-lg hover:scale-102'
+      }`}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onSelect(item)}
+      role="button"
+      tabIndex={0}
+    >
       className={`relative group rounded-xl overflow-hidden transition-all duration-300 ${
         isSelected 
           ? 'ring-2 ring-black shadow-xl scale-105' 
@@ -85,6 +97,6 @@ export function ItemCard({ item, isSelected, onSelect, onSizeSelect }: ItemCardP
         initial={{ scaleX: 0 }}
         whileHover={{ scaleX: 1 }}
       />
-    </motion.button>
+    </motion.div>
   )
 }

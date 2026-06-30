@@ -25,6 +25,7 @@ export default function WardroobeBuilderPage() {
   const [rightPanelOpen, setRightPanelOpen] = useState(true)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [drawerItem, setDrawerItem] = useState<WardrobeItem | null>(null)
+  const [previewItem, setPreviewItem] = useState<WardrobeItem | null>(null)
 
   const categoryItems = getItemsByCategory(selectedCategory)
 
@@ -32,6 +33,11 @@ export default function WardroobeBuilderPage() {
     // Open drawer with item details
     setDrawerItem(item)
     setDrawerOpen(true)
+  }
+
+  const handlePreviewItem = (item: WardrobeItem) => {
+    // Update preview without opening drawer
+    setPreviewItem(item)
   }
 
   const handleAddToBox = (size: string) => {
@@ -130,20 +136,31 @@ export default function WardroobeBuilderPage() {
               </div>
 
               {/* Featured Product Preview */}
-              <div className="space-y-4 lg:space-y-6 p-6 bg-gradient-to-r from-gray-50 to-white rounded-lg border border-gray-200 mb-8 lg:mb-12">
-                <div className="flex items-start justify-between gap-4">
+              <motion.div 
+                className="space-y-4 lg:space-y-6 p-6 bg-gradient-to-r from-gray-50 to-white rounded-lg border-2 border-gray-200 mb-8 lg:mb-12"
+                animate={{ borderColor: previewItem ? '#000' : '#e5e7eb' }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-start justify-between gap-6">
                   <div className="flex-1">
-                    <p className="text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">Featured Pick</p>
+                    <p className="text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                      {previewItem ? 'Now Previewing' : 'Click to Preview'}
+                    </p>
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {categoryItems[0]?.name || 'Classic Linen Shirt'}
+                      {previewItem?.name || categoryItems[0]?.name || 'Select an item'}
                     </h3>
                     <p className="text-sm text-gray-600 mb-4">
-                      {categoryItems[0]?.description || 'A timeless essential perfect for any wardrobe'}
+                      {previewItem?.description || categoryItems[0]?.description || 'Click any item to preview'}
                     </p>
                     <div className="flex items-center gap-4">
-                      <span className="text-lg font-bold text-black">${categoryItems[0]?.price || '45'}</span>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-black">${previewItem?.price || categoryItems[0]?.price || '45'}</span>
+                        <span className="text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full">
+                          {previewItem?.color || categoryItems[0]?.color || 'Color'}
+                        </span>
+                      </div>
                       <motion.button
-                        onClick={() => handleSelectItem(categoryItems[0])}
+                        onClick={() => handleSelectItem(previewItem || categoryItems[0])}
                         className="px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -152,15 +169,21 @@ export default function WardroobeBuilderPage() {
                       </motion.button>
                     </div>
                   </div>
-                  <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden border border-gray-200">
+                  <motion.div 
+                    className="flex-shrink-0 w-40 h-40 rounded-lg overflow-hidden border-2 border-gray-200"
+                    key={previewItem?.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     <img
-                      src={categoryItems[0]?.image || '/products/linen-shirt.png'}
-                      alt={categoryItems[0]?.name || 'Featured item'}
+                      src={previewItem?.image || categoryItems[0]?.image || '/products/linen-shirt.png'}
+                      alt={previewItem?.name || categoryItems[0]?.name || 'Featured item'}
                       className="w-full h-full object-cover"
                     />
-                  </div>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Closet Rack Section */}
               <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12 pt-6 lg:pt-8 border-t border-gray-300">
@@ -184,6 +207,7 @@ export default function WardroobeBuilderPage() {
                         item={item}
                         isSelected={selectedItems.some(s => s.item.id === item.id)}
                         onSelect={handleSelectItem}
+                        onPreview={handlePreviewItem}
                       />
                     </motion.div>
                   ))}
@@ -212,6 +236,7 @@ export default function WardroobeBuilderPage() {
                         item={item}
                         isSelected={selectedItems.some(s => s.item.id === item.id)}
                         onSelect={handleSelectItem}
+                        onPreview={handlePreviewItem}
                       />
                     </motion.div>
                   ))}
