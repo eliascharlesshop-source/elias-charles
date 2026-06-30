@@ -478,22 +478,21 @@ export default function InLifePage() {
             </div>
           </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="group">
-                  <div className="relative aspect-square mb-3 overflow-hidden">
-                    <Image
-                      src={`/products/mountain-product-text.png`}
-                      alt={`Mountain pick ${item}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
-                  <p className="text-sm">$149.00</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="group">
+                <div className="relative aspect-square mb-3 overflow-hidden">
+                  <Image
+                    src={`/products/mountain-product-text.png`}
+                    alt={`Mountain pick ${item}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
+                <p className="text-sm">$149.00</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
