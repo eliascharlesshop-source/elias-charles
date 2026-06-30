@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef } from "react"
 import Image from "next/image"
+import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star } from "lucide-react"
+import Layout from "@/components/layout/layout"
 
 // Interactive product hotspot component
 const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
@@ -111,6 +112,22 @@ const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) =
         </div>
       )
     </motion.div>
+  )
+}
+
+// Lifestyle section component
+const LifestyleSection = ({ title, image, children }) => {
+  return (
+    <div className="relative my-24 overflow-hidden rounded-lg">
+      <div className="absolute inset-0">
+        <Image src={image} alt={title} fill className="object-cover" />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+      <div className="relative z-10 py-24 px-6 md:px-12 text-white">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">{title}</h2>
+        {children}
+      </div>
+    </div>
   )
 }
 
