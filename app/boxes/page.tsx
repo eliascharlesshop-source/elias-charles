@@ -162,7 +162,7 @@ export default function WardroobeBuilderPage() {
                 totalPrice={totalPrice}
                 onRemoveItem={handleRemoveItem}
               />
-            </div>
+            </motion.div>
           </div>
         </div>
 
