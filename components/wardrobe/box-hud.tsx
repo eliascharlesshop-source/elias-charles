@@ -14,9 +14,10 @@ interface BoxHUDProps {
   selectedItems: SelectedItem[]
   totalPrice: number
   onRemoveItem: (itemId: string) => void
+  onCollapse?: () => void
 }
 
-export function BoxHUD({ selectedItems, totalPrice, onRemoveItem }: BoxHUDProps) {
+export function BoxHUD({ selectedItems, totalPrice, onRemoveItem, onCollapse }: BoxHUDProps) {
   const itemCount = selectedItems.length
   const maxItems = 6
   const fillPercentage = (itemCount / maxItems) * 100
@@ -29,8 +30,12 @@ export function BoxHUD({ selectedItems, totalPrice, onRemoveItem }: BoxHUDProps)
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Header with box badge */}
-      <div className="flex items-start justify-between gap-2">
+      {/* Header with box badge - Double click to collapse */}
+      <div 
+        className="flex items-start justify-between gap-2 cursor-pointer select-none hover:opacity-70 transition-opacity"
+        onDoubleClick={onCollapse}
+        title="Double-click to collapse"
+      >
         <div className="min-w-0">
           <h3 className="font-bold text-lg sm:text-xl flex items-center gap-2">
             <Gift className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />

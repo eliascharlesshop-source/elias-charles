@@ -274,6 +274,7 @@ export default function WardroobeBuilderPage() {
                       selectedItems={selectedItems}
                       totalPrice={totalPrice}
                       onRemoveItem={handleRemoveItem}
+                      onCollapse={() => setRightPanelOpen(false)}
                     />
                   </div>
                 </motion.div>
@@ -303,6 +304,7 @@ export default function WardroobeBuilderPage() {
                         selectedItems={selectedItems}
                         totalPrice={totalPrice}
                         onRemoveItem={handleRemoveItem}
+                        onCollapse={() => setRightPanelOpen(false)}
                       />
                     </div>
                   </div>
