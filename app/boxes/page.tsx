@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, Menu, X as XIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Menu, X as XIcon, Gift } from 'lucide-react'
 import Layout from '@/src/components/layout/layout'
 import { CategoryRail } from '@/components/wardrobe/category-rail'
 import { ItemCard } from '@/components/wardrobe/item-card'
@@ -244,7 +244,7 @@ export default function WardroobeBuilderPage() {
               </div>
             </motion.div>
 
-            {/* Collapse Right Toggle */}
+            {/* Collapse Right Toggle - Desktop Only */}
             <motion.button
               onClick={() => setRightPanelOpen(!rightPanelOpen)}
               className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors hidden lg:flex items-center justify-center"
@@ -258,7 +258,7 @@ export default function WardroobeBuilderPage() {
               )}
             </motion.button>
 
-            {/* Right Panel - Box HUD (always visible on desktop, collapsible) */}
+            {/* Right Panel - Box HUD */}
             <AnimatePresence mode="wait">
               {rightPanelOpen && (
                 <motion.div
@@ -279,6 +279,46 @@ export default function WardroobeBuilderPage() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Mobile Box HUD - Fixed Bottom Sheet */}
+            <AnimatePresence mode="wait">
+              {rightPanelOpen && (
+                <motion.div
+                  key="mobile-hud"
+                  initial={{ opacity: 0, y: 400 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 400 }}
+                  transition={{ duration: 0.3 }}
+                  className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-200 rounded-t-2xl shadow-2xl overflow-hidden z-40"
+                >
+                  <div className="max-h-96 overflow-y-auto">
+                    <div className="flex justify-center pt-2 pb-2">
+                      <div className="h-1 w-12 bg-gray-300 rounded-full" />
+                    </div>
+                    <BoxHUD
+                      selectedItems={selectedItems}
+                      totalPrice={totalPrice}
+                      onRemoveItem={handleRemoveItem}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Mobile Toggle Button - Bottom Right */}
+            <motion.button
+              onClick={() => setRightPanelOpen(!rightPanelOpen)}
+              className="fixed bottom-6 right-6 lg:hidden bg-black text-white rounded-full p-3 shadow-lg hover:bg-gray-800 transition-colors z-50"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Gift className="w-6 h-6" />
+              {selectedItems.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {selectedItems.length}
+                </span>
+              )}
+            </motion.button>
           </div>
         </div>
 
