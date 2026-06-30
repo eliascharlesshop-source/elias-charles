@@ -322,66 +322,11 @@ export default function InLifePage() {
                 className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
               >
                 Shop Beach Collection
-              </Link>
+                </Link>
+              </div>
             </div>
-            <div></div>
-          </div>
+          </motion.div>
 
-          {/* Lifestyle section with parallax */}
-          <LifestyleSection title="Beach Living, Day to Night" image="/products/surfboard-on-beach.png">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Sunrise className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Morning</h3>
-                <p className="text-sm">
-                  Begin your day with our lightweight beach robes and premium coffee accessories for the perfect sunrise
-                  experience.
-                </p>
-                <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Morning Essentials
-                </Link>
-              </motion.div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Sun className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Day</h3>
-                <p className="text-sm">
-                  Our UV-protective apparel and premium surfboards are designed for long days under the sun.
-                </p>
-                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Daytime Collection
-                </Link>
-              </motion.div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Sunset className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Evening</h3>
-                <p className="text-sm">
-                  Transition to evening with our coastal-inspired casual wear and beach-to-dinner accessories.
-                </p>
-                <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Evening Selection
-                </Link>
-              </motion.div>
-            </div>
           </LifestyleSection>
 
           {/* Editor's picks section */}
