@@ -626,23 +626,6 @@ export default function InLifePage() {
                 <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Trail Essentials
                 </Link>
-              </div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Compass className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Day</h3>
-                <p className="text-sm">
-                  Our technical apparel and adventure equipment are engineered for long days exploring rugged terrain.
-                </p>
-                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Trail Essentials
-                </Link>
               </motion.div>
 
               <motion.div 
