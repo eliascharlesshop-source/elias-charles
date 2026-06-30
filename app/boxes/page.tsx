@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight, Menu, X as XIcon, Gift } from 'lucide-react'
 import Layout from '@/src/components/layout/layout'
 import { CategoryRail } from '@/components/wardrobe/category-rail'
 import { ItemCard } from '@/components/wardrobe/item-card'
-import { Mannequin } from '@/components/wardrobe/mannequin'
+import { Mannequin3D } from '@/components/wardrobe/mannequin-3d'
 import { BoxHUD } from '@/components/wardrobe/box-hud'
 import { ItemDetailsDrawer } from '@/components/wardrobe/item-details-drawer'
 import { WARDROBE_ITEMS, CATEGORIES, ItemCategory, getItemsByCategory, WardrobeItem } from '@/data/wardrobe-items'
@@ -131,8 +131,10 @@ export default function WardroobeBuilderPage() {
             >
               {/* Avatar Display Section - TOP */}
               <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12">
-                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar</h2>
-                <Mannequin selectedItems={selectedItems} />
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar - 3D Preview</h2>
+                <div className="h-96">
+                  <Mannequin3D selectedItems={selectedItems} />
+                </div>
               </div>
 
               {/* Featured Product Preview */}
