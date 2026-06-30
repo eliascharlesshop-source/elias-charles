@@ -100,7 +100,7 @@ export function Footer() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://www.tiktok.com"
+                href="https://www.tiktok.com/@eliascharles.shop"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-beach-darker transition-colors duration-300"
