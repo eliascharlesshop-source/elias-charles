@@ -21,7 +21,6 @@ export default function SelfCareCollection() {
         <div className="relative">
           <div className="absolute inset-0">
             <img src="/images/lifestyle/palm-trees-sky-1.jpg" alt="Self-Care Collection" className="h-full w-full object-cover" />
-            <div className="absolute inset-0 backdrop-blur-sm bg-white/20 border-b border-white/30" />
           </div>
           <div className="relative px-6 py-24 sm:py-32 lg:px-8 lg:py-40">
             <div className="mx-auto max-w-2xl text-center">

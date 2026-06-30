@@ -116,7 +116,6 @@ export default function WomensCollection() {
               alt="Women's Collection"
               className="h-full w-full object-cover"
             />
-            <div className="absolute inset-0 backdrop-blur-sm bg-white/20 border-b border-white/30" />
           </div>
           <div className="relative px-4 sm:px-6 py-12 sm:py-16 lg:px-8 lg:py-24">
             <div className="mx-auto max-w-2xl text-center">
