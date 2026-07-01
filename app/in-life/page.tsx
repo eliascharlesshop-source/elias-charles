@@ -497,6 +497,194 @@ export default function InLifePage() {
         </div>
       )}
 
+      {/* Brand Philosophy Section */}
+      <motion.section 
+        className="relative bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 text-white py-0 overflow-hidden"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Hero with Image */}
+        <div className="relative h-screen flex items-center">
+          <div className="absolute inset-0">
+            <Image
+              src="/images/elias-charles-lifestyle.jpg"
+              alt="Elias Charles Lifestyle"
+              fill
+              className="object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-2xl"
+            >
+              <div className="mb-8">
+                <div className="w-16 h-16 border-2 border-white rounded-full flex items-center justify-center mb-6">
+                  <span className="text-2xl font-light">◊</span>
+                </div>
+                <p className="text-sm uppercase tracking-widest font-light mb-4">OUR PHILOSOPHY</p>
+              </div>
+
+              <h2 className="text-7xl md:text-8xl font-light leading-tight mb-8">
+                In Life,<br />
+                Not Just<br />
+                In Style.
+              </h2>
+
+              <p className="text-lg font-light mb-8 max-w-xl leading-relaxed">
+                We believe life is meant to be lived fully — outdoors, with purpose, and in pursuit of what matters.
+              </p>
+
+              <p className="text-2xl font-light mb-12 border-l-2 border-white pl-6">
+                IF LIFE GIVES YOU A BREAK,<br />
+                RIDE IT.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Pillars */}
+        <div className="bg-black/40 backdrop-blur-sm py-12 px-6 lg:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              {[
+                { icon: "〰", label: "COASTAL\nINSPIRED" },
+                { icon: "🌴", label: "EVERYDAY\nLIFESTYLE" },
+                { icon: "☀", label: "TIMELESS\nDESIGN" },
+                { icon: "△", label: "BUILT FOR\nADVENTURE" }
+              ].map((pillar, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="text-4xl mb-4">{pillar.icon}</div>
+                  <p className="text-xs uppercase tracking-wider font-light whitespace-pre-line">
+                    {pillar.label}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Live With Purpose Section */}
+      <motion.section
+        className="bg-cream py-24 px-6 lg:px-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <p className="text-sm uppercase tracking-widest font-light mb-6 text-gray-600">LIVE WITH PURPOSE</p>
+              <h3 className="text-6xl md:text-7xl font-light leading-tight mb-8">
+                Rooted in the coast.<br />
+                Driven by adventure.
+              </h3>
+              <p className="text-lg leading-relaxed mb-8 text-gray-700">
+                From early mornings by the water to late nights under the stars, Elias Charles is here for every moment in between. Our pieces are designed to move with you — wherever life takes you.
+              </p>
+              <Link
+                href="/collections"
+                className="inline-block bg-black text-white px-8 py-3 uppercase text-sm font-bold tracking-wider hover:bg-gray-800 transition-colors"
+              >
+                Explore the Collection
+              </Link>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="grid grid-cols-2 gap-6"
+            >
+              <div className="relative aspect-video overflow-hidden rounded-lg">
+                <Image
+                  src="/images/elias-charles-lifestyle.jpg"
+                  alt="Surfer with board"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="relative aspect-square overflow-hidden rounded-lg">
+                <Image
+                  src="/images/elias-charles-lifestyle.jpg"
+                  alt="Brand cap"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="relative aspect-square overflow-hidden rounded-lg">
+                <Image
+                  src="/images/elias-charles-lifestyle.jpg"
+                  alt="Water bottle"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div className="relative aspect-video overflow-hidden rounded-lg">
+                <Image
+                  src="/images/elias-charles-lifestyle.jpg"
+                  alt="Coastal view"
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Quote Section */}
+      <motion.section
+        className="bg-gray-900 text-white py-24 px-6 lg:px-12"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-5xl md:text-6xl font-light leading-tight"
+            >
+              "You can't stop the waves, but you can learn to ride them."
+              <p className="text-sm uppercase tracking-widest font-light mt-8 text-gray-400">- Jon Kabat-Zinn</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="bg-black/50 backdrop-blur-sm p-8 rounded-lg border border-gray-700"
+            >
+              <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">A Reminder</p>
+              <p className="text-lg leading-relaxed text-gray-200">
+                To stay present,<br />
+                Embrace the journey,<br />
+                And find joy in the ride.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
+
       {/* Magazine footer */}
       <div className="container mx-auto px-4 py-16 border-t border-gray-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
