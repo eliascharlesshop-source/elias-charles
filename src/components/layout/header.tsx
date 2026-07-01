@@ -286,7 +286,7 @@ export function Header({ shop }) {
       <header className="relative bg-cream">
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-b border-gray-200">
-            <div className="flex h-24 items-center">
+            <div className="flex h-16 items-center">
               <button
                 type="button"
                 className="rounded-md bg-cream p-3 text-primary hover:bg-gray-100 lg:hidden"
@@ -301,7 +301,7 @@ export function Header({ shop }) {
                 <Link href="/">
                   <span className="sr-only">EC</span>
                   <img
-                    className="h-8 w-auto sm:h-10"
+                    className="h-6 w-auto sm:h-8"
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/EC_Logo-bgxGEWuMynVfb5FBtDj4k0kcx59kdZ.png"
                     alt="EC"
                   />
@@ -310,7 +310,7 @@ export function Header({ shop }) {
 
               {/* Simple navigation menu */}
               <div className="hidden lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full space-x-10 py-2 pl-6">
+                <div className="flex h-full space-x-8 py-0 pl-6">
                   {navigation.pages.map((page) => (
                     <Link
                       key={page.name}

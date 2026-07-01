@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 import Layout from "@/components/layout/layout"
 import { 
   ShoppingBag, 
@@ -87,19 +88,39 @@ export default function ExplorePage() {
   return (
     <Layout>
       <div className="bg-cream min-h-screen">
-        {/* Hero Section */}
-        <div className="relative bg-cover bg-center text-white" style={{ backgroundImage: 'url(/images/explore-banner.png)' }}>
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-light tracking-wider mb-6">
-                EXPLORE
-              </h1>
-              <p className="text-xl md:text-2xl font-light opacity-90 max-w-3xl mx-auto">
-                Discover innovative features, tools, and experiences that define the EC lifestyle
-              </p>
-            </div>
+        {/* Premium Hero Section */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 py-16 sm:py-24 px-6 sm:px-12 border-b-4 border-indigo-700">
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-indigo-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
+            <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-4000" />
           </div>
+
+          <motion.div 
+            className="relative max-w-7xl mx-auto text-center z-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="inline-block mb-6"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <span className="text-sm uppercase tracking-widest font-bold text-white bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/40">
+                Discover New Possibilities
+              </span>
+            </motion.div>
+
+            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-4 text-white drop-shadow-lg tracking-tight">
+              EXPLORE
+            </h1>
+            <p className="text-lg sm:text-xl text-indigo-100 max-w-3xl mx-auto drop-shadow">
+              Discover innovative features, tools, and experiences that define the EC lifestyle
+            </p>
+          </motion.div>
         </div>
 
         {/* Tabs Navigation */}
@@ -136,7 +157,7 @@ export default function ExplorePage() {
                   <div
                     key={tab.id}
                     onClick={() => handleTabClick(tab)}
-                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 cursor-pointer group"
+                    className="backdrop-blur-md bg-white/30 rounded-lg shadow-lg border border-white/50 p-6 hover:shadow-xl hover:bg-white/40 transition-all duration-200 cursor-pointer group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="p-2 bg-primary/10 rounded-lg">
@@ -159,7 +180,7 @@ export default function ExplorePage() {
           {/* Individual Tab Content for other tabs would go here */}
           {tabs.slice(1).map((tab) => (
             activeTab === tab.id && (
-              <div key={tab.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+              <div key={tab.id} className="backdrop-blur-md bg-white/30 rounded-lg shadow-lg border border-white/50 p-8">
                 <div className="text-center">
                   <div className="p-4 bg-primary/10 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                     <tab.icon className="h-8 w-8 text-primary" />
@@ -198,33 +219,33 @@ export default function ExplorePage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <Link 
                 href="/collections/sale"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-red-50 to-orange-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-red-500/20 border border-red-300/50 rounded-lg hover:shadow-lg hover:bg-red-500/30 transition-all duration-200"
               >
-                <Percent className="h-8 w-8 text-red-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Percent className="h-8 w-8 text-red-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">Sale Items</span>
               </Link>
               
               <Link 
                 href="/arvr"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-blue-500/20 border border-blue-300/50 rounded-lg hover:shadow-lg hover:bg-blue-500/30 transition-all duration-200"
               >
-                <Camera className="h-8 w-8 text-blue-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Camera className="h-8 w-8 text-blue-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">AR/VR</span>
               </Link>
               
               <Link 
                 href="/voice"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-green-500/20 border border-green-300/50 rounded-lg hover:shadow-lg hover:bg-green-500/30 transition-all duration-200"
               >
-                <Mic className="h-8 w-8 text-green-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Mic className="h-8 w-8 text-green-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">Voice Control</span>
               </Link>
               
               <Link 
                 href="/status"
-                className="group flex flex-col items-center p-6 bg-gradient-to-br from-purple-50 to-violet-50 rounded-lg hover:shadow-md transition-all duration-200"
+                className="group flex flex-col items-center p-6 backdrop-blur-md bg-purple-500/20 border border-purple-300/50 rounded-lg hover:shadow-lg hover:bg-purple-500/30 transition-all duration-200"
               >
-                <Activity className="h-8 w-8 text-purple-600 mb-3 group-hover:scale-110 transition-transform duration-200" />
+                <Activity className="h-8 w-8 text-purple-700 mb-3 group-hover:scale-110 transition-transform duration-200" />
                 <span className="text-sm font-medium text-gray-900">System Status</span>
               </Link>
             </div>

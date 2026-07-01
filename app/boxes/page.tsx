@@ -1,131 +1,432 @@
-"use client"
+'use client'
 
-import { useState } from "react"
-import { BoxShowcase } from "@/components/boxes/box-showcase"
-import { RegionSelector } from "@/components/boxes/region-selector"
-import { PullQuote } from "@/components/layout/pull-quote"
-import { CryptoSubscriptionPlans } from "@/src/components/crypto/crypto-subscription-plans"
-import { WalletConnector } from "@/src/components/crypto/wallet-connector"
-import { CryptoPaymentFlow } from "@/src/components/crypto/crypto-payment-flow"
-import { IE_BOXES, IV_BOXES } from "@/data/box-config"
-import { Cryptocurrency, Network, CryptoSubscription, PaymentProcessingError } from "@/types/crypto-subscription"
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Menu, X as XIcon, Gift } from 'lucide-react'
+import Layout from '@/src/components/layout/layout'
+import { CategoryRail } from '@/components/wardrobe/category-rail'
+import { ItemCard } from '@/components/wardrobe/item-card'
+import { Mannequin3D } from '@/components/wardrobe/mannequin-3d'
+import { BoxHUD } from '@/components/wardrobe/box-hud'
+import { ItemDetailsDrawer } from '@/components/wardrobe/item-details-drawer'
+import { WARDROBE_ITEMS, CATEGORIES, ItemCategory, getItemsByCategory, WardrobeItem } from '@/data/wardrobe-items'
 
-type Region = 'ie' | 'iv'
+interface SelectedItem {
+  item: typeof WARDROBE_ITEMS[0]
+  size: string
+}
 
-export default function BoxesPage() {
-  const [region, setRegion] = useState<Region>('ie')
-  const [currentWeek, setCurrentWeek] = useState(1)
-  const [showPaymentFlow, setShowPaymentFlow] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
-  const [selectedCurrency, setSelectedCurrency] = useState<Cryptocurrency>('ETH')
-  const [selectedNetwork, setSelectedNetwork] = useState<Network>('ethereum')
+export default function WardroobeBuilderPage() {
+  const [selectedCategory, setSelectedCategory] = useState<ItemCategory>('tops')
+  const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([])
+  const [selectedSize, setSelectedSize] = useState<string>('M')
+  const [showSizeSelector, setShowSizeSelector] = useState<string | null>(null)
+  const [leftPanelOpen, setLeftPanelOpen] = useState(true)
+  const [rightPanelOpen, setRightPanelOpen] = useState(true)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+  const [drawerItem, setDrawerItem] = useState<WardrobeItem | null>(null)
+  const [previewItem, setPreviewItem] = useState<WardrobeItem | null>(null)
 
-  const boxes = region === 'ie' ? IE_BOXES : IV_BOXES
-  const regionTitle = region === 'ie' ? 'Inland Empire' : 'Isla Vista'
-  const regionDescription = region === 'ie' 
-    ? 'Street culture meets curated drops. Essential basics with signature style.' 
-    : 'Coastal living essentials. Island vibes with premium materials.'
+  const categoryItems = getItemsByCategory(selectedCategory)
 
-  const handleSubscribe = (boxId: string) => {
-    console.log('Subscribe to box:', boxId)
+  const handleSelectItem = (item: WardrobeItem) => {
+    // Open drawer with item details
+    setDrawerItem(item)
+    setDrawerOpen(true)
   }
 
-  const handleLearnMore = (boxId: string) => {
-    console.log('Learn more about box:', boxId)
+  const handlePreviewItem = (item: WardrobeItem) => {
+    // Update preview without opening drawer
+    setPreviewItem(item)
   }
 
-  const handleCryptoSubscribe = (planId: string, currency: Cryptocurrency, network: Network) => {
-    setSelectedPlan(planId)
-    setSelectedCurrency(currency)
-    setSelectedNetwork(network)
-    setShowPaymentFlow(true)
+  const handleAddToBox = (size: string) => {
+    if (drawerItem) {
+      setSelectedItems([...selectedItems, { item: drawerItem, size }])
+      setDrawerOpen(false)
+      setDrawerItem(null)
+    }
   }
 
-  const handlePaymentSuccess = (subscription: CryptoSubscription) => {
-    console.log('Payment successful:', subscription)
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
+  const handleConfirmSize = (itemId: string, size: string) => {
+    const item = WARDROBE_ITEMS.find(i => i.id === itemId)
+    if (item) {
+      setSelectedItems([...selectedItems, { item, size }])
+      setShowSizeSelector(null)
+    }
   }
 
-  const handlePaymentError = (error: PaymentProcessingError) => {
-    console.error('Payment failed:', error)
+  const handleRemoveItem = (itemId: string) => {
+    setSelectedItems(selectedItems.filter(s => s.item.id !== itemId))
   }
 
-  const handlePaymentCancel = () => {
-    setShowPaymentFlow(false)
-    setSelectedPlan(null)
+  const handleClearAll = () => {
+    setSelectedItems([])
   }
+
+  const totalPrice = selectedItems.reduce((sum, s) => sum + s.item.price, 0)
 
   return (
-    <div className="magazine-layout">
-      {/* Page Hero */}
-      <section className="py-12 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto text-center">
-          <span className="inline-block mb-4 text-xs tracking-widest uppercase text-beach-darker border-b pb-1">
-            Spring 2026 Collection
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-widest uppercase text-gray-900 mb-4">
-            {regionTitle} Boxes
-          </h1>
-          <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-            {regionDescription}
-          </p>
-          
-          {/* Region Selector */}
-          <RegionSelector selectedRegion={region} onRegionChange={setRegion} />
+    <Layout>
+      <div className="min-h-screen bg-cream">
+        {/* Header with Banner */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-black via-gray-900 to-black py-16 sm:py-20 px-6 sm:px-12 border-b-4 border-black">
+          {/* Animated background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-gray-400 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
+          </div>
+
+          <motion.div 
+            className="relative max-w-7xl mx-auto text-center z-10"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.div
+              className="inline-block mb-4"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <span className="text-sm uppercase tracking-widest font-bold text-white bg-black/50 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/20">
+                ✨ Personalized Shopping
+              </span>
+            </motion.div>
+
+            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black mb-4 text-white drop-shadow-lg tracking-tight">
+              Build Your Box
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-200 max-w-3xl mx-auto drop-shadow">
+              Curate your perfect wardrobe. Select, preview, and customize your personal style box.
+            </p>
+          </motion.div>
         </div>
-      </section>
 
-      {/* Box Showcase */}
-      <section id="boxes" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <BoxShowcase 
-            boxes={boxes}
-            onSubscribe={handleSubscribe}
-            onLearnMore={handleLearnMore}
-            currentWeek={currentWeek}
-          />
-        </div>
-      </section>
+        {/* 3-Panel Builder Layout */}
+        <div className="relative h-full py-6 px-3 sm:px-4 lg:px-6">
+          <div className="flex gap-2 lg:gap-4 h-full">
+            {/* Left Panel - Thin Categories */}
+            <AnimatePresence mode="wait">
+              {leftPanelOpen && (
+                <motion.div
+                  key="left-panel"
+                  initial={{ opacity: 0, x: -300, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: 'auto' }}
+                  exit={{ opacity: 0, x: -300, width: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-shrink-0 hidden sm:block"
+                >
+                  <div className="bg-white rounded-lg border border-gray-200 p-3 lg:p-4 h-fit sticky top-8 w-48 lg:w-56">
+                    <CategoryRail 
+                      selectedCategory={selectedCategory}
+                      onSelectCategory={setSelectedCategory}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-      {/* Pull Quote */}
-      <PullQuote
-        quote={region === 'ie' 
-          ? "Perfect move. An IE Box model will raise AOV, simplify decisions, and make the drop feel collectible."
-          : "Island living made simple. Curated pieces that bring coastal elegance to everyday style."
-        }
-        author={region === 'ie' ? "IE Strategy Team" : "IV Design Team"}
-      />
+            {/* Collapse Left Toggle */}
+            <motion.button
+              onClick={() => setLeftPanelOpen(!leftPanelOpen)}
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors hidden sm:flex items-center justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {leftPanelOpen ? (
+                <ChevronLeft className="w-4 h-4 text-gray-700" />
+              ) : (
+                <ChevronRight className="w-4 h-4 text-gray-700" />
+              )}
+            </motion.button>
 
-      {/* Crypto Subscription Plans */}
-      <section id="subscription" className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
-        <div className="max-w-7xl mx-auto">
-          <CryptoSubscriptionPlans onSubscribe={handleCryptoSubscribe} />
-        </div>
-      </section>
+            {/* Center Panel - Content */}
+            <motion.div
+              className="flex-1 min-w-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.1, duration: 0.3 }}
+            >
+              {/* Avatar Display Section - TOP */}
+              <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12">
+                <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">Your Avatar - 3D Preview</h2>
+                <div className="h-96">
+                  <Mannequin3D selectedItems={selectedItems} />
+                </div>
+              </div>
 
-      {/* Wallet Connector */}
-      <section className="py-8 px-6 sm:px-12 lg:px-24 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <WalletConnector />
-        </div>
-      </section>
+              {/* Featured Product Preview */}
+              <motion.div 
+                className="space-y-4 lg:space-y-6 p-6 bg-gradient-to-r from-gray-50 to-white rounded-lg border-2 border-gray-200 mb-8 lg:mb-12"
+                animate={{ borderColor: previewItem ? '#000' : '#e5e7eb' }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="flex items-start justify-between gap-6">
+                  <div className="flex-1">
+                    <p className="text-xs uppercase tracking-wider font-bold text-gray-500 mb-2">
+                      {previewItem ? 'Now Previewing' : 'Click to Preview'}
+                    </p>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {previewItem?.name || categoryItems[0]?.name || 'Select an item'}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-4">
+                      {previewItem?.description || categoryItems[0]?.description || 'Click any item to preview'}
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-black">${previewItem?.price || categoryItems[0]?.price || '45'}</span>
+                        <span className="text-xs bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full">
+                          {previewItem?.color || categoryItems[0]?.color || 'Color'}
+                        </span>
+                      </div>
+                      <motion.button
+                        onClick={() => handleSelectItem(previewItem || categoryItems[0])}
+                        className="px-4 py-2 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Add to Box
+                      </motion.button>
+                    </div>
+                  </div>
+                  <motion.div 
+                    className="flex-shrink-0 w-40 h-40 rounded-lg overflow-hidden border-2 border-gray-200"
+                    key={previewItem?.id}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <img
+                      src={previewItem?.image || categoryItems[0]?.image || '/products/linen-shirt.png'}
+                      alt={previewItem?.name || categoryItems[0]?.name || 'Featured item'}
+                      className="w-full h-full object-cover"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
 
-      {/* Payment Flow Modal */}
-      {showPaymentFlow && selectedPlan && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <CryptoPaymentFlow
-              planId={selectedPlan}
-              currency={selectedCurrency}
-              network={selectedNetwork}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-              onCancel={handlePaymentCancel}
-            />
+              {/* Closet Rack Section */}
+              <div className="space-y-4 lg:space-y-6 mb-8 lg:mb-12 pt-6 lg:pt-8 border-t border-gray-300">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                    Browse {CATEGORIES.find(c => c.id === selectedCategory)?.label}
+                  </h2>
+                  <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
+                    {categoryItems.length} items
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
+                  {categoryItems.map((item, idx) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.03 }}
+                    >
+                      <ItemCard
+                        item={item}
+                        isSelected={selectedItems.some(s => s.item.id === item.id)}
+                        onSelect={handleSelectItem}
+                        onPreview={handlePreviewItem}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footwear Section */}
+              <div className="space-y-4 lg:space-y-6 pt-6 lg:pt-8 border-t border-gray-300">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-sm uppercase tracking-wider font-bold text-gray-700">
+                    Complete the Look
+                  </h2>
+                  <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">
+                    {getItemsByCategory('footwear').length} shoes
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3 lg:gap-4">
+                  {getItemsByCategory('footwear').map((item, idx) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.03 }}
+                    >
+                      <ItemCard
+                        item={item}
+                        isSelected={selectedItems.some(s => s.item.id === item.id)}
+                        onSelect={handleSelectItem}
+                        onPreview={handlePreviewItem}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Collapse Right Toggle - Desktop Only */}
+            <motion.button
+              onClick={() => setRightPanelOpen(!rightPanelOpen)}
+              className="flex-shrink-0 h-fit sticky top-8 bg-white border border-gray-200 rounded-lg p-2 hover:bg-gray-50 transition-colors hidden lg:flex items-center justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {rightPanelOpen ? (
+                <ChevronRight className="w-4 h-4 text-gray-700" />
+              ) : (
+                <ChevronLeft className="w-4 h-4 text-gray-700" />
+              )}
+            </motion.button>
+
+            {/* Right Panel - Box HUD */}
+            <AnimatePresence mode="wait">
+              {rightPanelOpen && (
+                <motion.div
+                  key="right-panel"
+                  initial={{ opacity: 0, x: 300, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: 'auto' }}
+                  exit={{ opacity: 0, x: 300, width: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex-shrink-0 hidden lg:block"
+                >
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-fit sticky top-8 w-80">
+                    <BoxHUD
+                      selectedItems={selectedItems}
+                      totalPrice={totalPrice}
+                      onRemoveItem={handleRemoveItem}
+                      onCollapse={() => setRightPanelOpen(false)}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Mobile Box HUD - Responsive Bottom Sheet */}
+            <AnimatePresence mode="wait">
+              {rightPanelOpen && (
+                <motion.div
+                  key="mobile-hud"
+                  initial={{ opacity: 0, y: 400 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 400 }}
+                  transition={{ duration: 0.3, type: 'spring', damping: 30, stiffness: 300 }}
+                  className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t-2 border-gray-200 rounded-t-3xl shadow-2xl overflow-hidden z-40 max-h-[85vh] sm:max-h-[75vh]"
+                >
+                  <div className="flex flex-col h-full">
+                    {/* Handle */}
+                    <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
+                      <div className="h-1.5 w-10 bg-gray-400 rounded-full" />
+                    </div>
+                    
+                    {/* Scrollable Content */}
+                    <div className="overflow-y-auto flex-1 px-4 sm:px-6 pb-6">
+                      <BoxHUD
+                        selectedItems={selectedItems}
+                        totalPrice={totalPrice}
+                        onRemoveItem={handleRemoveItem}
+                        onCollapse={() => setRightPanelOpen(false)}
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Mobile Toggle Button - Bottom Right */}
+            <motion.button
+              onClick={() => setRightPanelOpen(!rightPanelOpen)}
+              className="fixed bottom-6 right-6 lg:hidden bg-black text-white rounded-full p-3 shadow-lg hover:bg-gray-800 transition-colors z-50"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Gift className="w-6 h-6" />
+              {selectedItems.length > 0 && (
+                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {selectedItems.length}
+                </span>
+              )}
+            </motion.button>
           </div>
         </div>
-      )}
-    </div>
+
+        {/* Item Details Drawer */}
+        <ItemDetailsDrawer
+          item={drawerItem}
+          isOpen={drawerOpen}
+          onClose={() => {
+            setDrawerOpen(false)
+            setDrawerItem(null)
+          }}
+          onAddToBox={handleAddToBox}
+          isSelected={drawerItem ? selectedItems.some(s => s.item.id === drawerItem.id) : false}
+        />
+
+        {/* Size Selector Modal */}
+        {showSizeSelector && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-lg max-w-md w-full p-6 space-y-6">
+              <div>
+                <h2 className="text-xl font-semibold">Select Size</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {WARDROBE_ITEMS.find(i => i.id === showSizeSelector)?.name}
+                </p>
+              </div>
+
+              <div className="grid grid-cols-4 gap-2">
+                {WARDROBE_ITEMS.find(i => i.id === showSizeSelector)?.sizes.map(size => (
+                  <button
+                    key={size}
+                    onClick={() => handleConfirmSize(showSizeSelector, size)}
+                    className={`py-2 rounded font-medium text-sm transition-colors ${
+                      selectedSize === size
+                        ? 'bg-black text-white'
+                        : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowSizeSelector(null)}
+                  className="flex-1 py-2 border border-gray-300 rounded font-medium hover:bg-gray-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => handleConfirmSize(showSizeSelector, selectedSize)}
+                  className="flex-1 py-2 bg-black text-white rounded font-medium hover:bg-gray-800"
+                >
+                  Add to Box
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Info Section */}
+        <div className="border-t border-gray-200 py-12 px-6 sm:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                <h3 className="font-semibold mb-2">How It Works</h3>
+                <p className="text-sm text-gray-600">Select items from each category. Mix and match to create your perfect wardrobe. We'll assemble your personalized box.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Flexible Plans</h3>
+                <p className="text-sm text-gray-600">Choose one-time, monthly, or annual subscription. Customize your box before each delivery. Cancel anytime.</p>
+              </div>
+              <div>
+                <h3 className="font-semibold mb-2">Curated Quality</h3>
+                <p className="text-sm text-gray-600">Every item is hand-selected by our stylists. Premium sustainable materials. Perfect for any lifestyle.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Layout>
   )
 }

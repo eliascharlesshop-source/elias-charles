@@ -2,11 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import Image from "next/image"
-import Link from "next/link"
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Plus, X, Package, Star } from "lucide-react"
-import { BoxCard } from "@/components/boxes/box-card"
-import { IE_BOXES } from "@/data/box-config"
+import Link from "next/link"
+import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star, Plus, X, Package } from "lucide-react"
+import Layout from "@/components/layout/layout"
 
 // Interactive product hotspot component
 const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
@@ -71,20 +70,71 @@ const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
 
 // Magazine article component
 const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) => {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.8", "start 0.2"],
+  })
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1])
+  const y = useTransform(scrollYProgress, [0, 1], [40, 0])
+
   return (
-    <div
+    <motion.div
+      ref={ref}
+      style={{ opacity, y }}
       className={`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center my-16 ${reverse ? "md:grid-flow-col-dense" : ""}`}
     >
       <div className={reverse ? "md:col-start-2" : ""}>
-        <h3 className="text-2xl md:text-3xl font-bold mb-4 tracking-tight">{title}</h3>
-        <div className="prose prose-sm max-w-none mb-6">
+        <motion.h3 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-2xl md:text-3xl font-bold mb-4 tracking-tight"
+        >
+          {title}
+        </motion.h3>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="prose prose-sm max-w-none mb-6"
+        >
           <p>{excerpt}</p>
-        </div>
-        {children}
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          {children}
+        </motion.div>
       </div>
 
-      <div className={`relative aspect-[4/5] ${reverse ? "md:col-start-1" : ""}`}>
-        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover" />
+      <motion.div 
+        className="relative aspect-[4/5] overflow-hidden rounded-lg"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Image placeholder - add real image when available */}
+        <div className="w-full h-full bg-gray-200" />
+      </motion.div>
+    </motion.div>
+  )
+}
+
+// Lifestyle section component
+const LifestyleSection = ({ title, image, children }) => {
+  return (
+    <div className="relative my-24 overflow-hidden rounded-lg">
+      <div className="absolute inset-0">
+        <Image src={image} alt={title} fill className="object-cover" />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
+      <div className="relative z-10 py-24 px-6 md:px-12 text-white">
+        <h2 className="text-3xl md:text-4xl font-bold mb-12">{title}</h2>
+        {children}
       </div>
     </div>
   )
@@ -102,213 +152,74 @@ const PullQuote = ({ quote, author }) => {
       >
         <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
       </svg>
-      <p className="relative text-xl md:text-2xl font-medium italic">{quote}</p>
-      {author && (
-        <footer className="mt-4">
-          <p className="text-base font-semibold">— {author}</p>
-        </footer>
-      )}
+      <p className="relative text-xl md:text-2xl font-medium italic">Give Life A Break.</p>
+      <footer className="mt-4">
+        <p className="text-base font-semibold">— Elias Charles</p>
+      </footer>
     </blockquote>
-  )
-}
-
-// Lifestyle section with parallax
-const LifestyleSection = ({ title, image, children }) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  })
-
-  const y = useTransform(scrollYProgress, [0, 1], [0, 100])
-
-  return (
-    <section ref={ref} className="relative overflow-hidden py-24 my-16">
-      <motion.div className="absolute inset-0 z-0" style={{ y }}>
-        <Image src={image || "/icons/placeholder.svg"} alt={title} fill className="object-cover" />
-        <div className="absolute inset-0 bg-black/30" />
-      </motion.div>
-
-      <div className="relative z-10 container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">{title}</h2>
-        <div className="max-w-4xl mx-auto">{children}</div>
-      </div>
-    </section>
   )
 }
 
 export default function InLifePage() {
   const [activeTab, setActiveTab] = useState("beach")
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
   return (
-    <div className="bg-fdf4ec">
-      {/* Magazine header with issue number */}
-      <div className="container mx-auto px-4 pt-8 pb-4">
-        <div className="flex justify-between items-center border-b border-gray-200 pb-4">
-          <div>
-            <p className="text-xs uppercase tracking-widest mb-2">Issue 03 • Summer 2023</p>
-          </div>
-          <div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">IN LIFE</h1>
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-widest">Lifestyle & Products</p>
+    <Layout>
+      <div className="min-h-screen bg-white">
+        {/* Header */}
+        <div className="border-b border-gray-200 py-8">
+          <div className="max-w-7xl mx-auto px-4 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">In Life</h1>
+            <p className="text-lg text-gray-600">Stories from the EC Community</p>
           </div>
         </div>
-      </div>
 
-      {/* Magazine-style tabs */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-          <button
-            className={`relative px-2 py-1 text-lg transition-colors ${
-              activeTab === "beach"
-                ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
-                : "text-gray-500 hover:text-black"
-            }`}
-            onClick={() => isMounted && setActiveTab("beach")}
-          >
-            Beach Life
-          </button>
-          <button
-            className={`relative px-2 py-1 text-lg transition-colors ${
-              activeTab === "city"
-                ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
-                : "text-gray-500 hover:text-black"
-            }`}
-            onClick={() => isMounted && setActiveTab("city")}
-          >
-            City Style
-          </button>
-          <button
-            className={`relative px-2 py-1 text-lg transition-colors ${
-              activeTab === "mountains"
-                ? "font-medium after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black"
-                : "text-gray-500 hover:text-black"
-            }`}
-            onClick={() => isMounted && setActiveTab("mountains")}
-          >
-            Mountain Escape
-          </button>
-        </div>
-      </div>
-
-      {/* Only render dynamic content after mount to prevent hydration errors */}
-      {isMounted && (
-        <React.Fragment>
-
-      {/* Beach Life Content */}
-      {activeTab === "beach" && (
-        <div className="container mx-auto px-4">
-          {/* Hero feature */}
-          <div className="relative aspect-video mb-16">
-            <Image src="/lifestyle/images/ocean-wave-1.png" alt="Beach lifestyle" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-              <div className="p-6 md:p-12 text-white max-w-3xl">
-                <p className="text-sm uppercase tracking-wider mb-4">Featured Story</p>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">The Art of Coastal Living</h2>
-                <p className="text-lg md:text-xl mb-6">
-                  Discover how the rhythm of the waves influences design, lifestyle, and our connection to nature.
-                </p>
-                <button className="px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-100 transition">
-                  Read Feature
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Magazine article */}
-          <MagazineArticle
-            title="Morning Rituals: Sunrise Surf Sessions"
-            excerpt="The early morning hours offer the most pristine surf conditions, with offshore winds creating glassy waves perfect for long rides. We explore the ritual of dawn patrol and how it sets the tone for a day lived in harmony with the ocean."
-            image="/lifestyle/images/ocean-wave-2.png"
-          >
-            <Link
-              href="/collections/boards/surf"
-              className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
-            >
-              Explore Surfboards
-            </Link>
-          </MagazineArticle>
-
-
-
-          {/* Pull quote */}
-          <PullQuote
-            quote="The ocean stirs the heart, inspires the imagination and brings eternal joy to the soul."
-            author="Robert Wyland"
-          />
-
-          {/* Shop the look */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 my-16">
-            <div>
-              <h3 className="text-2xl font-bold mb-6">The Perfect Beach Day</h3>
-              <p className="mb-4">
-                Our curated collection of beach essentials combines style, functionality, and sustainability. Each piece
-                is designed to enhance your coastal experience while minimizing environmental impact.
-              </p>
-              <p className="mb-6">
-                From UPF-protective apparel to biodegradable accessories, these products represent our commitment to
-                ocean preservation and timeless design.
-              </p>
-              <Link
-                href="/collections/life"
-                className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+        {/* Tab Navigation */}
+        <div className="border-b border-gray-200 sticky top-0 bg-white z-40">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex gap-8">
+              <button
+                onClick={() => setActiveTab("beach")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "beach"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
               >
-                Shop Beach Collection
-              </Link>
+                Beach Living
+              </button>
+              <button
+                onClick={() => setActiveTab("city")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "city"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
+              >
+                City Style
+              </button>
+              <button
+                onClick={() => setActiveTab("mountain")}
+                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
+                  activeTab === "mountain"
+                    ? "border-black text-black"
+                    : "border-transparent text-gray-600 hover:text-black"
+                }`}
+              >
+                Mountain Living
+              </button>
             </div>
           </div>
-
-          {/* Lifestyle section with parallax */}
-          <LifestyleSection title="Beach Living, Day to Night" image="/products/surfboard-on-beach.png">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
-                <Sunrise className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Morning</h3>
-                <p className="text-sm">
-                  Begin your day with our lightweight beach robes and premium coffee accessories for the perfect sunrise
-                  experience.
-                </p>
-                <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Morning Essentials
-                </Link>
-              </div>
-
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
-                <Sun className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Day</h3>
-                <p className="text-sm">
-                  Our UV-protective apparel and premium surfboards are designed for long days under the sun.
-                </p>
-                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Daytime Collection
-                </Link>
-              </div>
-
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
-                <Sunset className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Evening</h3>
-                <p className="text-sm">
-                  Transition to evening with our coastal-inspired casual wear and beach-to-dinner accessories.
-                </p>
-                <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Evening Selection
-                </Link>
-              </div>
-            </div>
-          </LifestyleSection>
-
-
         </div>
-      )}
 
-      {/* City Style Content */}
+        {/* Beach Content */}
+        {activeTab === "beach" && (
+          <div className="container mx-auto px-4">
+            {/* Beach content here */}
+          </div>
+        )}
+
+        {/* City Style Content */}
       {activeTab === "city" && (
         <div className="container mx-auto px-4">
           {/* Hero feature */}
@@ -354,7 +265,13 @@ export default function InLifePage() {
             image="/products/men-urban-style.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Coffee className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Morning</h3>
                 <p className="text-sm">
@@ -364,9 +281,15 @@ export default function InLifePage() {
                 <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Morning Commute
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Building className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Day</h3>
                 <p className="text-sm">
@@ -376,9 +299,15 @@ export default function InLifePage() {
                 <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Workday Essentials
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Music className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Evening</h3>
                 <p className="text-sm">
@@ -388,16 +317,39 @@ export default function InLifePage() {
                 <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Night Out Collection
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </LifestyleSection>
 
-
+          {/* Urban editorial feature */}
+          <motion.div 
+            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <Package className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Urban Dispatch</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">The Future of Sustainable City Living</h3>
+                <p className="text-lg mb-6">
+                  As cities evolve, so do the demands we place on our wardrobes and gear. Discover how EC is pioneering sustainable urban fashion for the next generation of city dwellers.
+                </p>
+                <Link
+                  href="/collections/boards/skate"
+                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                >
+                  Explore Urban Collection
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       )}
 
       {/* Mountain Escape Content */}
-      {activeTab === "mountains" && (
+      {activeTab === "mountain" && (
         <div className="container mx-auto px-4">
           {/* Hero feature */}
           <div className="relative aspect-video mb-16">
@@ -446,7 +398,13 @@ export default function InLifePage() {
             image="/products/sustainable-fashion-collage.png"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Mountain className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Morning</h3>
                 <p className="text-sm">
@@ -456,9 +414,15 @@ export default function InLifePage() {
                 <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Alpine Mornings
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Compass className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Day</h3>
                 <p className="text-sm">
@@ -467,9 +431,15 @@ export default function InLifePage() {
                 <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Trail Essentials
                 </Link>
-              </div>
+              </motion.div>
 
-              <div className="bg-black/30 backdrop-blur-sm p-6 rounded-sm">
+              <motion.div 
+                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                whileHover={{ scale: 1.02 }}
+              >
                 <Tent className="w-8 h-8 mb-6 text-white" />
                 <h3 className="text-xl font-bold mb-2">Evening</h3>
                 <p className="text-sm">
@@ -479,65 +449,50 @@ export default function InLifePage() {
                 <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
                   Fireside Collection
                 </Link>
-              </div>
+              </motion.div>
             </div>
           </LifestyleSection>
 
-
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[1, 2, 3, 4].map((item) => (
-                <div key={item} className="group">
-                  <div className="relative aspect-square mb-3 overflow-hidden">
-                    <Image
-                      src={`/products/mountain-product-text.png`}
-                      alt={`Mountain pick ${item}`}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
-                  <p className="text-sm">$149.00</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Box Model Integration */}
-          <div className="my-16">
-            <div className="flex items-center justify-center mb-8">
-              <Package className="w-6 h-6 text-blue-600 mr-2" />
-              <h2 className="text-xl font-bold px-4">CURATED BOXES FOR MOUNTAIN LIVING</h2>
-              <Package className="w-6 h-6 text-blue-600 ml-2" />
-            </div>
-            
-            <div className="bg-blue-50 p-8 rounded-xl mb-8">
-              <p className="text-center text-gray-700 max-w-2xl mx-auto mb-6">
-                Our Inland Empire boxes are designed around seasonal moments and lifestyle needs. 
-                Perfect for mountain adventures, city exploration, and coastal living.
-              </p>
-              <div className="flex justify-center">
-                <Link 
-                  href="/collections"
-                  className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+          {/* Alpine editorial feature */}
+          <motion.div 
+            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <Compass className="w-6 h-6 flex-shrink-0 mt-1" />
+              <div>
+                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Alpine Chronicle</p>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4">Designing for Elevation: The Mountain Philosophy</h3>
+                <p className="text-lg mb-6">
+                  High altitude demands uncompromising performance. Learn how our design team engineers every product with the mountains in mind, merging technical innovation with timeless style.
+                </p>
+                <Link
+                  href="/collections/life"
+                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
                 >
-                  <Star className="w-5 h-5" />
-                  Explore All Boxes
+                  Read the Full Story
                 </Link>
               </div>
             </div>
+          </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {IE_BOXES.slice(0, 2).map((box) => (
-                <BoxCard
-                  key={box.id}
-                  box={box}
-                  onSubscribe={(boxId) => console.log('Subscribe:', boxId)}
-                  onLearnMore={(boxId) => console.log('Learn more:', boxId)}
-                  progress={0}
-                />
-              ))}
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="group">
+                <div className="relative aspect-square mb-3 overflow-hidden">
+                  <Image
+                    src={`/products/mountain-product-text.png`}
+                    alt={`Mountain pick ${item}`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
+                <p className="text-sm">$149.00</p>
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -577,7 +532,6 @@ export default function InLifePage() {
           </div>
         </div>
       </div>
-      </React.Fragment>)}
     </div>
   )
 }
