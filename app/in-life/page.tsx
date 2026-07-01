@@ -1,470 +1,376 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState } from "react"
 import Image from "next/image"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { Sunrise, Sun, Sunset, Coffee, Building, Music, Mountain, Compass, Tent, Star, Plus, X, Package } from "lucide-react"
+import { Heart, Share2, ShoppingBag } from "lucide-react"
 import Layout from "@/components/layout/layout"
+import { ISLA_VISTA_SUBCOLLECTIONS, ISLA_VISTA_BOX_SUGGESTION, getProductById } from "@/data/isla-vista-collection"
 
-// Interactive product hotspot component
-const ProductHotspot = ({ x, y, product, color = "bg-white" }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) {
-    return (
-      <div className="absolute" style={{ left: `${x}%`, top: `${y}%` }}>
-        <button
-          className={`${color} rounded-full w-6 h-6 flex items-center justify-center z-10 shadow-md transition-transform hover:scale-110`}
-          aria-label="View product details"
-        >
-          <Plus size={14} />
-        </button>
-      </div>
-    )
-  }
-
-  return (
-    <div className="absolute" style={{ left: `${x}%`, top: `${y}%` }}>
-      <button
-        className={`${color} rounded-full w-6 h-6 flex items-center justify-center z-10 shadow-md transition-transform hover:scale-110`}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Close product details" : "View product details"}
-      >
-        {isOpen ? <X size={14} /> : <Plus size={14} />}
-      </button>
-
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            className="absolute z-20 bg-white shadow-lg rounded-md p-3 w-48 -translate-x-1/2 mt-2"
-            style={{ left: "50%" }}
-          >
-            <div className="relative h-32 mb-2">
-              <Image
-                src={product.image || "/icons/placeholder.svg"}
-                alt={product.title}
-                fill
-                className="object-cover rounded-sm"
-              />
-            </div>
-            <h4 className="font-medium text-sm mb-1">{product.title}</h4>
-            <p className="text-xs mb-2">{product.price}</p>
-            <Link href={product.url} className="text-xs font-medium underline hover:no-underline">
-              Shop Now
-            </Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  )
-}
-
-// Magazine article component
-const MagazineArticle = ({ title, excerpt, image, reverse = false, children }) => {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.8", "start 0.2"],
-  })
-
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1])
-  const y = useTransform(scrollYProgress, [0, 1], [40, 0])
-
-  return (
-    <motion.div
-      ref={ref}
-      style={{ opacity, y }}
-      className={`grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-center my-16 ${reverse ? "md:grid-flow-col-dense" : ""}`}
-    >
-      <div className={reverse ? "md:col-start-2" : ""}>
-        <motion.h3 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-2xl md:text-3xl font-bold mb-4 tracking-tight"
-        >
-          {title}
-        </motion.h3>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="prose prose-sm max-w-none mb-6"
-        >
-          <p>{excerpt}</p>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {children}
-        </motion.div>
-      </div>
-
-      <motion.div 
-        className="relative aspect-[4/5] overflow-hidden rounded-lg"
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Image placeholder - add real image when available */}
-        <div className="w-full h-full bg-gray-200" />
-      </motion.div>
-    </motion.div>
-  )
-}
-
-// Lifestyle section component
-const LifestyleSection = ({ title, image, children }) => {
-  return (
-    <div className="relative my-24 overflow-hidden rounded-lg">
-      <div className="absolute inset-0">
-        <Image src={image} alt={title} fill className="object-cover" />
-        <div className="absolute inset-0 bg-black/40" />
-      </div>
-      <div className="relative z-10 py-24 px-6 md:px-12 text-white">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">{title}</h2>
-        {children}
-      </div>
-    </div>
-  )
-}
-
-// Pull quote component
-const PullQuote = ({ quote, author }) => {
-  return (
-    <blockquote className="relative my-16 mx-auto max-w-2xl px-4 text-center">
-      <svg
-        className="absolute top-0 left-0 transform -translate-x-6 -translate-y-8 h-16 w-16 text-gray-100"
-        fill="currentColor"
-        viewBox="0 0 32 32"
-        aria-hidden="true"
-      >
-        <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-      </svg>
-      <p className="relative text-xl md:text-2xl font-medium italic">Give Life A Break.</p>
-      <footer className="mt-4">
-        <p className="text-base font-semibold">— Elias Charles</p>
-      </footer>
-    </blockquote>
-  )
-}
-
-export default function InLifePage() {
-  const [activeTab, setActiveTab] = useState("beach")
-
+export default function IslaVistaPage() {
+  const [selectedSubCollection, setSelectedSubCollection] = useState("dawn-patrol")
+  
   return (
     <Layout>
-      <div className="min-h-screen bg-white">
-        {/* Header */}
-        <div className="border-b border-gray-200 py-8">
-          <div className="max-w-7xl mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">In Life</h1>
-            <p className="text-lg text-gray-600">Stories from the EC Community</p>
-          </div>
-        </div>
-
-        {/* Tab Navigation */}
-        <div className="border-b border-gray-200 sticky top-0 bg-white z-40">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex gap-8">
-              <button
-                onClick={() => setActiveTab("beach")}
-                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
-                  activeTab === "beach"
-                    ? "border-black text-black"
-                    : "border-transparent text-gray-600 hover:text-black"
-                }`}
-              >
-                Beach Living
-              </button>
-              <button
-                onClick={() => setActiveTab("city")}
-                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
-                  activeTab === "city"
-                    ? "border-black text-black"
-                    : "border-transparent text-gray-600 hover:text-black"
-                }`}
-              >
-                City Style
-              </button>
-              <button
-                onClick={() => setActiveTab("mountain")}
-                className={`py-4 font-medium text-sm border-b-2 transition-colors ${
-                  activeTab === "mountain"
-                    ? "border-black text-black"
-                    : "border-transparent text-gray-600 hover:text-black"
-                }`}
-              >
-                Mountain Living
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Beach Content */}
-        {activeTab === "beach" && (
-          <div className="container mx-auto px-4">
-            {/* Beach content here */}
-          </div>
-        )}
-
-        {/* City Style Content */}
-      {activeTab === "city" && (
-        <div className="container mx-auto px-4">
-          {/* Hero feature */}
-          <div className="relative aspect-video mb-16">
-            <Image src="/lifestyle/images/night-highway-1.png" alt="City lifestyle" fill className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-              <div className="p-6 md:p-12 text-white max-w-3xl">
-                <p className="text-sm uppercase tracking-wider mb-4">Urban Living</p>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">The Pulse of City Life</h2>
-                <p className="text-lg md:text-xl mb-6">
-                  Navigate the concrete jungle with style, purpose, and a connection to urban rhythms.
-                </p>
-                <button className="px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-100 transition">
-                  Explore City Style
-                </button>
-              </div>
-            </div>
+      <div className="bg-cream min-h-screen">
+        {/* Hero Section */}
+        <motion.section
+          className="relative h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white flex items-center overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          {/* Background pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
           </div>
 
-          {/* Magazine article */}
-          <MagazineArticle
-            title="Urban Movement: The Rise of City Skating"
-            excerpt="Skateboarding has evolved from counterculture to mainstream urban transportation. We explore how modern city dwellers are embracing skateboards and longboards as sustainable, efficient ways to navigate urban environments while expressing personal style."
-            image="/lifestyle/images/night-highway-2.png"
-            reverse={true}
-          >
-            <Link
-              href="/collections/boards/skate"
-              className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10 w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
             >
-              Shop Skateboards
-            </Link>
-          </MagazineArticle>
-
-
-
-          {/* Pull quote */}
-          <PullQuote quote="The city is not a concrete jungle, it is a human zoo." author="Desmond Morris" />
-
-          {/* Lifestyle section with parallax */}
-          <LifestyleSection
-            title="24 Hours in the City"
-            image="/products/men-urban-style.png"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Coffee className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Morning</h3>
-                <p className="text-sm">
-                  Start your day with our commuter-friendly apparel and sustainable coffee accessories for the perfect
-                  urban morning routine.
-                </p>
-                <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Morning Commute
-                </Link>
-              </motion.div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Building className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Day</h3>
-                <p className="text-sm">
-                  Our versatile workwear and adaptable accessories are designed for busy days navigating the concrete
-                  jungle.
-                </p>
-                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Workday Essentials
-                </Link>
-              </motion.div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Music className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Evening</h3>
-                <p className="text-sm">
-                  Transition to evening with our urban-inspired casual wear and day-to-night accessories perfect for
-                  city adventures.
-                </p>
-                <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Night Out Collection
-                </Link>
-              </motion.div>
-            </div>
-          </LifestyleSection>
-
-          {/* Urban editorial feature */}
-          <motion.div 
-            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-start gap-4 mb-4">
-              <Package className="w-6 h-6 flex-shrink-0 mt-1" />
-              <div>
-                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Urban Dispatch</p>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">The Future of Sustainable City Living</h3>
-                <p className="text-lg mb-6">
-                  As cities evolve, so do the demands we place on our wardrobes and gear. Discover how EC is pioneering sustainable urban fashion for the next generation of city dwellers.
-                </p>
+              <p className="text-sm uppercase tracking-widest font-light mb-6 text-cyan-300">Collection</p>
+              <h1 className="text-7xl md:text-8xl font-light leading-tight mb-6">
+                Isla Vista
+              </h1>
+              <p className="text-xl font-light max-w-2xl mb-8 text-gray-300">
+                Where coastal living meets everyday adventure. Seven distinct lifestyle narratives captured in one collection.
+              </p>
+              <div className="flex gap-4">
                 <Link
-                  href="/collections/boards/skate"
-                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
+                  href="#collections"
+                  className="inline-block bg-white text-black px-8 py-3 font-bold text-sm uppercase tracking-wider hover:bg-gray-100 transition-colors"
                 >
-                  Explore Urban Collection
+                  Explore Collection
+                </Link>
+                <Link
+                  href="https://www.tiktok.com/@eliascharles"
+                  target="_blank"
+                  className="inline-block border-2 border-white text-white px-8 py-3 font-bold text-sm uppercase tracking-wider hover:bg-white/10 transition-colors"
+                >
+                  Follow on TikTok
                 </Link>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
+            </motion.div>
+          </div>
+        </motion.section>
 
-      {/* Mountain Escape Content */}
-      {activeTab === "mountain" && (
-        <div className="container mx-auto px-4">
-          {/* Hero feature */}
-          <div className="relative aspect-video mb-16">
-            <Image
-              src="/products/sustainable-fashion-collage.png"
-              alt="Mountain lifestyle"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end">
-              <div className="p-6 md:p-12 text-white max-w-3xl">
-                <p className="text-sm uppercase tracking-wider mb-4">Alpine Living</p>
-                <h2 className="text-3xl md:text-5xl font-bold mb-4">The Call of the Mountains</h2>
-                <p className="text-lg md:text-xl mb-6">
-                  Embrace the serenity and adventure of mountain living with gear designed for elevation.
-                </p>
-                <button className="px-6 py-2 bg-white text-black text-sm font-medium hover:bg-gray-100 transition">
-                  Discover Mountain Gear
-                </button>
-              </div>
+        {/* Featured Collections Grid */}
+        <motion.section
+          id="collections"
+          className="py-24 px-6 lg:px-12 bg-cream"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="mb-16"
+            >
+              <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-4">Seven Stories</p>
+              <h2 className="text-5xl md:text-6xl font-light">Subcollections</h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {ISLA_VISTA_SUBCOLLECTIONS.map((subcollection, idx) => (
+                <motion.button
+                  key={subcollection.id}
+                  onClick={() => setSelectedSubCollection(subcollection.id)}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className={`group text-left p-6 rounded-xl transition-all duration-300 ${
+                    selectedSubCollection === subcollection.id
+                      ? "bg-black text-white"
+                      : "bg-white border border-gray-200 hover:border-gray-400"
+                  }`}
+                >
+                  <div className="text-3xl mb-4">{subcollection.icon}</div>
+                  <h3 className="text-xl font-semibold mb-2">{subcollection.name}</h3>
+                  <p className={`text-sm ${selectedSubCollection === subcollection.id ? "text-gray-300" : "text-gray-600"}`}>
+                    {subcollection.tagline}
+                  </p>
+                  <div className="mt-4 pt-4 border-t border-current opacity-50">
+                    <p className="text-xs uppercase tracking-wider">{subcollection.products.length} pieces</p>
+                  </div>
+                </motion.button>
+              ))}
             </div>
           </div>
+        </motion.section>
 
-          {/* Magazine article */}
-          <MagazineArticle
-            title="Alpine Design: Form Meets Function"
-            excerpt="In the mountains, gear isn't just about aesthetics—it's about survival and comfort in challenging conditions. We explore how our mountain collection balances technical performance with timeless design principles for products that excel at elevation."
-            image="/products/men-urban-style.png"
-          >
-            <Link
-              href="/collections/life"
-              className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
-            >
-              Shop Mountain Collection
-            </Link>
-          </MagazineArticle>
+        {/* Product Showcase */}
+        <motion.section
+          className="py-24 px-6 lg:px-12 bg-white"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <AnimatePresence mode="wait">
+              {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection) && (
+                <motion.div
+                  key={selectedSubCollection}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {/* Subcollection Header */}
+                  <div className="mb-16">
+                    <h3 className="text-5xl md:text-6xl font-light mb-4">
+                      {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
+                    </h3>
+                    <p className="text-xl text-gray-600 max-w-2xl">
+                      {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.description}
+                    </p>
+                  </div>
 
+                  {/* TikTok Embed */}
+                  {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId && (
+                    <div className="mb-16 flex justify-center">
+                      <div className="w-full max-w-md">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          className="bg-black rounded-lg overflow-hidden aspect-video flex items-center justify-center"
+                        >
+                          <iframe
+                            src={`https://www.tiktok.com/embed/v2/${ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId}`}
+                            width="100%"
+                            height="400"
+                            frameBorder="0"
+                            allow="autoplay; encrypted-media"
+                            allowFullScreen
+                            className="rounded-lg"
+                          />
+                        </motion.div>
+                      </div>
+                    </div>
+                  )}
 
+                  {/* Products */}
+                  <div className="space-y-20">
+                    {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.products.map((product, idx) => (
+                      <motion.div
+                        key={product.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${
+                          idx % 2 === 1 ? "lg:grid-cols-2 lg:[&>*:nth-child(2)]:order-first" : ""
+                        }`}
+                      >
+                        {/* Product Image */}
+                        <motion.div
+                          initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 + 0.1 }}
+                          className="relative aspect-square overflow-hidden rounded-lg bg-gray-100"
+                        >
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            fill
+                            className="object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        </motion.div>
 
-          {/* Pull quote */}
-          <PullQuote quote="The mountains are calling and I must go." author="John Muir" />
+                        {/* Product Details */}
+                        <motion.div
+                          initial={{ opacity: 0, x: idx % 2 === 0 ? 40 : -40 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 + 0.1 }}
+                        >
+                          <div className="mb-6">
+                            <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-2">
+                              {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
+                            </p>
+                            <h3 className="text-4xl md:text-5xl font-light mb-4">{product.name}</h3>
+                            <p className="text-lg text-gray-700 mb-6">{product.description}</p>
+                          </div>
 
-          {/* Lifestyle section with parallax */}
-          <LifestyleSection
-            title="Mountain Living Through the Seasons"
-            image="/products/sustainable-fashion-collage.png"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                          <div className="flex items-baseline gap-4 mb-6">
+                            <span className="text-3xl font-bold text-black">${product.price}</span>
+                            <span className="text-sm text-gray-600 uppercase tracking-wider">{product.sku}</span>
+                          </div>
+
+                          <div className="mb-8 pb-8 border-b border-gray-200">
+                            <p className="text-xs uppercase tracking-widest text-gray-600 mb-2">Material</p>
+                            <p className="text-sm">Premium technical fabric blend</p>
+                          </div>
+
+                          <div className="flex gap-4">
+                            <Link
+                              href={"/boxes?item=" + product.id}
+                              className="flex-1 bg-black text-white px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                            >
+                              <ShoppingBag className="w-4 h-4" />
+                              Add to Box
+                            </Link>
+                            <button className="flex-1 border-2 border-black text-black px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                              <Heart className="w-4 h-4" />
+                              Wishlist
+                            </button>
+                          </div>
+
+                          {product.tiktokUrl && (
+                            <div className="mt-6 pt-6 border-t border-gray-200">
+                              <Link
+                                href={product.tiktokUrl}
+                                target="_blank"
+                                className="flex items-center gap-2 text-sm text-gray-700 hover:text-black transition-colors"
+                              >
+                                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.7a2.94 2.94 0 1 1-5.92-2.82 2.93 2.93 0 0 1 2.31 1.39V9.58a6.47 6.47 0 1 0 10.86 3.28v-3.34a8.15 8.15 0 0 0 3.17-1.82v-3.62l-.01-.01z" />
+                                </svg>
+                                Watch on TikTok
+                              </Link>
+                            </div>
+                          )}
+                        </motion.div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.section>
+
+        {/* Suggested Box Section */}
+        <motion.section
+          className="py-24 px-6 lg:px-12 bg-gradient-to-r from-black to-gray-900 text-white"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
               >
-                <Mountain className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Morning</h3>
-                <p className="text-sm">
-                  Begin your day with our insulated layers and outdoor cooking gear for the perfect alpine morning
-                  experience.
+                <p className="text-sm uppercase tracking-widest text-cyan-300 mb-4">Curated For You</p>
+                <h2 className="text-5xl md:text-6xl font-light leading-tight mb-8">
+                  {ISLA_VISTA_BOX_SUGGESTION.name}
+                </h2>
+                <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+                  {ISLA_VISTA_BOX_SUGGESTION.description}
                 </p>
-                <Link href="/collections/self-care" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Alpine Mornings
+
+                {/* Products List */}
+                <div className="mb-8 pb-8 border-b border-gray-700">
+                  <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">Includes</p>
+                  <ul className="space-y-2">
+                    {ISLA_VISTA_BOX_SUGGESTION.products.map((productId) => {
+                      const product = getProductById(productId)
+                      return product ? (
+                        <li key={productId} className="flex items-center gap-3 text-sm">
+                          <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full" />
+                          {product.name}
+                        </li>
+                      ) : null
+                    })}
+                  </ul>
+                </div>
+
+                {/* Pricing */}
+                <div className="mb-8 grid grid-cols-2 gap-6">
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">If Purchased Separately</p>
+                    <p className="text-2xl font-bold">${ISLA_VISTA_BOX_SUGGESTION.valueIfBought}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Box Price</p>
+                    <p className="text-2xl font-bold text-cyan-300">${ISLA_VISTA_BOX_SUGGESTION.boxPrice}</p>
+                  </div>
+                </div>
+
+                <div className="mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+                  <p className="text-sm text-gray-300 mb-2">You Save</p>
+                  <p className="text-3xl font-bold text-green-400">${ISLA_VISTA_BOX_SUGGESTION.savings}</p>
+                </div>
+
+                <Link
+                  href="/boxes"
+                  className="inline-block bg-cyan-400 text-black px-8 py-4 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-cyan-300 transition-colors"
+                >
+                  Build Your Isla Vista Box
                 </Link>
               </motion.div>
 
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                whileHover={{ scale: 1.02 }}
+              {/* Box Visualization */}
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
               >
-                <Compass className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Day</h3>
-                <p className="text-sm">
-                  Our technical apparel and adventure equipment are engineered for long days exploring rugged terrain.
-                </p>
-                <Link href="/collections/apparel" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Trail Essentials
-                </Link>
-              </motion.div>
-
-              <motion.div 
-                className="bg-black/30 backdrop-blur-sm p-6 rounded-sm hover:bg-black/50 transition-colors"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <Tent className="w-8 h-8 mb-6 text-white" />
-                <h3 className="text-xl font-bold mb-2">Evening</h3>
-                <p className="text-sm">
-                  Wind down with our cozy mountain-inspired loungewear and fireside accessories for perfect evenings
-                  under the stars.
-                </p>
-                <Link href="/collections/life" className="text-sm mt-4 inline-block underline hover:no-underline">
-                  Fireside Collection
-                </Link>
+                <div className="grid grid-cols-2 gap-4">
+                  {ISLA_VISTA_BOX_SUGGESTION.products.slice(0, 4).map((productId, idx) => {
+                    const product = getProductById(productId)
+                    return product ? (
+                      <motion.div
+                        key={productId}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="relative aspect-square rounded-lg overflow-hidden bg-gray-800"
+                      >
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
+                      </motion.div>
+                    ) : null
+                  })}
+                </div>
               </motion.div>
             </div>
-          </LifestyleSection>
+          </div>
+        </motion.section>
 
-          {/* Alpine editorial feature */}
-          <motion.div 
-            className="my-24 p-8 md:p-12 border-l-4 border-black bg-gray-50 rounded-sm"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-start gap-4 mb-4">
-              <Compass className="w-6 h-6 flex-shrink-0 mt-1" />
-              <div>
-                <p className="text-xs uppercase tracking-wider font-semibold mb-2">Alpine Chronicle</p>
-                <h3 className="text-2xl md:text-3xl font-bold mb-4">Designing for Elevation: The Mountain Philosophy</h3>
+        {/* CTA Section */}
+        <motion.section
+          className="py-16 px-6 lg:px-12 bg-cream border-t border-gray-200"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-6">Stay Connected</p>
+              <h2 className="text-4xl md:text-5xl font-light mb-8">Follow the Journey</h2>
+              <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+                Join our community on TikTok for daily Isla Vista moments, styling tips, and exclusive behind-the-scenes content.
+              </p>
+              <Link
+                href="https://www.tiktok.com/@eliascharles"
+                target="_blank"
+                className="inline-block bg-black text-white px-8 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-800 transition-colors"
+              >
+                Follow @eliascharles on TikTok
+              </Link>
+            </motion.div>
+          </div>
+        </motion.section>
+      </div>
+    </Layout>
+  )
+}e Mountain Philosophy</h3>
                 <p className="text-lg mb-6">
                   High altitude demands uncompromising performance. Learn how our design team engineers every product with the mountains in mind, merging technical innovation with timeless style.
                 </p>
