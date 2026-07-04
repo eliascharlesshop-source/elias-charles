@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminMiddleware, SessionManager, AccessControlService, RateLimiter, addSecurityHeaders } from '@/lib/admin-middleware'
 
-// Enhanced middleware with admin authentication and access control
-export async function middleware(request: NextRequest) {
+// Enhanced proxy with admin authentication and access control
+export async function proxy(request: NextRequest, context: any) {
   const url = request.nextUrl.clone()
   const pathname = request.nextUrl.pathname
 

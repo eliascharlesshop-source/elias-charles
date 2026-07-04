@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { AuthService, JWTPayload } from '@/src/lib/auth'
+import { AuthService, JWTPayload } from '@/lib/auth'
 
 // Enhanced middleware for admin authentication and access control
 export async function adminMiddleware(request: NextRequest) {
