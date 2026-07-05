@@ -185,7 +185,7 @@ export default function CartPage() {
                       <p className="text-sm font-medium text-primary">${tax.toFixed(2)}</p>
                     </div>
 
-                    <div className="flex items-center justify-between border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div className="flex items-center justify-between border-t border-border pt-4">
                       <p className="text-base font-medium text-primary">Order total</p>
                       <p className="text-base font-medium text-primary">${total.toFixed(2)}</p>
                     </div>
@@ -199,7 +199,7 @@ export default function CartPage() {
                           type="text"
                           id="promo-code"
                           name="promo-code"
-                          className="block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-sm transition-colors duration-200"
+                          className="block w-full rounded-md border border-border bg-background text-foreground shadow-sm focus:border-primary focus:ring-primary sm:text-sm transition-colors duration-200"
                           value={promoCode}
                           onChange={(e) => setPromoCode(e.target.value)}
                           placeholder="Enter promo code"
@@ -213,7 +213,7 @@ export default function CartPage() {
                       </div>
                       {promoError && <p className="mt-2 text-sm text-red-600">{promoError}</p>}
                       {promoApplied && <p className="mt-2 text-sm text-green-600">Promo code applied!</p>}
-                      <p className="mt-1 text-xs text-gray-500">Try "DISCOUNT10" for 10% off</p>
+                      <p className="mt-1 text-xs steel-text">Try &quot;DISCOUNT10&quot; for 10% off</p>
                     </form>
                   </div>
 
@@ -224,7 +224,7 @@ export default function CartPage() {
                     >
                       Secure Checkout
                     </Link>
-                    <p className="mt-2 text-xs text-center text-gray-500">
+                    <p className="mt-2 text-xs text-center steel-text">
                       Secure SSL encrypted checkout powered by Shopify
                     </p>
                   </div>
