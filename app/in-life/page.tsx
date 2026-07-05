@@ -108,6 +108,21 @@ export default function IslaVistaPage() {
                   title: "Daily Essentials",
                   description: "Accessories that complete the lifestyle"
                 },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png",
+                  title: "The Signature Tee",
+                  description: "Wear the wave — the icon that defines the brand"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2418-HKQfIxpZmnjsDwyXiVrBuTPmncyMAc.png",
+                  title: "Beach Towel",
+                  description: "Take the brand to the sand"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2416-7QmA2iBivptXRbcsu9MFsFxY4WF26V.png",
+                  title: "Elias Charles Joggers",
+                  description: "Luxury comfort for every occasion"
+                },
               ].map((item, idx) => (
                 <motion.div
                   key={idx}
@@ -128,6 +143,40 @@ export default function IslaVistaPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </motion.section>
+
+        {/* Full-Width Brand Statement Banner */}
+        <motion.section
+          className="relative h-[70vh] overflow-hidden"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png"
+            alt="Elias Charles signature tee back logo"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative h-full flex items-center justify-center text-center text-white px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+            >
+              <p className="text-sm uppercase tracking-widest font-light mb-4 text-gray-300">The Icon</p>
+              <h2 className="text-5xl md:text-7xl font-light mb-6">Wear The Wave</h2>
+              <p className="text-lg font-light max-w-xl mx-auto mb-8 text-gray-200">
+                Every piece tells a story. The Elias Charles wave logo is more than a mark — it is a way of life.
+              </p>
+              <Link
+                href="/collections/apparel"
+                className="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+              >
+                Shop Now
+              </Link>
+            </motion.div>
           </div>
         </motion.section>
 

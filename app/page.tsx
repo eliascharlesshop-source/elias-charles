@@ -95,7 +95,7 @@ export default function Home() {
             </div>
             <div>
               <div className="aspect-[4/5] overflow-hidden">
-                <img src="/images/brand/highway-lights-2.jpg" alt="Skate collection" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png" alt="Elias Charles signature tee back logo" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
               </div>
             </div>
           </div>
@@ -141,6 +141,18 @@ export default function Home() {
               <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Complete your look with our curated selection of hats and accessories.</p>
               <GlassmorphicButton href="/collections/apparel/hats">Discover</GlassmorphicButton>
             </div>
+          </div>
+
+          {/* Row 4: Signature Statement */}
+          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+            <div className="text-center max-w-xs lg:max-w-sm">
+              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-gray-900 mb-3 sm:mb-4 leading-tight">The Signature Tee</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Wear the wave. Our iconic back-logo tee is the cornerstone of the Elias Charles identity.</p>
+              <GlassmorphicButton href="/collections/apparel">Shop Tees</GlassmorphicButton>
+            </div>
+          </div>
+          <div className="aspect-square overflow-hidden">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png" alt="Elias Charles signature tee back logo" className="h-full w-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
         </div>
       </section>
