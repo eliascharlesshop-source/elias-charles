@@ -259,6 +259,7 @@ export default function TopsCollection() {
                     ))}
                   </div>
                 )}
+              </div>
             </div>
           </section>
         </main>
