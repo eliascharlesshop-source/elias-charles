@@ -213,16 +213,16 @@
     -webkit-line-clamp: 3;
   }
 
-  /* Steel grey gradient text - responsive to dark mode */
+  /* Steel grey gradient text - light mode: dark text, dark mode: light text */
   .steel-gradient {
-    background: linear-gradient(135deg, #292A2B 0%, #3a3b3c 100%);
+    background: linear-gradient(135deg, #292A2B 0%, #4a4b4c 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .light .steel-gradient {
-    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  .dark .steel-gradient {
+    background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -231,6 +231,36 @@
   /* Steel grey solid text - responsive to dark mode */
   .steel-text {
     color: var(--theme-text-primary);
+  }
+
+  /* Standalone image box shadow with fine gradient */
+  .img-shadow {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.08),
+      0 10px 25px -5px rgba(0, 0, 0, 0.12),
+      0 20px 40px -10px rgba(0, 0, 0, 0.10);
+  }
+
+  .dark .img-shadow {
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.25),
+      0 10px 25px -5px rgba(0, 0, 0, 0.35),
+      0 20px 40px -10px rgba(0, 0, 0, 0.30);
+  }
+
+  /* Image gradient fade utility - fine bottom gradient overlay */
+  .img-gradient-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 55%,
+      rgba(0, 0, 0, 0.06) 75%,
+      rgba(0, 0, 0, 0.14) 100%
+    );
+    pointer-events: none;
+    border-radius: inherit;
   }
 
   /* Text on images - always white for contrast */

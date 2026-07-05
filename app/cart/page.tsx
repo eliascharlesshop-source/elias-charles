@@ -86,8 +86,8 @@ export default function CartPage() {
           ) : (
             <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 xl:gap-x-16">
               <div className="lg:col-span-7">
-                <div className="bg-white dark:bg-dark-card rounded-lg shadow-sm p-6">
-                  <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700">
+                <div className="bg-card rounded-lg shadow-sm p-6">
+                  <ul role="list" className="divide-y divide-border">
                     {(cart?.lines ?? []).map((product) => (
                       <li key={product.id} className="flex py-6 sm:py-8">
                         <div className="flex-shrink-0">
@@ -108,17 +108,17 @@ export default function CartPage() {
                               </h3>
                               <p className="ml-4 text-sm font-medium text-primary">{product.price}</p>
                             </div>
-                            <p className="mt-1 text-sm text-gray-500">
+                            <p className="mt-1 text-sm steel-text">
                               {product.color && <span>{product.color}</span>}
                               {product.size && <span className="ml-2">{product.size}</span>}
                             </p>
                           </div>
 
                           <div className="mt-4 flex flex-1 items-end justify-between">
-                            <div className="flex items-center border border-gray-200 dark:border-gray-600 rounded-md">
+                            <div className="flex items-center border border-border rounded-md">
                               <button
                                 type="button"
-                                className="p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200"
+                                className="p-2 steel-text hover:text-foreground transition-colors duration-200"
                                 onClick={() => updateLineQuantity(product.id, Math.max(1, product.quantity - 1))}
                               >
                                 <span className="sr-only">Decrease quantity</span>
@@ -127,7 +127,7 @@ export default function CartPage() {
                               <span className="px-4 text-sm text-primary">{product.quantity}</span>
                               <button
                                 type="button"
-                                className="p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200"
+                                className="p-2 steel-text hover:text-foreground transition-colors duration-200"
                                 onClick={() => updateLineQuantity(product.id, product.quantity + 1)}
                               >
                                 <span className="sr-only">Increase quantity</span>
@@ -148,7 +148,7 @@ export default function CartPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <div className="mt-6 pt-6 border-t border-border">
                     <Link href="/collections" className="text-sm font-medium text-primary hover:text-dark transition-colors duration-200">
                       ← Continue Shopping
                     </Link>
@@ -157,12 +157,12 @@ export default function CartPage() {
               </div>
 
               <div className="mt-10 lg:col-span-5 lg:mt-0">
-                <div className="sticky top-6 rounded-lg bg-white dark:bg-dark-card shadow-sm px-4 py-6 sm:p-6 lg:p-8">
+                <div className="sticky top-6 rounded-lg bg-card shadow-sm px-4 py-6 sm:p-6 lg:p-8">
                   <SectionTitle className="text-lg font-medium text-primary">Order summary</SectionTitle>
 
                   <div className="mt-6 space-y-4">
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Subtotal</p>
+                      <p className="text-sm steel-text">Subtotal</p>
                       <p className="text-sm font-medium text-primary">${subtotal.toFixed(2)}</p>
                     </div>
 
@@ -174,14 +174,14 @@ export default function CartPage() {
                     )}
 
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Shipping</p>
+                      <p className="text-sm steel-text">Shipping</p>
                       <p className="text-sm font-medium text-primary">
                         {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
                       </p>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Tax</p>
+                      <p className="text-sm steel-text">Tax</p>
                       <p className="text-sm font-medium text-primary">${tax.toFixed(2)}</p>
                     </div>
 
