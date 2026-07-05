@@ -59,6 +59,127 @@ export default function IslaVistaPage() {
           </div>
         </motion.section>
 
+        {/* Lifestyle Gallery Section */}
+        <motion.section
+          className="py-24 px-6 lg:px-12 bg-background"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-7xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="mb-16"
+            >
+              <p className="text-sm uppercase tracking-widest font-light steel-text mb-4">Visual Stories</p>
+              <h2 className="text-5xl md:text-6xl font-light text-foreground">The Elias Charles Lifestyle</h2>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2421-MN5L8ERBeNVIYmcjM1BYDKPK0UWXP8.png",
+                  title: "Modern Minimalist",
+                  description: "Contemporary style meets everyday comfort"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2417-LWKh1xR0ZNZxXgkgE8nBH30N0W1Qvm.png",
+                  title: "Effortless Elegance",
+                  description: "Timeless pieces for the discerning individual"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2419-rxmOfBXoHBS26eKnDYIaR4DwErxC4j.png",
+                  title: "Performance Meets Style",
+                  description: "Designed for those who demand both"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2410-4qYmWFh9933jTFszd3NTSJs4ggJ57m.png",
+                  title: "Premium Apparel",
+                  description: "Quality craftsmanship in every detail"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2411-1KexFPcbOkonvjXHy4Dm0rFYcyVFm6.png",
+                  title: "Comfort & Style",
+                  description: "Perfect for relaxed moments"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2420-h39cyoGwUZsXHLsod0FTylQkq4lg9R.png",
+                  title: "Daily Essentials",
+                  description: "Accessories that complete the lifestyle"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png",
+                  title: "The Signature Tee",
+                  description: "Wear the wave — the icon that defines the brand"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2418-HKQfIxpZmnjsDwyXiVrBuTPmncyMAc.png",
+                  title: "Beach Towel",
+                  description: "Take the brand to the sand"
+                },
+                {
+                  image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2416-7QmA2iBivptXRbcsu9MFsFxY4WF26V.png",
+                  title: "Elias Charles Joggers",
+                  description: "Luxury comfort for every occasion"
+                },
+              ].map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-lg mb-4 bg-muted img-shadow img-gradient-overlay">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 text-foreground">{item.title}</h3>
+                  <p className="text-sm steel-text">{item.description}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Full-Width Brand Statement Banner */}
+        <motion.section
+          className="relative h-[70vh] overflow-hidden"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <img
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png"
+            alt="Elias Charles signature tee back logo"
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative h-full flex items-center justify-center text-center text-white px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.7 }}
+            >
+              <p className="text-sm uppercase tracking-widest font-light mb-4 text-gray-300">The Icon</p>
+              <h2 className="text-5xl md:text-7xl font-light mb-6">Wear The Wave</h2>
+              <p className="text-lg font-light max-w-xl mx-auto mb-8 text-gray-200">
+                Every piece tells a story. The Elias Charles wave logo is more than a mark — it is a way of life.
+              </p>
+              <Link
+                href="/collections/apparel"
+                className="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+              >
+                Shop Now
+              </Link>
+            </motion.div>
+          </div>
+        </motion.section>
+
         {/* Featured Collections Grid */}
         <motion.section
           id="collections"
@@ -73,8 +194,8 @@ export default function IslaVistaPage() {
               whileInView={{ opacity: 1, y: 0 }}
               className="mb-16"
             >
-              <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-4">Seven Stories</p>
-              <h2 className="text-5xl md:text-6xl font-light">Subcollections</h2>
+              <p className="text-sm uppercase tracking-widest font-light steel-text mb-4">Seven Stories</p>
+              <h2 className="text-5xl md:text-6xl font-light text-foreground">Subcollections</h2>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -87,13 +208,13 @@ export default function IslaVistaPage() {
                   transition={{ delay: idx * 0.1 }}
                   className={`group text-left p-6 rounded-xl transition-all duration-300 ${
                     selectedSubCollection === subcollection.id
-                      ? "bg-black text-white"
-                      : "bg-white border border-gray-200 hover:border-gray-400"
+                      ? "bg-foreground text-background"
+                      : "bg-background border border-border hover:border-foreground/40"
                   }`}
                 >
                   <div className="text-3xl mb-4">{subcollection.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{subcollection.name}</h3>
-                  <p className={`text-sm ${selectedSubCollection === subcollection.id ? "text-gray-300" : "text-gray-600"}`}>
+                  <p className={`text-sm ${selectedSubCollection === subcollection.id ? "opacity-70" : "steel-text"}`}>
                     {subcollection.tagline}
                   </p>
                   <div className="mt-4 pt-4 border-t border-current opacity-50">
@@ -107,7 +228,7 @@ export default function IslaVistaPage() {
 
         {/* Product Showcase */}
         <motion.section
-          className="py-24 px-6 lg:px-12 bg-white"
+          className="py-24 px-6 lg:px-12 bg-background"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -127,7 +248,7 @@ export default function IslaVistaPage() {
                     <h3 className="text-5xl md:text-6xl font-light mb-4">
                       {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                     </h3>
-                    <p className="text-xl text-gray-600 max-w-2xl">
+                    <p className="text-xl steel-text max-w-2xl">
                       {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.description}
                     </p>
                   </div>
@@ -172,7 +293,7 @@ export default function IslaVistaPage() {
                           initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 + 0.1 }}
-                          className="relative aspect-square overflow-hidden rounded-lg bg-gray-100"
+                          className="relative aspect-square overflow-hidden rounded-lg bg-muted img-shadow img-gradient-overlay"
                         >
                           <Image
                             src={product.image}
@@ -189,43 +310,43 @@ export default function IslaVistaPage() {
                           transition={{ delay: idx * 0.1 + 0.1 }}
                         >
                           <div className="mb-6">
-                            <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-2">
+                            <p className="text-sm uppercase tracking-widest font-light steel-text mb-2">
                               {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                             </p>
-                            <h3 className="text-4xl md:text-5xl font-light mb-4">{product.name}</h3>
-                            <p className="text-lg text-gray-700 mb-6">{product.description}</p>
+                            <h3 className="text-4xl md:text-5xl font-light mb-4 text-foreground">{product.name}</h3>
+                            <p className="text-lg steel-text mb-6">{product.description}</p>
                           </div>
 
                           <div className="flex items-baseline gap-4 mb-6">
-                            <span className="text-3xl font-bold text-black">${product.price}</span>
-                            <span className="text-sm text-gray-600 uppercase tracking-wider">{product.sku}</span>
+                            <span className="text-3xl font-bold text-foreground">${product.price}</span>
+                            <span className="text-sm steel-text uppercase tracking-wider">{product.sku}</span>
                           </div>
 
-                          <div className="mb-8 pb-8 border-b border-gray-200">
-                            <p className="text-xs uppercase tracking-widest text-gray-600 mb-2">Material</p>
-                            <p className="text-sm">Premium technical fabric blend</p>
+                          <div className="mb-8 pb-8 border-b border-border">
+                            <p className="text-xs uppercase tracking-widest steel-text mb-2">Material</p>
+                            <p className="text-sm text-foreground">Premium technical fabric blend</p>
                           </div>
 
                           <div className="flex gap-4">
                             <Link
                               href={"/boxes?item=" + product.id}
-                              className="flex-1 bg-black text-white px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                              className="flex-1 bg-foreground text-background px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity flex items-center justify-center gap-2"
                             >
                               <ShoppingBag className="w-4 h-4" />
                               Add to Box
                             </Link>
-                            <button className="flex-1 border-2 border-black text-black px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                            <button className="flex-1 border-2 border-foreground text-foreground px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2">
                               <Heart className="w-4 h-4" />
                               Wishlist
                             </button>
                           </div>
 
                           {product.tiktokUrl && (
-                            <div className="mt-6 pt-6 border-t border-gray-200">
+                            <div className="mt-6 pt-6 border-t border-border">
                               <Link
                                 href={product.tiktokUrl}
                                 target="_blank"
-                                className="flex items-center gap-2 text-sm text-gray-700 hover:text-black transition-colors"
+                                className="flex items-center gap-2 text-sm steel-text hover:text-foreground transition-colors"
                               >
                                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.68v13.7a2.94 2.94 0 1 1-5.92-2.82 2.93 2.93 0 0 1 2.31 1.39V9.58a6.47 6.47 0 1 0 10.86 3.28v-3.34a8.15 8.15 0 0 0 3.17-1.82v-3.62l-.01-.01z" />
@@ -285,11 +406,11 @@ export default function IslaVistaPage() {
                 {/* Pricing */}
                 <div className="mb-8 grid grid-cols-2 gap-6">
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">If Purchased Separately</p>
+                    <p className="text-xs uppercase tracking-widest text-white/60 mb-2">If Purchased Separately</p>
                     <p className="text-2xl font-bold">${ISLA_VISTA_BOX_SUGGESTION.valueIfBought}</p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-2">Box Price</p>
+                    <p className="text-xs uppercase tracking-widest text-white/60 mb-2">Box Price</p>
                     <p className="text-2xl font-bold text-cyan-300">${ISLA_VISTA_BOX_SUGGESTION.boxPrice}</p>
                   </div>
                 </div>
@@ -341,7 +462,7 @@ export default function IslaVistaPage() {
 
         {/* CTA Section */}
         <motion.section
-          className="py-16 px-6 lg:px-12 bg-cream border-t border-gray-200"
+          className="py-16 px-6 lg:px-12 bg-cream border-t border-border"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -352,15 +473,15 @@ export default function IslaVistaPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-sm uppercase tracking-widest font-light text-gray-600 mb-6">Stay Connected</p>
-              <h2 className="text-4xl md:text-5xl font-light mb-8">Follow the Journey</h2>
-              <p className="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+              <p className="text-sm uppercase tracking-widest font-light steel-text mb-6">Stay Connected</p>
+              <h2 className="text-4xl md:text-5xl font-light text-foreground mb-8">Follow the Journey</h2>
+              <p className="text-lg steel-text mb-8 max-w-2xl mx-auto">
                 Join our community on TikTok for daily Isla Vista moments, styling tips, and exclusive behind-the-scenes content.
               </p>
               <Link
                 href="https://www.tiktok.com/@eliascharles"
                 target="_blank"
-                className="inline-block bg-black text-white px-8 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-gray-800 transition-colors"
+                className="inline-block bg-foreground text-background px-8 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity"
               >
                 Follow @eliascharles on TikTok
               </Link>
@@ -369,263 +490,5 @@ export default function IslaVistaPage() {
         </motion.section>
       </div>
     </Layout>
-  )
-}e Mountain Philosophy</h3>
-                <p className="text-lg mb-6">
-                  High altitude demands uncompromising performance. Learn how our design team engineers every product with the mountains in mind, merging technical innovation with timeless style.
-                </p>
-                <Link
-                  href="/collections/life"
-                  className="inline-block px-6 py-2 bg-black text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition"
-                >
-                  Read the Full Story
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="group">
-                <div className="relative aspect-square mb-3 overflow-hidden">
-                  <Image
-                    src={`/products/mountain-product-text.png`}
-                    alt={`Mountain pick ${item}`}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-sm font-medium">Mountain Essential {item}</h3>
-                <p className="text-sm">$149.00</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Brand Philosophy Section */}
-      <motion.section 
-        className="relative bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 text-white py-0 overflow-hidden"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Hero with Image */}
-        <div className="relative h-screen flex items-center">
-          <div className="absolute inset-0">
-            <Image
-              src="/images/elias-charles-lifestyle.jpg"
-              alt="Elias Charles Lifestyle"
-              fill
-              className="object-cover opacity-60"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
-          </div>
-
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-2xl"
-            >
-              <div className="mb-8">
-                <div className="w-16 h-16 border-2 border-white rounded-full flex items-center justify-center mb-6">
-                  <span className="text-2xl font-light">◊</span>
-                </div>
-                <p className="text-sm uppercase tracking-widest font-light mb-4">OUR PHILOSOPHY</p>
-              </div>
-
-              <h2 className="text-7xl md:text-8xl font-light leading-tight mb-8">
-                In Life,<br />
-                Not Just<br />
-                In Style.
-              </h2>
-
-              <p className="text-lg font-light mb-8 max-w-xl leading-relaxed">
-                We believe life is meant to be lived fully — outdoors, with purpose, and in pursuit of what matters.
-              </p>
-
-              <p className="text-2xl font-light mb-12 border-l-2 border-white pl-6">
-                IF LIFE GIVES YOU A BREAK,<br />
-                RIDE IT.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Pillars */}
-        <div className="bg-black/40 backdrop-blur-sm py-12 px-6 lg:px-12">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {[
-                { icon: "〰", label: "COASTAL\nINSPIRED" },
-                { icon: "🌴", label: "EVERYDAY\nLIFESTYLE" },
-                { icon: "☀", label: "TIMELESS\nDESIGN" },
-                { icon: "△", label: "BUILT FOR\nADVENTURE" }
-              ].map((pillar, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="text-4xl mb-4">{pillar.icon}</div>
-                  <p className="text-xs uppercase tracking-wider font-light whitespace-pre-line">
-                    {pillar.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Live With Purpose Section */}
-      <motion.section
-        className="bg-cream py-24 px-6 lg:px-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <p className="text-sm uppercase tracking-widest font-light mb-6 text-gray-600">LIVE WITH PURPOSE</p>
-              <h3 className="text-6xl md:text-7xl font-light leading-tight mb-8">
-                Rooted in the coast.<br />
-                Driven by adventure.
-              </h3>
-              <p className="text-lg leading-relaxed mb-8 text-gray-700">
-                From early mornings by the water to late nights under the stars, Elias Charles is here for every moment in between. Our pieces are designed to move with you — wherever life takes you.
-              </p>
-              <Link
-                href="/collections"
-                className="inline-block bg-black text-white px-8 py-3 uppercase text-sm font-bold tracking-wider hover:bg-gray-800 transition-colors"
-              >
-                Explore the Collection
-              </Link>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="grid grid-cols-2 gap-6"
-            >
-              <div className="relative aspect-video overflow-hidden rounded-lg">
-                <Image
-                  src="/images/elias-charles-lifestyle.jpg"
-                  alt="Surfer with board"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/elias-charles-lifestyle.jpg"
-                  alt="Brand cap"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-lg">
-                <Image
-                  src="/images/elias-charles-lifestyle.jpg"
-                  alt="Water bottle"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-              <div className="relative aspect-video overflow-hidden rounded-lg">
-                <Image
-                  src="/images/elias-charles-lifestyle.jpg"
-                  alt="Coastal view"
-                  fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
-                />
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Quote Section */}
-      <motion.section
-        className="bg-gray-900 text-white py-24 px-6 lg:px-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-5xl md:text-6xl font-light leading-tight"
-            >
-              "You can't stop the waves, but you can learn to ride them."
-              <p className="text-sm uppercase tracking-widest font-light mt-8 text-gray-400">- Jon Kabat-Zinn</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-black/50 backdrop-blur-sm p-8 rounded-lg border border-gray-700"
-            >
-              <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">A Reminder</p>
-              <p className="text-lg leading-relaxed text-gray-200">
-                To stay present,<br />
-                Embrace the journey,<br />
-                And find joy in the ride.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Magazine footer */}
-      <div className="container mx-auto px-4 py-16 border-t border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-lg font-bold mb-4">About This Issue</h3>
-            <p className="text-sm">
-              Our "In Life" magazine explores the intersection of lifestyle and product design across different
-              environments. Each issue celebrates the unique character of beach, city, and mountain living.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-4">Next Issue Preview</h3>
-            <p className="text-sm">
-              Coming Fall 2023: "Transitions" - Exploring how our products adapt to changing seasons and environments.
-              Subscribe to our newsletter to be notified when it's released.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-4">Connect With Us</h3>
-            <div className="flex gap-4">
-              <a href="#" className="text-sm underline hover:no-underline">
-                Instagram
-              </a>
-              <a href="#" className="text-sm underline hover:no-underline">
-                Pinterest
-              </a>
-              <a href="#" className="text-sm underline hover:no-underline">
-                Twitter
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   )
 }

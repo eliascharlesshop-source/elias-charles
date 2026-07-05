@@ -139,16 +139,16 @@ export default function CollectionsPage() {
 
   return (
     <Layout>
-      <div className="bg-[#fdf4ec]">
+      <div className="bg-cream">
         {/* Header Section */}
         <div className="text-center py-16 px-6">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-4">
             Inland Empire Boxes
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-xl steel-text max-w-2xl mx-auto mb-8">
             Curated collections around seasonal moments. Simplified decisions, elevated experience.
           </p>
-          <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+          <div className="flex items-center justify-center gap-4 text-sm steel-text">
             <span>4 Core Boxes</span>
             <span>•</span>
             <span>Seasonal Themes</span>

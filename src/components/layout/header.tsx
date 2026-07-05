@@ -220,10 +220,10 @@ export function Header({ shop }) {
       <Dialog as="div" className="relative z-40" open={isSearchOpen} onClose={setIsSearchOpen}>
         <div className="fixed inset-0 bg-black bg-opacity-25" />
 
-        <div className="fixed inset-0 z-40 flex">
-          <Dialog.Panel className="relative flex w-full flex-col overflow-y-auto bg-cream pb-12 shadow-xl">
-            <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-medium text-primary">Search</h2>
+          <div className="fixed inset-0 z-40 flex">
+          <Dialog.Panel className="relative flex w-full flex-col overflow-y-auto bg-background pb-12 shadow-xl">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-border">
+              <h2 className="text-lg font-medium text-foreground">Search</h2>
               <button type="button" className="-m-2 p-2 text-primary" onClick={() => setIsSearchOpen(false)}>
                 <span className="sr-only">Close search</span>
                 <X className="h-6 w-6" aria-hidden="true" />
@@ -235,7 +235,7 @@ export function Header({ shop }) {
                   <Search className="h-5 w-5 text-primary" aria-hidden="true" />
                 </div>
                 <input
-                  className="block w-full rounded-md border-0 bg-white py-3 pl-10 pr-3 text-primary placeholder:text-gray-400 focus:ring-2 focus:ring-accent"
+                  className="block w-full rounded-md border border-border bg-background py-3 pl-10 pr-3 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-accent"
                   placeholder="Search products..."
                   type="search"
                   value={searchQuery}
@@ -249,10 +249,10 @@ export function Header({ shop }) {
                   <h3 className="text-sm font-medium text-primary mb-2">Results</h3>
                   <div className="divide-y divide-gray-200">
                     {searchResults.map((result) => (
-                      <Link
+                        <Link
                         key={result.id}
                         href={`/products/${result.id}`}
-                        className="flex items-center py-4 hover:bg-gray-50"
+                        className="flex items-center py-4 hover:bg-muted"
                         onClick={(e) => {
                           setIsSearchOpen(false)
                           handleNavigate(e, `/products/${result.id}`)
@@ -342,14 +342,14 @@ export function Header({ shop }) {
                       {/* Simple dropdown menu */}
                       {activeMegaMenu === category.id && (
                         <div
-                          className="absolute top-full left-0 w-48 bg-white shadow-lg z-10 transition-all duration-200 ease-in-out py-2 rounded-md"
+                          className="absolute top-full left-0 w-48 bg-background border border-border shadow-lg z-10 transition-all duration-200 ease-in-out py-2 rounded-md"
                           onMouseLeave={() => setActiveMegaMenu(null)}
                         >
                           {category.links.map((link) => (
                             <Link
                               key={link.name}
                               href={link.href}
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors duration-200"
+                              className="block px-4 py-2 text-sm text-foreground hover:bg-muted hover:text-primary transition-colors duration-200"
                               onClick={(e) => {
                                 setActiveMegaMenu(null)
                                 handleNavigate(e, link.href)

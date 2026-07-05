@@ -161,7 +161,7 @@ export default function AboutPage() {
                     />
                   </div>
                   <h3 className="mt-6 text-lg font-light leading-8 tracking-tight text-primary">{person.name}</h3>
-                  <p className="text-base leading-7 text-gray-600">{person.role}</p>
+                  <p className="text-base leading-7 steel-text">{person.role}</p>
                   <p className="mt-4 text-sm leading-6 text-primary">{person.bio}</p>
                 </div>
               ))}
