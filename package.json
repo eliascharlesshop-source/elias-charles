@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_SKIP_TURBOPACK=1 next build",
+    "build": "next build --webpack",
     "build:fast": "SKIP_ENV_VALIDATION=1 next build",
     "start": "next start",
     "lint": "next lint",

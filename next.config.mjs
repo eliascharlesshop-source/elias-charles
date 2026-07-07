@@ -6,9 +6,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  experimental: {
-    disableTurbopack: true,
-  },
   async headers() {
     return [
       {
