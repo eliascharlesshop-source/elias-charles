@@ -67,7 +67,7 @@ export function HeroCarousel() {
   }
 
   return (
-    <section className="relative h-screen overflow-hidden">
+    <section className="relative min-h-screen sm:h-screen lg:h-screen overflow-hidden flex flex-col">
       {/* Slides */}
       {slides.map((slide, index) => (
         <div
@@ -86,30 +86,32 @@ export function HeroCarousel() {
       ))}
 
       {/* Content */}
-      <div className="absolute inset-0 flex flex-col justify-center items-center px-6 sm:px-12 lg:px-24">
-        <div className="max-w-md text-center">
-          <span className="inline-block mb-4 text-xs tracking-widest uppercase text-white border-b pb-1">
+      <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-6 md:px-12 lg:px-24 py-12 sm:py-0">
+        <div className="max-w-md text-center space-y-3 sm:space-y-4 md:space-y-6">
+          <span className="inline-block text-xs tracking-widest uppercase text-white border-b pb-1">
             {slides[currentSlide].subtitle}
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-widest uppercase text-white mb-6" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-widest uppercase text-white" style={{ textShadow: '2px 2px 8px rgba(0,0,0,0.5)' }}>
             {slides[currentSlide].title}
           </h1>
-          <p className="text-white text-sm sm:text-base md:text-lg mb-8">
+          <p className="text-white text-xs sm:text-sm md:text-base lg:text-lg">
             {slides[currentSlide].description}
           </p>
-          <GlassmorphicButton href={slides[currentSlide].ctaLink}>
-            {slides[currentSlide].cta}
-          </GlassmorphicButton>
+          <div className="pt-2 sm:pt-4">
+            <GlassmorphicButton href={slides[currentSlide].ctaLink}>
+              {slides[currentSlide].cta}
+            </GlassmorphicButton>
+          </div>
         </div>
       </div>
 
       {/* Previous Button */}
       <button
         onClick={goToPrevious}
-        className="absolute left-6 sm:left-12 lg:left-24 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-beach-lighter transition-colors"
+        className="absolute left-3 sm:left-6 lg:left-12 top-1/2 -translate-y-1/2 z-10 p-1 sm:p-2 text-white hover:text-beach-lighter transition-colors"
         aria-label="Previous slide"
       >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -117,16 +119,16 @@ export function HeroCarousel() {
       {/* Next Button */}
       <button
         onClick={goToNext}
-        className="absolute right-6 sm:right-12 lg:right-24 top-1/2 -translate-y-1/2 z-10 p-2 text-white hover:text-beach-lighter transition-colors"
+        className="absolute right-3 sm:right-6 lg:right-12 top-1/2 -translate-y-1/2 z-10 p-1 sm:p-2 text-white hover:text-beach-lighter transition-colors"
         aria-label="Next slide"
       >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
 
       {/* Slide Indicators */}
-      <div className="absolute bottom-6 sm:bottom-12 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+      <div className="absolute bottom-4 sm:bottom-6 lg:bottom-12 left-1/2 -translate-x-1/2 z-10 flex gap-2">
         {slides.map((_, index) => (
           <button
             key={index}

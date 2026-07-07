@@ -13,11 +13,11 @@ export default function Home() {
       <HeroCarousel />
 
       {/* Editorial Grid - Always shows */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-12 lg:px-24 bg-cream dark:bg-background">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-xl sm:text-2xl uppercase tracking-wider steel-gradient mb-12">Trending Now</h2>
+          <h2 className="text-lg sm:text-xl md:text-2xl uppercase tracking-wider steel-gradient mb-8 sm:mb-12 md:mb-16">Trending Now</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10">
               {[
                 {
                   title: "Lifestyle Photography",
@@ -63,20 +63,20 @@ export default function Home() {
       </section>
 
       {/* Category Feature */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-12 lg:px-24 bg-cream dark:bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-center">
             <div className="max-w-xl">
-              <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Collection</span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl uppercase tracking-wider steel-gradient mb-6 leading-tight">
-                The Skate <br />
+              <span className="text-xs uppercase tracking-widest steel-text mb-4 sm:mb-6 block">Featured Collection</span>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider steel-gradient mb-4 sm:mb-6 leading-tight">
+                The Skate <br className="hidden sm:block" />
                 Collection
               </h2>
-              <p className="steel-text mb-6 text-sm sm:text-base leading-relaxed">
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 From street to beach, our skate collection combines performance, style, and sustainability. Designed for
                 those who see the world as their playground.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 sm:mb-8">
                 <div>
                   <span className="block w-8 h-0.5 bg-beach-darker mb-4"></span>
                   <p className="text-sm steel-text leading-relaxed">Sustainable materials that don&apos;t compromise on performance</p>
@@ -104,20 +104,20 @@ export default function Home() {
       </section>
 
       {/* Square Grid - Nature/Product Alternating Pattern */}
-      <section className="bg-cream">
-        <div className="grid grid-cols-2 md:grid-cols-2">
+      <section className="bg-cream dark:bg-background">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
           {/* Row 1: Lifestyle Product */}
-          <div className="aspect-square overflow-hidden">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] overflow-hidden">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2417-LWKh1xR0ZNZxXgkgE8nBH30N0W1Qvm.png"
               alt="Modern minimalist style"
               className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] bg-cream dark:bg-background flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Premium Quality</h3>
-              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Premium Quality</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-xs sm:text-sm md:text-base leading-relaxed">
                 Discover our curated collection of apparel and accessories for the everyday lifestyle.
               </p>
               <GlassmorphicButton href="/collections/apparel">Shop Now</GlassmorphicButton>
@@ -125,14 +125,14 @@ export default function Home() {
           </div>
 
           {/* Row 2: Product Apparel */}
-          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] bg-cream dark:bg-background flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Brand Essentials</h3>
-              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Performance apparel designed for style and comfort throughout your day.</p>
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Brand Essentials</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-xs sm:text-sm md:text-base leading-relaxed">Performance apparel designed for style and comfort throughout your day.</p>
               <GlassmorphicButton href="/collections/apparel">Explore</GlassmorphicButton>
             </div>
           </div>
-          <div className="aspect-square overflow-hidden">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] overflow-hidden">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2416-7QmA2iBivptXRbcsu9MFsFxY4WF26V.png"
               alt="Comfortable lounge wear"
@@ -141,30 +141,30 @@ export default function Home() {
           </div>
 
           {/* Row 3: Lifestyle Accessories */}
-          <div className="aspect-square overflow-hidden">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] overflow-hidden">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2415-Vx9lUDoUBGp5ioLTfHrEGlNQdQe8ZE.png"
               alt="Signature cap"
               className="h-full w-full object-cover hover:scale-105 transition-transform duration-500"
             />
           </div>
-          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] bg-cream dark:bg-background flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Accessories &amp; More</h3>
-              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Complete your look with our curated selection of hats and accessories.</p>
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">Accessories &amp; More</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-xs sm:text-sm md:text-base leading-relaxed">Complete your look with our curated selection of hats and accessories.</p>
               <GlassmorphicButton href="/collections/apparel/hats">Discover</GlassmorphicButton>
             </div>
           </div>
 
           {/* Row 4: Signature Statement */}
-          <div className="aspect-square bg-cream flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] bg-cream dark:bg-background flex items-center justify-center p-4 sm:p-6 md:p-8 lg:p-12">
             <div className="text-center max-w-xs lg:max-w-sm">
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">The Signature Tee</h3>
-              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">Wear the wave. Our iconic back-logo tee is the cornerstone of the Elias Charles identity.</p>
+              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl uppercase tracking-wider text-foreground mb-3 sm:mb-4 leading-tight">The Signature Tee</h3>
+              <p className="steel-text mb-4 sm:mb-6 text-xs sm:text-sm md:text-base leading-relaxed">Wear the wave. Our iconic back-logo tee is the cornerstone of the Elias Charles identity.</p>
               <GlassmorphicButton href="/collections/apparel">Shop Tees</GlassmorphicButton>
             </div>
           </div>
-          <div className="aspect-square overflow-hidden">
+          <div className="aspect-square sm:aspect-auto sm:min-h-[20rem] md:min-h-[24rem] lg:min-h-[28rem] overflow-hidden">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2422-RzLuHfthv3RRkaPT6iuafFwgLTNamF.png"
               alt="Elias Charles signature tee back logo"
@@ -175,9 +175,9 @@ export default function Home() {
       </section>
 
       {/* Feature Article / Editorial */}
-      <section className="py-16 px-6 sm:px-12 lg:px-24 bg-cream">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-12 lg:px-24 bg-cream dark:bg-background">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16">
             <div className="lg:col-span-7">
               <div className="relative aspect-[4/5] overflow-hidden img-shadow img-gradient-overlay rounded-sm">
                 <img
@@ -188,20 +188,20 @@ export default function Home() {
               </div>
             </div>
             <div className="lg:col-span-5 flex flex-col justify-center max-w-2xl">
-              <span className="text-xs uppercase tracking-widest steel-text mb-6">Featured Story</span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider steel-gradient mb-6 leading-tight">
+              <span className="text-xs uppercase tracking-widest steel-text mb-4 sm:mb-6 block">Featured Story</span>
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider steel-gradient mb-4 sm:mb-6 leading-tight">
                 Elias Charles Lifestyle
               </h2>
-              <p className="steel-text mb-6 text-sm sm:text-base leading-relaxed">
+              <p className="steel-text mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                 Experience the Elias Charles aesthetic—a seamless blend of premium quality, timeless design, and contemporary style.
                 Every piece is crafted with meticulous attention to detail for those who appreciate the finer things in life.
               </p>
-              <p className="steel-text mb-8 text-sm sm:text-base leading-relaxed">
+              <p className="steel-text mb-6 sm:mb-8 text-sm sm:text-base leading-relaxed">
                 From apparel to accessories, discover how our collection complements the modern lifestyle with elegance and purpose.
               </p>
               <Link
                 href="/in-life"
-                className="inline-block text-sm uppercase tracking-widest steel-text border-b border-gray-400 dark:border-gray-600 pb-1 hover:border-beach-darker"
+                className="inline-block text-xs sm:text-sm uppercase tracking-widest steel-text border-b border-gray-400 dark:border-gray-600 pb-1 hover:border-beach-darker"
               >
                 Explore the collection
               </Link>
