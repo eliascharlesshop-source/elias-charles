@@ -1,5 +1,5 @@
 {
     "framework": "nextjs",
     "installCommand": "pnpm install --frozen-lockfile",
-    "buildCommand": "pnpm run build"
+    "buildCommand": "NEXT_SKIP_TURBOPACK=1 pnpm run build"
 }
