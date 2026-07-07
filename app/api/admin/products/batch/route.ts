@@ -1,11 +1,16 @@
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
-import { productGenerationService } from '@/lib/product-generation-service'
-import { AuthService, JWTPayload } from '@/src/lib/auth'
+
+import type { JWTPayload } from '@/src/lib/auth'
+
 import { ApiResponse } from '@/src/lib/types'
 import { CreateProductRequest } from '@/lib/product-generation-service'
 
 // POST /api/admin/products/batch - Batch create products (admin only)
 export async function POST(request: NextRequest) {
+  const { AuthService } = await import('@/src/lib/auth')
+  const { productGenerationService } = await import('@/lib/product-generation-service')
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
       const body = await request.json()

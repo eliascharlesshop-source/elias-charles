@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { crypto } from 'crypto'
 import { WebhookPayload, AuditLog } from '@/types/crypto-subscription'
-import { SubscriptionService } from '@/lib/crypto/subscription-service'
-import { PaymentService } from '@/lib/crypto/payment-service'
-
-const subscriptionService = SubscriptionService.getInstance()
-const paymentService = PaymentService.getInstance()
 
 // Webhook secret for signature verification
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || 'your-webhook-secret'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: NextRequest) {
+  const { SubscriptionService } = await import('@/lib/crypto/subscription-service')
+  const { PaymentService } = await import('@/lib/crypto/payment-service')
+  const subscriptionService = SubscriptionService.getInstance()
+  const paymentService = PaymentService.getInstance()
   try {
     // Get signature from header
     const signature = request.headers.get('x-webhook-signature')

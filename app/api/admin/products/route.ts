@@ -42,7 +42,6 @@ export async function POST(request: NextRequest) {
 
 // GET /api/admin/products - List products with filtering (admin only)
 export async function GET(request: NextRequest) {
-  const { AuthService } = await import('@/src/lib/auth')
   return AuthService.requireRole('admin', async (req: NextRequest) => {
     try {
       const auth = await AuthService.authenticateRequest(req)

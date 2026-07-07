@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PaymentService } from '@/lib/crypto/payment-service'
-import { SubscriptionService } from '@/lib/crypto/subscription-service'
-import { WalletAuthService } from '@/lib/crypto/wallet-auth-service'
 
-const paymentService = PaymentService.getInstance()
-const subscriptionService = SubscriptionService.getInstance()
-const authService = WalletAuthService.getInstance()
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    const { PaymentService } = await import('@/lib/crypto/payment-service')
+    const { WalletAuthService } = await import('@/lib/crypto/wallet-auth-service')
+    const paymentService = PaymentService.getInstance()
+    const authService = WalletAuthService.getInstance()
+
     const body = await request.json()
     const { transactionId, sessionId } = body
 
@@ -71,6 +71,9 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const { PaymentService } = await import('@/lib/crypto/payment-service')
+    const paymentService = PaymentService.getInstance()
+
     const { searchParams } = new URL(request.url)
     const transactionHash = searchParams.get('hash')
     const network = searchParams.get('network')

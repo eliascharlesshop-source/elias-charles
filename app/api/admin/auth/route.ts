@@ -1,9 +1,13 @@
+export const dynamic = 'force-dynamic'
+
 import { NextRequest, NextResponse } from 'next/server'
-import { AuthService, JWTPayload } from '@/src/lib/auth'
+import type { JWTPayload } from '@/src/lib/auth'
+
 import { ApiResponse } from '@/src/lib/types'
 
 // POST /api/admin/auth/login - Admin login
 export async function POST(request: NextRequest) {
+  const { AuthService } = await import('@/src/lib/auth')
   try {
     const body = await request.json()
     const { email, password } = body

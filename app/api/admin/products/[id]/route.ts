@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { productGenerationService } from '@/lib/product-generation-service'
-import { AuthService, JWTPayload } from '@/src/lib/auth'
-import { ApiResponse } from '@/src/lib/types'
+import type { JWTPayload, ApiResponse } from '@/src/lib/types'
+
+export const dynamic = 'force-dynamic'
 
 // PUT /api/admin/products/[id] - Update a product (admin only)
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  const { AuthService } = await import('@/src/lib/auth')
+  const { productGenerationService } = await import('@/lib/product-generation-service')
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
       const { id } = params
@@ -31,6 +33,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 
 // DELETE /api/admin/products/[id] - Delete a product (admin only)
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+  const { AuthService } = await import('@/src/lib/auth')
+  const { productGenerationService } = await import('@/lib/product-generation-service')
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
       const { id } = params
@@ -56,6 +60,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
 // GET /api/admin/products/[id] - Get a single product (admin only)
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+  const { AuthService } = await import('@/src/lib/auth')
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
       const { id } = params

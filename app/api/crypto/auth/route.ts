@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { WalletAuthService } from '@/lib/crypto/wallet-auth-service'
 
-const authService = WalletAuthService.getInstance()
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
+    const { WalletAuthService } = await import('@/lib/crypto/wallet-auth-service')
+    const authService = WalletAuthService.getInstance()
+
     const body = await request.json()
     const { walletAddress, walletType } = body
 
@@ -33,6 +35,9 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const { WalletAuthService } = await import('@/lib/crypto/wallet-auth-service')
+    const authService = WalletAuthService.getInstance()
+
     const { searchParams } = new URL(request.url)
     const sessionId = searchParams.get('sessionId')
 
@@ -67,6 +72,9 @@ export async function GET(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
+    const { WalletAuthService } = await import('@/lib/crypto/wallet-auth-service')
+    const authService = WalletAuthService.getInstance()
+
     const { searchParams } = new URL(request.url)
     const sessionId = searchParams.get('sessionId')
 
