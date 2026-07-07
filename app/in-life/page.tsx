@@ -48,7 +48,7 @@ export default function IslaVistaPage() {
                   Explore Collection
                 </Link>
                 <Link
-                  href="https://www.tiktok.com/@eliascharles"
+                  href="https://www.tiktok.com/@eliascharles.shop"
                   target="_blank"
                   className="inline-block border-2 border-white text-white px-6 sm:px-8 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/10 transition-colors text-center"
                 >
@@ -480,11 +480,11 @@ export default function IslaVistaPage() {
                 Join our community on TikTok for daily Isla Vista moments, styling tips, and exclusive behind-the-scenes content.
               </p>
               <Link
-                href="https://www.tiktok.com/@eliascharles"
+                href="https://www.tiktok.com/@eliascharles.shop"
                 target="_blank"
                 className="inline-block bg-foreground text-background px-6 sm:px-8 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity"
               >
-                Follow @eliascharles on TikTok
+                Follow @eliascharles.shop on TikTok
               </Link>
             </motion.div>
           </div>

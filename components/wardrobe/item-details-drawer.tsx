@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { WardrobeItem } from '@/data/wardrobe-items'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Check } from 'lucide-react'
+import { X, Check, ChevronDown, ChevronUp } from 'lucide-react'
 
 interface ItemDetailsDrawerProps {
   item: WardrobeItem | null
@@ -24,6 +24,7 @@ export function ItemDetailsDrawer({
   isSelected 
 }: ItemDetailsDrawerProps) {
   const [selectedSize, setSelectedSize] = useState('M')
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
   if (!item) return null
 
@@ -43,24 +44,39 @@ export function ItemDetailsDrawer({
           {/* Drawer */}
           <motion.div
             initial={{ y: '100%' }}
-            animate={{ y: 0 }}
+            animate={{ y: isCollapsed ? 'calc(100% - 60px)' : 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[90vh] overflow-y-auto"
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[90vh] overflow-hidden flex flex-col"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between rounded-t-3xl">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex items-center justify-between rounded-t-3xl flex-shrink-0">
               <h2 className="font-semibold text-lg text-gray-900">{item.name}</h2>
-              <button
-                onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  title={isCollapsed ? 'Expand' : 'Collapse'}
+                >
+                  {isCollapsed ? (
+                    <ChevronUp className="w-5 h-5" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5" />
+                  )}
+                </button>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  title="Close"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Content */}
-            <div className="p-6 space-y-8">
+            <div className="overflow-y-auto flex-1">
+              <div className="p-6 space-y-8">
               {/* Image Gallery */}
               <div className="space-y-4">
                 <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100">
@@ -155,6 +171,7 @@ export function ItemDetailsDrawer({
                 <p>✓ Sustainably sourced materials</p>
                 <p>✓ Ships within 2-3 business days</p>
               </div>
+            </div>
             </div>
           </motion.div>
         </>
