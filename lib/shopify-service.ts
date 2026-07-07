@@ -1,31 +1,46 @@
 // Enhanced Shopify service using advanced GraphQL implementation
-import { ShopifyService as AdvancedShopifyService } from '@/src/lib/graphql'
+// NOTE: AdvancedShopifyService is loaded lazily to break the circular module dependency:
+// lib/shopify-service → @/src/lib/graphql → lib/shopify-service
 import { transformShopifyProduct } from '@/src/lib/shopify'
 import { isShopifyEnabled } from './shopify-config'
 
+// Lazy-loaded to avoid circular dependency at module evaluation time
+let _AdvancedShopifyServiceClass: any = null
+
+async function getAdvancedServiceInstance(domain: string, token: string) {
+  if (!_AdvancedShopifyServiceClass) {
+    const graphql = await import('@/src/lib/graphql')
+    _AdvancedShopifyServiceClass = graphql.ShopifyService
+  }
+  return new _AdvancedShopifyServiceClass(domain, token)
+}
+
 export class ShopifyService {
-  private advancedService: AdvancedShopifyService | null = null
+  private advancedService: any | null = null
   private isEnabled: boolean
 
   constructor() {
     this.isEnabled = isShopifyEnabled()
-    
-    if (this.isEnabled) {
-      try {
-        const domain = process.env.SHOPIFY_STORE_DOMAIN
-        const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
-        
-        if (!domain || !token) {
-          console.warn('Shopify environment variables not properly configured')
-          this.isEnabled = false
-          return
-        }
-        
-        this.advancedService = new AdvancedShopifyService(domain, token)
-      } catch (error) {
-        console.warn('Failed to initialize Shopify service:', error)
+  }
+
+  private async ensureInitialized() {
+    if (this.advancedService) return
+    if (!this.isEnabled) return
+
+    try {
+      const domain = process.env.SHOPIFY_STORE_DOMAIN
+      const token = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN
+
+      if (!domain || !token) {
+        console.warn('Shopify environment variables not properly configured')
         this.isEnabled = false
+        return
       }
+
+      this.advancedService = await getAdvancedServiceInstance(domain, token)
+    } catch (error) {
+      console.warn('Failed to initialize Shopify service:', error)
+      this.isEnabled = false
     }
   }
 
@@ -46,6 +61,7 @@ export class ShopifyService {
     sort?: 'title' | 'price' | 'createdAt' | 'bestSelling'
     order?: 'asc' | 'desc'
   } = {}) {
+    await this.ensureInitialized()
     if (!this.isEnabled || !this.advancedService) {
       return [] // Return empty array if Shopify not configured
     }
@@ -119,6 +135,7 @@ export class ShopifyService {
   // Get single product by handle (with caching)
   async getProduct(handle: string) {
     try {
+    await this.ensureInitialized()
       const product = await this.advancedService.getProductByHandle(handle, true)
       
       if (!product) {
@@ -135,6 +152,7 @@ export class ShopifyService {
   // Get product recommendations
   async getProductRecommendations(productId: string, intent: 'RELATED' | 'COMPLEMENTARY' = 'RELATED') {
     try {
+    await this.ensureInitialized()
       const recommendations = await this.advancedService.getProductRecommendations(productId, intent)
       return recommendations.map(transformShopifyProduct)
     } catch (error) {
@@ -176,6 +194,7 @@ export class ShopifyService {
     sortKey?: 'MANUAL' | 'BEST_SELLING' | 'ALPHA_ASC' | 'ALPHA_DESC' | 'PRICE_DESC' | 'PRICE_ASC' | 'CREATED_DESC' | 'CREATED'
     reverse?: boolean
   } = {}) {
+    await this.ensureInitialized()
     try {
       const { limit = 20, sortKey = 'MANUAL', reverse = false } = options
       
@@ -239,6 +258,7 @@ export class ShopifyService {
   // Get products by tag
   async getProductsByTag(tag: string, limit = 20) {
     try {
+    await this.ensureInitialized()
       const products = await this.advancedService.getProductsByTag(tag, limit)
       return products.map(transformShopifyProduct)
     } catch (error) {
@@ -250,6 +270,7 @@ export class ShopifyService {
   // Cart operations (enhanced with better error handling)
   async createCart(lines: Array<{ merchandiseId: string; quantity: number }>) {
     try {
+    await this.ensureInitialized()
       const cartLines = lines.map(line => ({
         merchandiseId: line.merchandiseId,
         quantity: line.quantity
@@ -272,6 +293,7 @@ export class ShopifyService {
 
   async addToCart(cartId: string, lines: Array<{ merchandiseId: string; quantity: number }>) {
     try {
+    await this.ensureInitialized()
       const cartLines = lines.map(line => ({
         merchandiseId: line.merchandiseId,
         quantity: line.quantity
@@ -292,6 +314,7 @@ export class ShopifyService {
 
   async updateCartLines(cartId: string, lines: Array<{ id: string; quantity: number }>) {
     try {
+    await this.ensureInitialized()
       const { cart, errors } = await this.advancedService.updateCartLines(cartId, lines)
       
       if (errors.length > 0) {
@@ -307,6 +330,7 @@ export class ShopifyService {
 
   async removeFromCart(cartId: string, lineIds: string[]) {
     try {
+    await this.ensureInitialized()
       const { cart, errors } = await this.advancedService.removeFromCart(cartId, lineIds)
       
       if (errors.length > 0) {
@@ -322,6 +346,7 @@ export class ShopifyService {
 
   async getCart(cartId: string) {
     try {
+    await this.ensureInitialized()
       const cart = await this.advancedService.getCart(cartId)
       return cart ? this.transformCart(cart) : null
     } catch (error) {
@@ -364,6 +389,7 @@ export class ShopifyService {
   // Batch operations
   async batchGetProducts(handles: string[]) {
     try {
+    await this.ensureInitialized()
       const products = await this.advancedService.batchGetProducts(handles)
       return products
         .filter(product => product !== null)
