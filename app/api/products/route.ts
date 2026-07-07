@@ -5,8 +5,6 @@ import { productsDb, initializeDatabase } from '@/src/lib/database'
 import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/src/lib/types'
 import { getAllProducts, getAllProductsByCategory, getProductsByMiniCollection } from '@/data/tiktok-products'
 
-export const dynamic = 'force-dynamic'
-
 // Shopify integration
 const USE_SHOPIFY = process.env.NEXT_PUBLIC_USE_SHOPIFY === 'true'
 

@@ -3,8 +3,6 @@ import { PaymentService } from '@/lib/crypto/payment-service'
 import { SubscriptionService } from '@/lib/crypto/subscription-service'
 import { WalletAuthService } from '@/lib/crypto/wallet-auth-service'
 
-export const dynamic = 'force-dynamic'
-
 const paymentService = PaymentService.getInstance()
 const subscriptionService = SubscriptionService.getInstance()
 const authService = WalletAuthService.getInstance()

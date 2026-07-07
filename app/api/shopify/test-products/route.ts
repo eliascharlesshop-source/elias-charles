@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
 import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-services'
 
-export const dynamic = 'force-dynamic'
-
 export async function GET() {
   try {
     console.log('🔍 Testing Shopify products connection...')
