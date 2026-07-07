@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ShopifyCartService } from '@/lib/shopify-services'
+
 export const dynamic = 'force-dynamic'
 
 // Create a new Shopify checkout

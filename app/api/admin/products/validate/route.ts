@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { productGenerationService } from '@/lib/product-generation-service'
+import { AuthService } from '@/src/lib/auth'
+import { ApiResponse } from '@/src/lib/types'
 import { CreateProductRequest } from '@/lib/product-generation-service'
+
 export const dynamic = 'force-dynamic'
 
 // POST /api/admin/products/validate - Validate product data before creation

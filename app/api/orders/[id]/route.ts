@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ordersDb, initializeDatabase } from '@/lib/database'
 import { ApiResponse, Order } from '@/lib/types'
+
 export const dynamic = 'force-dynamic'
 
 // Initialize database on first request

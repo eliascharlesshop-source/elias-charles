@@ -1,4 +1,5 @@
 import { tiktokShopService } from '@/lib/tiktok-shop-service'
+
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {

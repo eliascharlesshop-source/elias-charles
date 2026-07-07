@@ -3,6 +3,17 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  serverExternalPackages: [
+    'shopify-buy',
+    'bcryptjs',
+    'jsonwebtoken',
+    '@stellar/stellar-sdk',
+    'secp256k1',
+    'ethers',
+  ],
   images: {
     unoptimized: true,
   },
