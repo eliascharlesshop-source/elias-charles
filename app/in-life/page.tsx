@@ -13,44 +13,44 @@ export default function IslaVistaPage() {
   
   return (
     <Layout>
-      <div className="bg-cream min-h-screen">
+      <div className="bg-cream dark:bg-background min-h-screen">
         {/* Hero Section */}
         <motion.section
-          className="relative h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white flex items-center overflow-hidden"
+          className="relative min-h-screen sm:h-screen bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white flex items-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-screen blur-3xl animate-pulse" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
+            <div className="absolute top-0 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-blue-300 rounded-full mix-blend-screen blur-3xl animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-cyan-300 rounded-full mix-blend-screen blur-3xl animate-pulse animation-delay-2000" />
           </div>
 
-          <div className="relative max-w-7xl mx-auto px-6 lg:px-12 z-10 w-full">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 z-10 w-full py-12 sm:py-0">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
             >
-              <p className="text-sm uppercase tracking-widest font-light mb-6 text-cyan-300">Collection</p>
-              <h1 className="text-7xl md:text-8xl font-light leading-tight mb-6">
+              <p className="text-xs sm:text-sm uppercase tracking-widest font-light mb-4 sm:mb-6 text-cyan-300">Collection</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-tight mb-4 sm:mb-6">
                 Isla Vista
               </h1>
-              <p className="text-xl font-light max-w-2xl mb-8 text-gray-300">
+              <p className="text-base sm:text-lg md:text-xl font-light max-w-2xl mb-6 sm:mb-8 text-gray-300">
                 Where coastal living meets everyday adventure. Seven distinct lifestyle narratives captured in one collection.
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <Link
                   href="#collections"
-                  className="inline-block bg-white text-black px-8 py-3 font-bold text-sm uppercase tracking-wider hover:bg-gray-100 transition-colors"
+                  className="inline-block bg-white text-black px-6 sm:px-8 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-gray-100 transition-colors text-center"
                 >
                   Explore Collection
                 </Link>
                 <Link
                   href="https://www.tiktok.com/@eliascharles"
                   target="_blank"
-                  className="inline-block border-2 border-white text-white px-8 py-3 font-bold text-sm uppercase tracking-wider hover:bg-white/10 transition-colors"
+                  className="inline-block border-2 border-white text-white px-6 sm:px-8 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider hover:bg-white/10 transition-colors text-center"
                 >
                   Follow on TikTok
                 </Link>
@@ -61,7 +61,7 @@ export default function IslaVistaPage() {
 
         {/* Lifestyle Gallery Section */}
         <motion.section
-          className="py-24 px-6 lg:px-12 bg-background"
+          className="py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-background"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -70,13 +70,13 @@ export default function IslaVistaPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="mb-16"
+              className="mb-12 sm:mb-16"
             >
-              <p className="text-sm uppercase tracking-widest font-light steel-text mb-4">Visual Stories</p>
-              <h2 className="text-5xl md:text-6xl font-light text-foreground">The Elias Charles Lifestyle</h2>
+              <p className="text-xs sm:text-sm uppercase tracking-widest font-light steel-text mb-3 sm:mb-4">Visual Stories</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-foreground">The Elias Charles Lifestyle</h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {[
                 {
                   image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/IMG_2421-MN5L8ERBeNVIYmcjM1BYDKPK0UWXP8.png",
@@ -148,7 +148,7 @@ export default function IslaVistaPage() {
 
         {/* Full-Width Brand Statement Banner */}
         <motion.section
-          className="relative h-[70vh] overflow-hidden"
+          className="relative min-h-[50vh] sm:h-[70vh] overflow-hidden"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -159,20 +159,20 @@ export default function IslaVistaPage() {
             className="absolute inset-0 w-full h-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/40" />
-          <div className="relative h-full flex items-center justify-center text-center text-white px-6">
+          <div className="relative h-full flex items-center justify-center text-center text-white px-4 sm:px-6 py-12 sm:py-0">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7 }}
             >
-              <p className="text-sm uppercase tracking-widest font-light mb-4 text-gray-300">The Icon</p>
-              <h2 className="text-5xl md:text-7xl font-light mb-6">Wear The Wave</h2>
-              <p className="text-lg font-light max-w-xl mx-auto mb-8 text-gray-200">
+              <p className="text-xs sm:text-sm uppercase tracking-widest font-light mb-3 sm:mb-4 text-gray-300">The Icon</p>
+              <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light mb-4 sm:mb-6">Wear The Wave</h2>
+              <p className="text-base sm:text-lg font-light max-w-xl mx-auto mb-6 sm:mb-8 text-gray-200">
                 Every piece tells a story. The Elias Charles wave logo is more than a mark — it is a way of life.
               </p>
               <Link
                 href="/collections/apparel"
-                className="inline-block border border-white text-white px-8 py-3 text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
+                className="inline-block border border-white text-white px-6 sm:px-8 py-2 sm:py-3 text-xs sm:text-sm uppercase tracking-wider hover:bg-white hover:text-black transition-colors"
               >
                 Shop Now
               </Link>
@@ -183,7 +183,7 @@ export default function IslaVistaPage() {
         {/* Featured Collections Grid */}
         <motion.section
           id="collections"
-          className="py-24 px-6 lg:px-12 bg-cream"
+          className="py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-cream dark:bg-background"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -192,13 +192,13 @@ export default function IslaVistaPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              className="mb-16"
+              className="mb-12 sm:mb-16"
             >
-              <p className="text-sm uppercase tracking-widest font-light steel-text mb-4">Seven Stories</p>
-              <h2 className="text-5xl md:text-6xl font-light text-foreground">Subcollections</h2>
+              <p className="text-xs sm:text-sm uppercase tracking-widest font-light steel-text mb-3 sm:mb-4">Seven Stories</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-foreground">Subcollections</h2>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {ISLA_VISTA_SUBCOLLECTIONS.map((subcollection, idx) => (
                 <motion.button
                   key={subcollection.id}
@@ -228,7 +228,7 @@ export default function IslaVistaPage() {
 
         {/* Product Showcase */}
         <motion.section
-          className="py-24 px-6 lg:px-12 bg-background"
+          className="py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-background"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -244,18 +244,18 @@ export default function IslaVistaPage() {
                   transition={{ duration: 0.4 }}
                 >
                   {/* Subcollection Header */}
-                  <div className="mb-16">
-                    <h3 className="text-5xl md:text-6xl font-light mb-4">
+                  <div className="mb-12 sm:mb-16">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-3 sm:mb-4">
                       {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                     </h3>
-                    <p className="text-xl steel-text max-w-2xl">
+                    <p className="text-base sm:text-lg md:text-xl steel-text max-w-2xl">
                       {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.description}
                     </p>
                   </div>
 
                   {/* TikTok Embed */}
                   {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId && (
-                    <div className="mb-16 flex justify-center">
+                    <div className="mb-12 sm:mb-16 flex justify-center">
                       <div className="w-full max-w-md">
                         <motion.div
                           initial={{ opacity: 0, scale: 0.9 }}
@@ -277,14 +277,14 @@ export default function IslaVistaPage() {
                   )}
 
                   {/* Products */}
-                  <div className="space-y-20">
+                  <div className="space-y-12 sm:space-y-20">
                     {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.products.map((product, idx) => (
                       <motion.div
                         key={product.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
-                        className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center ${
+                        className={`grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12 lg:gap-20 items-center ${
                           idx % 2 === 1 ? "lg:grid-cols-2 lg:[&>*:nth-child(2)]:order-first" : ""
                         }`}
                       >
@@ -309,34 +309,34 @@ export default function IslaVistaPage() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.1 + 0.1 }}
                         >
-                          <div className="mb-6">
-                            <p className="text-sm uppercase tracking-widest font-light steel-text mb-2">
+                          <div className="mb-4 sm:mb-6">
+                            <p className="text-xs sm:text-sm uppercase tracking-widest font-light steel-text mb-1 sm:mb-2">
                               {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                             </p>
-                            <h3 className="text-4xl md:text-5xl font-light mb-4 text-foreground">{product.name}</h3>
-                            <p className="text-lg steel-text mb-6">{product.description}</p>
+                            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-3 sm:mb-4 text-foreground">{product.name}</h3>
+                            <p className="text-base sm:text-lg steel-text mb-4 sm:mb-6">{product.description}</p>
                           </div>
 
-                          <div className="flex items-baseline gap-4 mb-6">
-                            <span className="text-3xl font-bold text-foreground">${product.price}</span>
-                            <span className="text-sm steel-text uppercase tracking-wider">{product.sku}</span>
+                          <div className="flex items-baseline gap-3 sm:gap-4 mb-4 sm:mb-6">
+                            <span className="text-2xl sm:text-3xl font-bold text-foreground">${product.price}</span>
+                            <span className="text-xs sm:text-sm steel-text uppercase tracking-wider">{product.sku}</span>
                           </div>
 
-                          <div className="mb-8 pb-8 border-b border-border">
+                          <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-border">
                             <p className="text-xs uppercase tracking-widest steel-text mb-2">Material</p>
-                            <p className="text-sm text-foreground">Premium technical fabric blend</p>
+                            <p className="text-xs sm:text-sm text-foreground">Premium technical fabric blend</p>
                           </div>
 
-                          <div className="flex gap-4">
+                          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
                             <Link
                               href={"/boxes?item=" + product.id}
-                              className="flex-1 bg-foreground text-background px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity flex items-center justify-center gap-2"
+                              className="flex-1 bg-foreground text-background px-4 sm:px-6 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity flex items-center justify-center gap-2"
                             >
-                              <ShoppingBag className="w-4 h-4" />
+                              <ShoppingBag className="w-3 h-3 sm:w-4 sm:h-4" />
                               Add to Box
                             </Link>
-                            <button className="flex-1 border-2 border-foreground text-foreground px-6 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2">
-                              <Heart className="w-4 h-4" />
+                            <button className="flex-1 border-2 border-foreground text-foreground px-4 sm:px-6 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-lg hover:bg-foreground/5 transition-colors flex items-center justify-center gap-2">
+                              <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
                               Wishlist
                             </button>
                           </div>
@@ -367,29 +367,29 @@ export default function IslaVistaPage() {
 
         {/* Suggested Box Section */}
         <motion.section
-          className="py-24 px-6 lg:px-12 bg-gradient-to-r from-black to-gray-900 text-white"
+          className="py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-gradient-to-r from-black to-gray-900 text-white"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
         >
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                <p className="text-sm uppercase tracking-widest text-cyan-300 mb-4">Curated For You</p>
-                <h2 className="text-5xl md:text-6xl font-light leading-tight mb-8">
+                <p className="text-xs sm:text-sm uppercase tracking-widest text-cyan-300 mb-3 sm:mb-4">Curated For You</p>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light leading-tight mb-6 sm:mb-8">
                   {ISLA_VISTA_BOX_SUGGESTION.name}
                 </h2>
-                <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+                <p className="text-base sm:text-lg text-gray-300 mb-6 sm:mb-8 leading-relaxed">
                   {ISLA_VISTA_BOX_SUGGESTION.description}
                 </p>
 
                 {/* Products List */}
-                <div className="mb-8 pb-8 border-b border-gray-700">
-                  <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">Includes</p>
+                <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-gray-700">
+                  <p className="text-xs sm:text-sm uppercase tracking-widest text-gray-400 mb-3 sm:mb-4">Includes</p>
                   <ul className="space-y-2">
                     {ISLA_VISTA_BOX_SUGGESTION.products.map((productId) => {
                       const product = getProductById(productId)
@@ -404,25 +404,25 @@ export default function IslaVistaPage() {
                 </div>
 
                 {/* Pricing */}
-                <div className="mb-8 grid grid-cols-2 gap-6">
+                <div className="mb-6 sm:mb-8 grid grid-cols-2 gap-4 sm:gap-6">
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-white/60 mb-2">If Purchased Separately</p>
-                    <p className="text-2xl font-bold">${ISLA_VISTA_BOX_SUGGESTION.valueIfBought}</p>
+                    <p className="text-xs uppercase tracking-widest text-white/60 mb-1 sm:mb-2">If Purchased Separately</p>
+                    <p className="text-lg sm:text-2xl font-bold">${ISLA_VISTA_BOX_SUGGESTION.valueIfBought}</p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-white/60 mb-2">Box Price</p>
-                    <p className="text-2xl font-bold text-cyan-300">${ISLA_VISTA_BOX_SUGGESTION.boxPrice}</p>
+                    <p className="text-xs uppercase tracking-widest text-white/60 mb-1 sm:mb-2">Box Price</p>
+                    <p className="text-lg sm:text-2xl font-bold text-cyan-300">${ISLA_VISTA_BOX_SUGGESTION.boxPrice}</p>
                   </div>
                 </div>
 
-                <div className="mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
-                  <p className="text-sm text-gray-300 mb-2">You Save</p>
-                  <p className="text-3xl font-bold text-green-400">${ISLA_VISTA_BOX_SUGGESTION.savings}</p>
+                <div className="mb-6 sm:mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-white/20">
+                  <p className="text-xs sm:text-sm text-gray-300 mb-1 sm:mb-2">You Save</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-green-400">${ISLA_VISTA_BOX_SUGGESTION.savings}</p>
                 </div>
 
                 <Link
                   href="/boxes"
-                  className="inline-block bg-cyan-400 text-black px-8 py-4 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-cyan-300 transition-colors"
+                  className="inline-block bg-cyan-400 text-black px-6 sm:px-8 py-2 sm:py-4 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-lg hover:bg-cyan-300 transition-colors"
                 >
                   Build Your Isla Vista Box
                 </Link>
@@ -433,8 +433,9 @@ export default function IslaVistaPage() {
                 initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
+                className="hidden sm:block"
               >
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   {ISLA_VISTA_BOX_SUGGESTION.products.slice(0, 4).map((productId, idx) => {
                     const product = getProductById(productId)
                     return product ? (
@@ -462,7 +463,7 @@ export default function IslaVistaPage() {
 
         {/* CTA Section */}
         <motion.section
-          className="py-16 px-6 lg:px-12 bg-cream border-t border-border"
+          className="py-12 sm:py-16 px-4 sm:px-6 lg:px-12 bg-cream dark:bg-background border-t border-border"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -473,15 +474,15 @@ export default function IslaVistaPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-sm uppercase tracking-widest font-light steel-text mb-6">Stay Connected</p>
-              <h2 className="text-4xl md:text-5xl font-light text-foreground mb-8">Follow the Journey</h2>
-              <p className="text-lg steel-text mb-8 max-w-2xl mx-auto">
+              <p className="text-xs sm:text-sm uppercase tracking-widest font-light steel-text mb-4 sm:mb-6">Stay Connected</p>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-foreground mb-6 sm:mb-8">Follow the Journey</h2>
+              <p className="text-base sm:text-lg steel-text mb-6 sm:mb-8 max-w-2xl mx-auto">
                 Join our community on TikTok for daily Isla Vista moments, styling tips, and exclusive behind-the-scenes content.
               </p>
               <Link
                 href="https://www.tiktok.com/@eliascharles"
                 target="_blank"
-                className="inline-block bg-foreground text-background px-8 py-3 font-bold text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity"
+                className="inline-block bg-foreground text-background px-6 sm:px-8 py-2 sm:py-3 font-bold text-xs sm:text-sm uppercase tracking-wider rounded-lg hover:opacity-80 transition-opacity"
               >
                 Follow @eliascharles on TikTok
               </Link>
