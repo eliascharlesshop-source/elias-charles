@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { usersDb, initializeDatabase } from '@/lib/database'
-import { ApiResponse, User } from '@/lib/types'
 import { AuthService } from '@/lib/auth'
+export const dynamic = 'force-dynamic'
 
 // Initialize database on first request
 let initialized = false

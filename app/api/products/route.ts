@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-// @ts-ignore
 import { productsDb, initializeDatabase } from '@/src/lib/database'
-// @ts-ignore
-import { CreateProductRequest, ApiResponse, PaginatedResponse } from '@/src/lib/types'
 import { getAllProducts, getAllProductsByCategory, getProductsByMiniCollection } from '@/data/tiktok-products'
+export const dynamic = 'force-dynamic'
+
+// @ts-ignore
+// @ts-ignore
 
 // Shopify integration
 const USE_SHOPIFY = process.env.NEXT_PUBLIC_USE_SHOPIFY === 'true'

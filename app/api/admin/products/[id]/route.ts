@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { productGenerationService } from '@/lib/product-generation-service'
 import { AuthService, JWTPayload } from '@/src/lib/auth'
 import { ApiResponse } from '@/src/lib/types'
+export const dynamic = 'force-dynamic'
 
 // PUT /api/admin/products/[id] - Update a product (admin only)
 export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {

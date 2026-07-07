@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-services'
+export const dynamic = 'force-dynamic'
 
 interface RouteParams {
   params: {
