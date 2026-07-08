@@ -4,10 +4,10 @@ import { AuthService, JWTPayload } from '@/src/lib/auth'
 import { ApiResponse } from '@/src/lib/types'
 
 // PUT /api/admin/products/[id] - Update a product (admin only)
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
-      const { id } = params
+      const { id } = await params
       const updates = await request.json()
 
       const result = await productGenerationService.updateProduct(id, updates, auth)
@@ -30,10 +30,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE /api/admin/products/[id] - Delete a product (admin only)
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
-      const { id } = params
+      const { id } = await params
 
       const result = await productGenerationService.deleteProduct(id, auth)
 
@@ -55,10 +55,10 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 }
 
 // GET /api/admin/products/[id] - Get a single product (admin only)
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   return AuthService.requireRole('admin', async (request: Request, auth: JWTPayload) => {
     try {
-      const { id } = params
+      const { id } = await params
 
       // Get product from Shopify service
       const shopifyService = (await import('@/lib/shopify-service')).default

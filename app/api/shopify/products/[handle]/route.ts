@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-services'
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     handle: string
-  }
+  }>
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { handle } = params
+    const { handle } = await params
 
     const shopifyProduct = await ShopifyProductService.getProductByHandle(handle)
     

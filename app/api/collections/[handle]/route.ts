@@ -14,12 +14,12 @@ async function ensureInitialized() {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { handle: string } }
+  { params }: { params: Promise<{ handle: string }> }
 ) {
   try {
     await ensureInitialized()
     
-    const { handle } = params
+    const { handle } = await params
     const { searchParams } = new URL(request.url)
     const includeProducts = searchParams.get('includeProducts') === 'true'
     
@@ -75,12 +75,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { handle: string } }
+  { params }: { params: Promise<{ handle: string }> }
 ) {
   try {
     await ensureInitialized()
     
-    const { handle } = params
+    const { handle } = await params
     const updates = await request.json()
 
     // Find collection by handle or ID
@@ -119,12 +119,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { handle: string } }
+  { params }: { params: Promise<{ handle: string }> }
 ) {
   try {
     await ensureInitialized()
     
-    const { handle } = params
+    const { handle } = await params
     
     // Find collection by handle or ID
     let collection = await collectionsDb.findOne(c => c.handle === handle)

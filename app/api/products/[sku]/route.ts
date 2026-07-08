@@ -3,10 +3,10 @@ import { tiktokShopService } from '@/lib/tiktok-shop-service'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sku: string } }
+  { params }: { params: Promise<{ sku: string }> }
 ) {
   try {
-    const sku = params.sku
+    const { sku } = await params
 
     if (!sku) {
       return NextResponse.json(

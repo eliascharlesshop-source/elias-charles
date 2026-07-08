@@ -14,12 +14,12 @@ async function ensureInitialized() {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await ensureInitialized()
     
-    const { id } = params
+    const { id } = await params
     
     // Try to find by ID first, then by order number
     let order = await ordersDb.findById(id)
@@ -54,12 +54,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await ensureInitialized()
     
-    const { id } = params
+    const { id } = await params
     const updates = await request.json()
 
     // Validate status updates
