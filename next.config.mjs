@@ -3,6 +3,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    preloadEntriesOnStart: false,
+    isrMemoryCacheSize: 0,
+  },
   serverExternalPackages: [
     'shopify-buy',
     'bcryptjs',
