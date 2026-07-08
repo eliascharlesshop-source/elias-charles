@@ -3,11 +3,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    optimizeConcurrentServerRoutes: false,
-    missingSuspenseWithCSRBailout: false,
-  },
-  skipMiddlewareUrlNormalization: true,
   serverExternalPackages: [
     'shopify-buy',
     'bcryptjs',
