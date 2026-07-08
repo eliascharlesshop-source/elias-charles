@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { AuthService, JWTPayload } from '@/src/lib/auth'
 import { ApiResponse } from '@/src/lib/types'
+export const dynamic = 'force-dynamic'
 
 // POST /api/admin/auth/login - Admin login
 export async function POST(request: NextRequest) {

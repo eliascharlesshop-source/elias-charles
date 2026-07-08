@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { ordersDb, cartsDb, generateId, generateOrderNumber, initializeDatabase } from '@/lib/database'
 import { ApiResponse, CreateOrderRequest, Order } from '@/lib/types'
 import { PaymentService } from '@/lib/payment'
+export const dynamic = 'force-dynamic'
 
 // Initialize database on first request
 let initialized = false

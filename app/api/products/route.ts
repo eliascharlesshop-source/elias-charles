@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+export const dynamic = 'force-dynamic'
 // @ts-ignore
 import { productsDb, initializeDatabase } from '@/src/lib/database'
 // @ts-ignore
