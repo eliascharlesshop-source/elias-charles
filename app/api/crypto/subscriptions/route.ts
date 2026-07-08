@@ -1,18 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { PaymentService } from '@/lib/crypto/payment-service'
-import { SubscriptionService } from '@/lib/crypto/subscription-service'
-import { WalletAuthService } from '@/lib/crypto/wallet-auth-service'
-import { Cryptocurrency, Network } from '@/types/crypto-subscription'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-const paymentService = PaymentService.getInstance()
-const subscriptionService = SubscriptionService.getInstance()
-const authService = WalletAuthService.getInstance()
+let paymentService: any = null
+let subscriptionService: any = null
+let authService: any = null
+
+async function initializeServices() {
+  if (!paymentService) {
+    const { PaymentService } = await import('@/lib/crypto/payment-service')
+    const { SubscriptionService } = await import('@/lib/crypto/subscription-service')
+    const { WalletAuthService } = await import('@/lib/crypto/wallet-auth-service')
+    paymentService = PaymentService.getInstance()
+    subscriptionService = SubscriptionService.getInstance()
+    authService = WalletAuthService.getInstance()
+  }
+}
+
+type Cryptocurrency = any
+type Network = any
 
 export async function POST(request: NextRequest) {
   try {
+    await initializeServices()
     const body = await request.json()
     const { planId, currency, network, sessionId } = body
 
@@ -59,6 +70,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    await initializeServices()
     const { searchParams } = new URL(request.url)
     const sessionId = searchParams.get('sessionId')
     const walletAddress = searchParams.get('walletAddress')

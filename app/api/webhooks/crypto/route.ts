@@ -1,20 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { crypto } from 'crypto'
-import { WebhookPayload, AuditLog } from '@/types/crypto-subscription'
-import { SubscriptionService } from '@/lib/crypto/subscription-service'
-import { PaymentService } from '@/lib/crypto/payment-service'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-const subscriptionService = SubscriptionService.getInstance()
-const paymentService = PaymentService.getInstance()
+let subscriptionService: any = null
+let paymentService: any = null
+
+async function initializeServices() {
+  if (!subscriptionService) {
+    const { SubscriptionService } = await import('@/lib/crypto/subscription-service')
+    const { PaymentService } = await import('@/lib/crypto/payment-service')
+    subscriptionService = SubscriptionService.getInstance()
+    paymentService = PaymentService.getInstance()
+  }
+}
+
+type WebhookPayload = any
+type AuditLog = any
 
 // Webhook secret for signature verification
 const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET || 'your-webhook-secret'
 
 export async function POST(request: NextRequest) {
   try {
+    await initializeServices()
     // Get signature from header
     const signature = request.headers.get('x-webhook-signature')
     if (!signature) {
@@ -82,6 +92,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    await initializeServices()
     const { searchParams } = new URL(request.url)
     const eventId = searchParams.get('eventId')
     const subscriptionId = searchParams.get('subscriptionId')
