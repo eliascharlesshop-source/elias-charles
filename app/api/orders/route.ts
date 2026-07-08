@@ -5,7 +5,6 @@ import { PaymentService } from '@/lib/payment'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-export const dynamic = 'force-dynamic'
 
 // Initialize database on first request
 let initialized = false

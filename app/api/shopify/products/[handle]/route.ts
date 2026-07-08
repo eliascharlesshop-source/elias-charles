@@ -4,7 +4,6 @@ import { ShopifyProductService, ShopifyDataTransformer } from '@/lib/shopify-ser
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const dynamic = 'force-dynamic'
 
 interface RouteParams {
   params: Promise<{

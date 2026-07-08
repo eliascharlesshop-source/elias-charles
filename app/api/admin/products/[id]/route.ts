@@ -6,7 +6,6 @@ import { ApiResponse } from '@/src/lib/types'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
-export const dynamic = 'force-dynamic'
 
 // PUT /api/admin/products/[id] - Update a product (admin only)
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {

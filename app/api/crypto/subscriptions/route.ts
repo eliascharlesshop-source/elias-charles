@@ -6,7 +6,6 @@ import { Cryptocurrency, Network } from '@/types/crypto-subscription'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-export const dynamic = 'force-dynamic'
 
 const paymentService = PaymentService.getInstance()
 const subscriptionService = SubscriptionService.getInstance()

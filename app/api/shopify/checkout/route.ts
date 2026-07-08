@@ -3,7 +3,6 @@ import { ShopifyCartService } from '@/lib/shopify-services'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-export const dynamic = 'force-dynamic'
 
 // Create a new Shopify checkout
 export async function POST(request: NextRequest) {
