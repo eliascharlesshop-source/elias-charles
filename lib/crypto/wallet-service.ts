@@ -1,5 +1,3 @@
-'use client'
-
 import { ethers } from 'ethers'
 import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js'
 import { 
