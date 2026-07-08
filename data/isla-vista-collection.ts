@@ -1,4 +1,4 @@
-export interface IslaVistaProduct {
+export interface CoastlineProduct {
   id: string
   name: string
   description: string
@@ -10,17 +10,17 @@ export interface IslaVistaProduct {
   sku: string
 }
 
-export interface IslaVistaSubCollection {
+export interface CoastlineSubCollection {
   id: string
   name: string
   tagline: string
   description: string
-  products: IslaVistaProduct[]
+  products: CoastlineProduct[]
   tiktokVideoId?: string
   icon: string
 }
 
-export const ISLA_VISTA_SUBCOLLECTIONS: IslaVistaSubCollection[] = [
+export const COASTLINE_SUBCOLLECTIONS: CoastlineSubCollection[] = [
   {
     id: "dawn-patrol",
     name: "Dawn Patrol",
@@ -240,9 +240,9 @@ export const ISLA_VISTA_SUBCOLLECTIONS: IslaVistaSubCollection[] = [
   }
 ]
 
-export const ISLA_VISTA_BOX_SUGGESTION = {
-  name: "Isla Vista Essentials Box",
-  description: "A curated 7-piece collection capturing the essence of Isla Vista lifestyle",
+export const COASTLINE_BOX_SUGGESTION = {
+  name: "Coastline Essentials Box",
+  description: "A curated 7-piece collection capturing the essence of Coastline lifestyle",
   products: [
     "dp-tee-01",
     "bb-boardshorts-01",
@@ -257,12 +257,12 @@ export const ISLA_VISTA_BOX_SUGGESTION = {
   savings: 116
 }
 
-export function getSubCollectionById(id: string): IslaVistaSubCollection | undefined {
-  return ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === id)
+export function getSubCollectionById(id: string): CoastlineSubCollection | undefined {
+  return COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === id)
 }
 
-export function getProductById(id: string): IslaVistaProduct | undefined {
-  for (const subcollection of ISLA_VISTA_SUBCOLLECTIONS) {
+export function getProductById(id: string): CoastlineProduct | undefined {
+  for (const subcollection of COASTLINE_SUBCOLLECTIONS) {
     const product = subcollection.products.find(p => p.id === id)
     if (product) return product
   }

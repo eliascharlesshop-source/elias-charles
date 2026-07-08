@@ -34,7 +34,7 @@ export function RegionSelector({ selectedRegion, onRegionChange }: RegionSelecto
               : "text-gray-600 hover:text-gray-900"
           )}
         >
-          Isla Vista
+          Coastline
         </button>
       </div>
       

@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { Heart, Share2, ShoppingBag } from "lucide-react"
 import Layout from "@/components/layout/layout"
-import { ISLA_VISTA_SUBCOLLECTIONS, ISLA_VISTA_BOX_SUGGESTION, getProductById } from "@/data/isla-vista-collection"
+import { COASTLINE_SUBCOLLECTIONS, COASTLINE_BOX_SUGGESTION, getProductById } from "@/data/isla-vista-collection"
 
-export default function IslaVistaPage() {
+export default function CoastlinePage() {
   const [selectedSubCollection, setSelectedSubCollection] = useState("dawn-patrol")
   
   return (
@@ -35,7 +35,7 @@ export default function IslaVistaPage() {
             >
               <p className="text-sm uppercase tracking-widest font-light mb-6 text-cyan-300">Collection</p>
               <h1 className="text-7xl md:text-8xl font-light leading-tight mb-6">
-                Isla Vista
+                Coastline
               </h1>
               <p className="text-xl font-light max-w-2xl mb-8 text-gray-300">
                 Where coastal living meets everyday adventure. Seven distinct lifestyle narratives captured in one collection.
@@ -199,7 +199,7 @@ export default function IslaVistaPage() {
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {ISLA_VISTA_SUBCOLLECTIONS.map((subcollection, idx) => (
+              {COASTLINE_SUBCOLLECTIONS.map((subcollection, idx) => (
                 <motion.button
                   key={subcollection.id}
                   onClick={() => setSelectedSubCollection(subcollection.id)}
@@ -235,7 +235,7 @@ export default function IslaVistaPage() {
         >
           <div className="max-w-7xl mx-auto">
             <AnimatePresence mode="wait">
-              {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection) && (
+              {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection) && (
                 <motion.div
                   key={selectedSubCollection}
                   initial={{ opacity: 0, y: 20 }}
@@ -246,15 +246,15 @@ export default function IslaVistaPage() {
                   {/* Subcollection Header */}
                   <div className="mb-16">
                     <h3 className="text-5xl md:text-6xl font-light mb-4">
-                      {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
+                      {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                     </h3>
                     <p className="text-xl steel-text max-w-2xl">
-                      {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.description}
+                      {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.description}
                     </p>
                   </div>
 
                   {/* TikTok Embed */}
-                  {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId && (
+                  {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId && (
                     <div className="mb-16 flex justify-center">
                       <div className="w-full max-w-md">
                         <motion.div
@@ -263,7 +263,7 @@ export default function IslaVistaPage() {
                           className="bg-black rounded-lg overflow-hidden aspect-video flex items-center justify-center"
                         >
                           <iframe
-                            src={`https://www.tiktok.com/embed/v2/${ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId}`}
+                            src={`https://www.tiktok.com/embed/v2/${COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.tiktokVideoId}`}
                             width="100%"
                             height="400"
                             frameBorder="0"
@@ -278,7 +278,7 @@ export default function IslaVistaPage() {
 
                   {/* Products */}
                   <div className="space-y-20">
-                    {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.products.map((product, idx) => (
+                    {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.products.map((product, idx) => (
                       <motion.div
                         key={product.id}
                         initial={{ opacity: 0, y: 20 }}
@@ -311,7 +311,7 @@ export default function IslaVistaPage() {
                         >
                           <div className="mb-6">
                             <p className="text-sm uppercase tracking-widest font-light steel-text mb-2">
-                              {ISLA_VISTA_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
+                              {COASTLINE_SUBCOLLECTIONS.find(sc => sc.id === selectedSubCollection)?.name}
                             </p>
                             <h3 className="text-4xl md:text-5xl font-light mb-4 text-foreground">{product.name}</h3>
                             <p className="text-lg steel-text mb-6">{product.description}</p>
@@ -381,17 +381,17 @@ export default function IslaVistaPage() {
               >
                 <p className="text-sm uppercase tracking-widest text-cyan-300 mb-4">Curated For You</p>
                 <h2 className="text-5xl md:text-6xl font-light leading-tight mb-8">
-                  {ISLA_VISTA_BOX_SUGGESTION.name}
+                  {COASTLINE_BOX_SUGGESTION.name}
                 </h2>
                 <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-                  {ISLA_VISTA_BOX_SUGGESTION.description}
+                  {COASTLINE_BOX_SUGGESTION.description}
                 </p>
 
                 {/* Products List */}
                 <div className="mb-8 pb-8 border-b border-gray-700">
                   <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">Includes</p>
                   <ul className="space-y-2">
-                    {ISLA_VISTA_BOX_SUGGESTION.products.map((productId) => {
+                    {COASTLINE_BOX_SUGGESTION.products.map((productId) => {
                       const product = getProductById(productId)
                       return product ? (
                         <li key={productId} className="flex items-center gap-3 text-sm">
@@ -407,24 +407,24 @@ export default function IslaVistaPage() {
                 <div className="mb-8 grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-xs uppercase tracking-widest text-white/60 mb-2">If Purchased Separately</p>
-                    <p className="text-2xl font-bold">${ISLA_VISTA_BOX_SUGGESTION.valueIfBought}</p>
+                    <p className="text-2xl font-bold">${COASTLINE_BOX_SUGGESTION.valueIfBought}</p>
                   </div>
                   <div>
                     <p className="text-xs uppercase tracking-widest text-white/60 mb-2">Box Price</p>
-                    <p className="text-2xl font-bold text-cyan-300">${ISLA_VISTA_BOX_SUGGESTION.boxPrice}</p>
+                    <p className="text-2xl font-bold text-cyan-300">${COASTLINE_BOX_SUGGESTION.boxPrice}</p>
                   </div>
                 </div>
 
                 <div className="mb-8 bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
                   <p className="text-sm text-gray-300 mb-2">You Save</p>
-                  <p className="text-3xl font-bold text-green-400">${ISLA_VISTA_BOX_SUGGESTION.savings}</p>
+                  <p className="text-3xl font-bold text-green-400">${COASTLINE_BOX_SUGGESTION.savings}</p>
                 </div>
 
                 <Link
                   href="/boxes"
                   className="inline-block bg-cyan-400 text-black px-8 py-4 font-bold text-sm uppercase tracking-wider rounded-lg hover:bg-cyan-300 transition-colors"
                 >
-                  Build Your Isla Vista Box
+                  Build Your Coastline Box
                 </Link>
               </motion.div>
 
@@ -435,7 +435,7 @@ export default function IslaVistaPage() {
                 transition={{ duration: 0.6 }}
               >
                 <div className="grid grid-cols-2 gap-4">
-                  {ISLA_VISTA_BOX_SUGGESTION.products.slice(0, 4).map((productId, idx) => {
+                  {COASTLINE_BOX_SUGGESTION.products.slice(0, 4).map((productId, idx) => {
                     const product = getProductById(productId)
                     return product ? (
                       <motion.div
@@ -476,7 +476,7 @@ export default function IslaVistaPage() {
               <p className="text-sm uppercase tracking-widest font-light steel-text mb-6">Stay Connected</p>
               <h2 className="text-4xl md:text-5xl font-light text-foreground mb-8">Follow the Journey</h2>
               <p className="text-lg steel-text mb-8 max-w-2xl mx-auto">
-                Join our community on TikTok for daily Isla Vista moments, styling tips, and exclusive behind-the-scenes content.
+                Join our community on TikTok for daily Coastline moments, styling tips, and exclusive behind-the-scenes content.
               </p>
               <Link
                 href="https://www.tiktok.com/@eliascharles"

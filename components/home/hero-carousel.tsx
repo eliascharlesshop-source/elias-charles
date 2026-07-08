@@ -27,7 +27,7 @@ const slides: CarouselSlide[] = [
   {
     image: "/images/ocean-bw-2.jpg",
     alt: "Ocean landscape",
-    title: "Isla Vista",
+    title: "Coastline",
     subtitle: "Coastal Living",
     description: "Island-inspired collections for the beach lifestyle.",
     cta: "Explore Collections",

@@ -4,7 +4,7 @@ export const IV_BOXES: IEBox[] = [
   {
     id: 'iv-starter',
     name: 'IV Starter Box',
-    description: 'Your introduction to the Isla Vista collection. Coastal essentials with island vibes.',
+    description: 'Your introduction to the Coastline collection. Coastal essentials with island vibes.',
     targetPrice: { min: 59, max: 69 },
     positioning: 'Entry box / giftable',
     contents: [
@@ -20,7 +20,7 @@ export const IV_BOXES: IEBox[] = [
   {
     id: 'iv-beach',
     name: 'IV Beach Box',
-    description: 'Everything you need for island living. Premium beach wear and accessories.',
+    description: 'Everything you need for Coastline living. Premium beach wear and accessories.',
     targetPrice: { min: 119, max: 139 },
     positioning: 'Core bestseller',
     contents: [
@@ -36,7 +36,7 @@ export const IV_BOXES: IEBox[] = [
   {
     id: 'iv-tropical',
     name: 'IV Tropical Box',
-    description: 'Premium island collection with organic materials. The ultimate coastal experience.',
+    description: 'Premium Coastline collection with organic materials. The ultimate coastal experience.',
     targetPrice: { min: 179, max: 219 },
     positioning: 'Premium island fit',
     contents: [
@@ -52,7 +52,7 @@ export const IV_BOXES: IEBox[] = [
   {
     id: 'iv-paradise',
     name: 'IV Paradise Box',
-    description: 'Limited edition luxury island collection. The epitome of coastal lifestyle.',
+    description: 'Limited edition luxury Coastline collection. The epitome of coastal lifestyle.',
     targetPrice: { min: 249, max: 299 },
     positioning: 'Limited edition',
     contents: [
