@@ -3,6 +3,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    optimizeConcurrentServerRoutes: false,
+  },
   serverExternalPackages: [
     'shopify-buy',
     'bcryptjs',
