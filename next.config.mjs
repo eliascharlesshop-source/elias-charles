@@ -3,9 +3,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    dataCache: 'force-disable',
-  },
   serverExternalPackages: [
     'shopify-buy',
     'bcryptjs',

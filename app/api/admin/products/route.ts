@@ -3,6 +3,9 @@ import type { ApiResponse } from '@/src/lib/types'
 import type { CreateProductRequest } from '@/lib/product-generation-service'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+export const dynamic = 'force-dynamic'
 
 // POST /api/admin/products - Create a new product (admin only)
 export async function POST(request: NextRequest) {

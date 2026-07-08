@@ -3,6 +3,9 @@ import { crypto } from 'crypto'
 import { WebhookPayload, AuditLog } from '@/types/crypto-subscription'
 import { SubscriptionService } from '@/lib/crypto/subscription-service'
 import { PaymentService } from '@/lib/crypto/payment-service'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const subscriptionService = SubscriptionService.getInstance()

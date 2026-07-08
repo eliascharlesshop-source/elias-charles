@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { cartsDb, productsDb, generateId, initializeDatabase } from '@/lib/database'
 import { ApiResponse, UpdateCartRequest, Cart, CartItem } from '@/lib/types'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 // Initialize database on first request

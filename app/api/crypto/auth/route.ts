@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { WalletAuthService } from '@/lib/crypto/wallet-auth-service'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const authService = WalletAuthService.getInstance()
